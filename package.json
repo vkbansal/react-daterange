@@ -1,0 +1,42 @@
+{
+  "name": "react-daterange",
+  "version": "0.0.1",
+  "description": "Daterange picker in react",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vkbansal/react-daterange.git"
+  },
+  "keywords": [
+    "date",
+    "date-range",
+    "date-picker",
+    "react",
+    "react-component",
+    "glamorous"
+  ],
+  "author": "Vivek Kumar Bansal",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vkbansal/react-daterange/issues"
+  },
+  "homepage": "https://github.com/vkbansal/react-daterange#readme",
+  "devDependencies": {
+    "@types/react": "^16.0.19",
+    "@types/react-dom": "^16.0.2",
+    "date-fns": "^2.0.0-alpha.7",
+    "glamor": "^2.20.40",
+    "glamorous": "^4.11.0",
+    "jest": "^21.2.1",
+    "jest-cli": "^21.2.1",
+    "prettier": "^1.7.4",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "ts-loader": "^3.1.1",
+    "typescript": "^2.6.1",
+    "webpack": "^3.8.1"
+  }
+}
