@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "alwaysStrict": true,
+        "target": "es6",
+        "module": "es6",
+        "jsx": "react",
+        "baseUrl": "../",
+        "strict": true,
+        "noEmitOnError": false,
+        "moduleResolution": "node",
+        "typeRoots": ["node_modules/@types", "node_modules"],
+        "noUnusedLocals": true,
+        "noUnusedParameters": true
+    }
+}
