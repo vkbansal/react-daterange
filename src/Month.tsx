@@ -1,25 +1,29 @@
 import * as React from 'react';
 import glamorous from 'glamorous';
-import times from 'lodash/times';
+import times from 'lodash.times';
 import addDays from 'date-fns/addDays';
-import isSameDay from 'date-fns/isSameDay';
 import isAfter from 'date-fns/isAfter';
 import isBefore from 'date-fns/isBefore';
-import startOfMonth from 'date-fns/startOfMonth';
+import isSameDay from 'date-fns/isSameDay';
 import isSameMonth from 'date-fns/isSameMonth';
+import startOfMonth from 'date-fns/startOfMonth';
 
-const Wrapper = glamorous('div')({
+export const MonthWrapper = glamorous('div')({
     display: 'inline-block',
     padding: '8px 16px',
     background: '#fff'
 });
 
-const Table = glamorous('table')({
+MonthWrapper.displayName = 'MonthWrapper';
+
+export const MonthTable = glamorous('table')({
     tableLayout: 'fixed',
     borderCollapse: 'collapse'
 });
 
-const Week = glamorous('tr')({
+MonthTable.displayName = 'MonthTable';
+
+export const Week = glamorous('tr')({
     border: '1px solid #ddd'
 });
 
@@ -31,9 +35,12 @@ interface DayProps {
     inRange?: boolean;
 }
 
-const Day = glamorous('td')<DayProps>(
+export const Day = glamorous('td')<DayProps>(
     {
-        padding: '8px',
+        width: '42px',
+        height: '42px',
+        lineHeight: '42px',
+        fontSize: '16px',
         borderRight: '1px solid #ddd',
         cursor: 'pointer',
         textAlign: 'center',
@@ -45,17 +52,51 @@ const Day = glamorous('td')<DayProps>(
         color: props.inCurrentMonth ? (props.selected ? '#fff' : '#222') : '#ddd',
         background: (() => {
             if (props.selected && props.inCurrentMonth) {
-                return 'rgb(255, 0, 0)';
+                return 'rgb(0, 202, 255)';
             }
             if (props.inRange && props.inCurrentMonth) {
-                return 'rgba(255, 0, 0, 0.3)';
+                return 'rgba(0, 202, 255, 0.3)';
             }
             return 'transparent';
-        })()
+        })(),
+        '&:hover': {
+            background: props.selected ? 'rgb(0, 202, 255)' : '#ddd',
+            color: props.inCurrentMonth && !props.selected ? '#222' : '#fff'
+        }
     })
 );
 
 Day.displayName = 'Day';
+
+export const DayName = glamorous('th')({
+    width: '42px',
+    height: '42px',
+    lineHeight: '42px',
+    fontWeight: 'bold',
+    fontSize: '16px'
+});
+
+DayName.displayName = 'DayName';
+
+export const NavButton = glamorous('button')({
+    background: 'transparent',
+    border: 'none',
+    width: '42px',
+    height: '42px',
+    lineHeight: '42px',
+    fontWeight: 'bold',
+    fontSize: '18px'
+});
+
+NavButton.displayName = 'NavButton';
+
+export const MonthName = glamorous('th')({
+    height: '42px',
+    lineHeight: '42px',
+    fontWeight: 'bold',
+    fontSize: '18px',
+    textAlign: 'center'
+});
 
 export interface MonthProps {
     month: Date;
@@ -67,7 +108,6 @@ export interface MonthProps {
     onNextClick?: () => void;
     onDayClick?: (date: Date) => void;
     onDayHover?: (date: Date) => void;
-    selectionActive?: boolean;
     hideNextButton?: boolean;
     hidePrevButton?: boolean;
 }
@@ -106,14 +146,6 @@ export default class Month extends React.Component<MonthProps> {
             );
         }
     }
-
-    // shouldComponentUpdate(nextProps: MonthProps) {
-    //     return (
-    //         !isSameMonth(this.props.month, nextProps.month) ||
-    //         !isSameDay(this.props.startDate, nextProps.startDate) ||
-    //         !isSameDay(this.props.endDate, nextProps.endDate)
-    //     );
-    // }
 
     handlePrevClick = (e: React.SyntheticEvent<EventTarget>) => {
         e.preventDefault();
@@ -166,23 +198,29 @@ export default class Month extends React.Component<MonthProps> {
         const key = `${monthName}-${firstDay.getFullYear()}`;
 
         return (
-            <Wrapper>
-                <Table>
+            <MonthWrapper>
+                <MonthTable>
                     <thead>
                         <tr>
                             <th>
                                 {!hidePrevButton && (
-                                    <button onClick={this.handlePrevClick}>&#8592;</button>
+                                    <NavButton onClick={this.handlePrevClick}>&#8592;</NavButton>
                                 )}
                             </th>
-                            <th colSpan={5}>{`${monthName} ${firstDay.getFullYear()}`}</th>
+                            <MonthName colSpan={5}>
+                                {`${monthName} ${firstDay.getFullYear()}`}
+                            </MonthName>
                             <th>
                                 {!hideNextButton && (
-                                    <button onClick={this.handleNextClick}>&#8594;</button>
+                                    <NavButton onClick={this.handleNextClick}>&#8594;</NavButton>
                                 )}
                             </th>
                         </tr>
-                        <tr>{times(7, i => <th key={`${key}-day-${i}`}>{daysOfWeek[i]}</th>)}</tr>
+                        <tr>
+                            {times(7, i => (
+                                <DayName key={`${key}-day-${i}`}>{daysOfWeek[i]}</DayName>
+                            ))}
+                        </tr>
                     </thead>
                     <tbody>
                         {times(6, i => (
@@ -190,9 +228,13 @@ export default class Month extends React.Component<MonthProps> {
                                 {times(7, j => {
                                     const day = addDays(firstDay, i * 7 + j - firstDayInWeek);
                                     const selected =
-                                        isSameDay(day, startDate) || isSameDay(day, endDate);
+                                        (startDate && isSameDay(day, startDate)) ||
+                                        (endDate && isSameDay(day, endDate));
                                     const inRange =
-                                        isAfter(day, startDate) && isBefore(day, endDate);
+                                        startDate &&
+                                        isAfter(day, startDate) &&
+                                        endDate &&
+                                        isBefore(day, endDate);
 
                                     return (
                                         <Day
@@ -201,8 +243,7 @@ export default class Month extends React.Component<MonthProps> {
                                             selected={selected}
                                             inRange={inRange}
                                             onClick={this.handleDayClick(day)}
-                                            onMouseEnter={this.handleDayHover(day)}
-                                        >
+                                            onMouseEnter={this.handleDayHover(day)}>
                                             {day.getDate()}
                                         </Day>
                                     );
@@ -210,8 +251,8 @@ export default class Month extends React.Component<MonthProps> {
                             </Week>
                         ))}
                     </tbody>
-                </Table>
-            </Wrapper>
+                </MonthTable>
+            </MonthWrapper>
         );
     }
 }

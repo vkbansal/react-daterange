@@ -1,4 +1,23 @@
 {
 	"compilerOptions": {
+		"allowSyntheticDefaultImports": true,
+		"alwaysStrict": true,
+		"baseUrl": "./",
+		"charset": "utf8",
+		"jsx": "react",
+		"strict": true,
+		"module": "es6",
+		"newLine": "LF",
+		"moduleResolution": "node",
+		"noEmitOnError": true,
+		"target": "es6",
+		"outDir": "./module",
+		"types": [
+			"jest"
+		],
+		"typeRoots": [
+			"node_modules/@types",
+			"node_modules"
+		]
 	}
 }
