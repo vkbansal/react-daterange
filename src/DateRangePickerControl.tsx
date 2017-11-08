@@ -1,4 +1,5 @@
 import addMonths from 'date-fns/addMonths';
+import endOfMonth from 'date-fns/endOfMonth';
 import isAfter from 'date-fns/isAfter';
 import isBefore from 'date-fns/isBefore';
 import isSameMonth from 'date-fns/isSameMonth';
@@ -235,7 +236,6 @@ export class DateRangePickerControl extends React.Component<
         const commonProps = {
             startDate,
             endDate,
-            minDate: this.minDate,
             maxDate: this.maxDate,
             onDayClick: this.handleDayClick,
             onDayHover: this.handleDayHover,
@@ -247,6 +247,7 @@ export class DateRangePickerControl extends React.Component<
             <ControlWrapper>
                 <CalendarMonth
                     month={monthLeft}
+                    minDate={this.minDate}
                     onPrevClick={this.handleNavClick(-1, 'left')}
                     onNextClick={this.handleNavClick(1, 'left')}
                     onMonthChange={this.handleMonthChange('left')}
@@ -265,12 +266,7 @@ export class DateRangePickerControl extends React.Component<
                         isBefore(monthRight, monthLeft) ||
                         isSameMonth(monthRight, monthLeft)
                     }
-                    minDropdownYear={monthLeft.getFullYear()}
-                    minDropdownMonth={
-                        monthLeft.getFullYear() === monthRight.getFullYear()
-                            ? monthLeft.getMonth()
-                            : -1
-                    }
+                    minDate={endOfMonth(monthLeft)}
                     {...commonProps}
                 />
             </ControlWrapper>

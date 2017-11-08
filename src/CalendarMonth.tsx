@@ -3,6 +3,8 @@ import isAfter from 'date-fns/isAfter';
 import isBefore from 'date-fns/isBefore';
 import isSameDay from 'date-fns/isSameDay';
 import isSameMonth from 'date-fns/isSameMonth';
+import setMonth from 'date-fns/setMonth';
+// import setYear from 'date-fns/setYear';
 import startOfMonth from 'date-fns/startOfMonth';
 import glamorous, { CSSProperties } from 'glamorous';
 import range from 'lodash.range';
@@ -120,8 +122,6 @@ export interface CalendarMonthProps {
     onYearChange?: (year: number) => void;
     hideNextButton?: boolean;
     hidePrevButton?: boolean;
-    minDropdownYear?: number;
-    minDropdownMonth?: number;
 }
 
 export class CalendarMonth extends React.Component<CalendarMonthProps> {
@@ -206,24 +206,26 @@ export class CalendarMonth extends React.Component<CalendarMonthProps> {
     };
 
     renderDropDowns = (firstDay: Date) => {
-        const { monthNames, minDropdownYear, minDropdownMonth } = this.props;
+        const { monthNames, minDate, maxDate, month } = this.props;
 
         return [
             <Select key="months" value={firstDay.getMonth()} onChange={this.handleMonthChange}>
-                {(monthNames || []).map((m, i) => (
-                    <option
-                        key={i}
-                        value={i}
-                        disabled={typeof minDropdownMonth === 'number' && minDropdownMonth >= i}
-                    >
-                        {m}
-                    </option>
-                ))}
+                {(monthNames || []).map((m, i) => {
+                    const isDisabled =
+                        (minDate && isBefore(setMonth(month, i), minDate)) ||
+                        (maxDate && isAfter(setMonth(month, i), maxDate));
+
+                    return (
+                        <option key={i} value={i} disabled={isDisabled}>
+                            {m}
+                        </option>
+                    );
+                })}
             </Select>,
             <Select key="years" value={firstDay.getFullYear()} onChange={this.handleYearChange}>
                 {range(
-                    minDropdownYear ? minDropdownYear : firstDay.getFullYear() - 50,
-                    firstDay.getFullYear() + 5
+                    minDate ? minDate.getFullYear() : firstDay.getFullYear() - 50,
+                    maxDate ? maxDate.getFullYear() + 1 : firstDay.getFullYear() + 5
                 ).map(i => {
                     return (
                         <option key={i} value={i}>
@@ -250,8 +252,6 @@ export class CalendarMonth extends React.Component<CalendarMonthProps> {
         } = this.props;
 
         if (!daysOfWeek || !monthNames) return null;
-
-        console.log(this.props);
 
         const firstDay: Date = startOfMonth(month);
         const firstDayInWeek: number = firstDay.getDay();
@@ -299,14 +299,6 @@ export class CalendarMonth extends React.Component<CalendarMonthProps> {
                             const isDisabled =
                                 (minDate && isBefore(day, minDate)) ||
                                 (maxDate && isAfter(day, maxDate));
-
-                            console.log({
-                                maxDate,
-                                minDate,
-                                day,
-                                isBefore: minDate && isBefore(day, minDate),
-                                isAfter: maxDate && isAfter(day, maxDate)
-                            });
 
                             return (
                                 <Day
