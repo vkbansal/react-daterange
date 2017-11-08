@@ -1,0 +1,9 @@
+--allowSyntheticDefaultImports
+--charset "utf8"
+--jsx "React"
+--strict
+--moduleResolution "node"
+--declaration
+--declarationDir "./"
+--target "ES6"
+--outDir "./es6"
