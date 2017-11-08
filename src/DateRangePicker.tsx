@@ -1,120 +1,56 @@
+import glamorous from 'glamorous';
 import * as React from 'react';
-import parseDate from 'date-fns/parse';
-import addMonths from 'date-fns/addMonths';
-import isBefore from 'date-fns/isBefore';
-import isSameMonth from 'date-fns/isSameMonth';
-import startOfMonth from 'date-fns/startOfMonth';
 
-import { DateRangePickerProps, DateRangePickerState, Locale } from './types';
+import { NavButton } from './Common';
+import { DateRangePickerControl } from './DateRangePickerControl';
+import { DropDown, DropDownProps } from './Dropdown';
 
-import Month from './Month';
+const CalHeader = glamorous('div')({
+    display: 'flex',
+    justifyContent: 'flex-end'
+});
 
-const defaultLocale: Locale = {
-    format: 'YYYY-MM-DD',
-    separator: ' - ',
-    applyLabel: 'Apply',
-    cancelLabel: 'Cancel',
-    fromLabel: 'From',
-    toLabel: 'To',
-    customRangeLabel: 'Custom',
-    weekLabel: 'W',
-    daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-    monthNames: [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July',
-        'August',
-        'September',
-        'October',
-        'November',
-        'December'
-    ],
-    firstDay: 1
-};
+CalHeader.displayName = 'CalHeader';
 
-export default class DateRangePicker extends React.Component<
-    DateRangePickerProps,
-    DateRangePickerState
-> {
-    static defaultProps: Partial<DateRangePickerProps> = {
-        locale: {},
-        opens: 'left',
-        drops: 'down'
-    };
+const CalBody = glamorous('div')({
+    display: 'flex'
+});
 
-    private locale: Locale;
+type PickedDropDownProps = Pick<DropDownProps, 'opens' | 'drops'>;
+
+export interface DateRangePickerProps extends Partial<PickedDropDownProps> {}
+
+export interface DateRangePickerState {
+    showDropdown: boolean;
+    position: DropDownProps['position'] | null;
+}
+
+export class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePickerState> {
+    private input: HTMLInputElement;
 
     constructor(props: DateRangePickerProps) {
         super(props);
 
-        const thisMonth = startOfMonth(new Date());
-
-        this.locale = Object.assign({}, defaultLocale, props.locale);
-        const startDate = props.startDate
-            ? startOfMonth(parseDate(props.startDate, this.locale.format))
-            : undefined;
-        const endDate = props.endDate
-            ? startOfMonth(parseDate(props.endDate, this.locale.format))
-            : undefined;
-
         this.state = {
-            startDate,
-            endDate,
-            monthLeft: startDate || thisMonth,
-            monthRight: props.individualCalendars
-                ? endDate || addMonths(thisMonth, 1)
-                : addMonths(startDate || thisMonth, 1),
-            selectionActive: false
+            position: null,
+            showDropdown: false
         };
     }
 
-    handleMonthChange = (months: number, calender: 'left' | 'right') => () => {
+    handleShowDropdown = () => {
         this.setState((state: DateRangePickerState): Partial<DateRangePickerState> => {
-            if (this.props.individualCalendars && calender === 'left') {
+            if (!state.showDropdown) {
+                const {
+                    top,
+                    bottom,
+                    left,
+                    width,
+                    right,
+                    height
+                } = this.input.getBoundingClientRect();
                 return {
-                    monthLeft: addMonths(state.monthLeft, months)
-                };
-            }
-
-            if (this.props.individualCalendars && calender === 'right') {
-                return {
-                    monthRight: addMonths(state.monthRight, months)
-                };
-            }
-
-            return {
-                monthLeft: addMonths(state.monthLeft, months),
-                monthRight: addMonths(state.monthRight, months)
-            };
-        });
-    };
-
-    handleDayClick = (day: Date) => {
-        this.setState((state: DateRangePickerState): Partial<DateRangePickerState> => {
-            if (state.selectionActive) {
-                return {
-                    selectionActive: false,
-                    endDate: day
-                };
-            }
-
-            return {
-                selectionActive: true,
-                startDate: day,
-                endDate: undefined
-            };
-        });
-    };
-
-    handleDayHover = (day: Date) => {
-        this.setState((state: DateRangePickerState): Partial<DateRangePickerState> => {
-            if (state.selectionActive && !isBefore(day, state.startDate)) {
-                return {
-                    endDate: day
+                    position: { top, bottom, left, width, right, height },
+                    showDropdown: true
                 };
             }
 
@@ -122,34 +58,44 @@ export default class DateRangePicker extends React.Component<
         });
     };
 
+    handleHideDropdown = () => {
+        this.setState({
+            position: null,
+            showDropdown: false
+        });
+    };
+
+    handleDateChange = () => {
+        this.handleHideDropdown();
+    };
+
+    inputRef = (c: HTMLInputElement) => (this.input = c);
+
     render() {
-        const { startDate, endDate, monthLeft, monthRight } = this.state;
+        const { position, showDropdown } = this.state;
+
         return (
             <div>
-                <Month
-                    month={monthLeft}
-                    startDate={startDate}
-                    endDate={endDate}
-                    onPrevClick={this.handleMonthChange(-1, 'left')}
-                    onNextClick={this.handleMonthChange(1, 'left')}
-                    onDayClick={this.handleDayClick}
-                    onDayHover={this.handleDayHover}
-                    hideNextButton={!this.props.individualCalendars}
-                />
-                <Month
-                    month={monthRight}
-                    startDate={startDate}
-                    endDate={endDate}
-                    onPrevClick={this.handleMonthChange(-1, 'right')}
-                    onNextClick={this.handleMonthChange(1, 'right')}
-                    onDayClick={this.handleDayClick}
-                    onDayHover={this.handleDayHover}
-                    hidePrevButton={
-                        !this.props.individualCalendars ||
-                        isBefore(monthRight, monthLeft) ||
-                        isSameMonth(monthRight, monthLeft)
-                    }
-                />
+                <input ref={this.inputRef} onFocus={this.handleShowDropdown} />
+                {showDropdown &&
+                    position && (
+                        <DropDown
+                            opens={this.props.opens || 'left'}
+                            drops={this.props.drops || 'down'}
+                            position={position}
+                        >
+                            <div>
+                                <CalHeader>
+                                    <NavButton height="32px" onClick={this.handleHideDropdown}>
+                                        &times;
+                                    </NavButton>
+                                </CalHeader>
+                                <CalBody>
+                                    <DateRangePickerControl onDatesChange={this.handleDateChange} />
+                                </CalBody>
+                            </div>
+                        </DropDown>
+                    )}
             </div>
         );
     }
