@@ -1,11 +1,15 @@
-import glamorous from 'glamorous';
+import glamorous, { GlamorousComponent } from 'glamorous';
+import * as React from 'react';
 
-interface NavButtonProps {
+export interface NavButtonProps {
     height?: string;
     width?: string;
 }
 
-export const NavButton = glamorous('button')<NavButtonProps>(
+export const NavButton: GlamorousComponent<
+    React.HTMLProps<HTMLButtonElement> & NavButtonProps,
+    {}
+> = glamorous('button')<NavButtonProps>(
     'rdr-nav-button',
     {
         background: 'transparent',

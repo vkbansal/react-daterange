@@ -27,7 +27,7 @@ export interface DateRangePickerControlLocale extends Partial<CalendarMonthLocal
     format: string;
 }
 
-type CalenderMonthPropFields = 'showDropdowns' | 'showWeekNumbers' | 'showISOWeekNumbers';
+export type CalenderMonthPropFields = 'showDropdowns' | 'showWeekNumbers' | 'showISOWeekNumbers';
 
 export interface DateRangePickerControlProps
     extends Pick<CalendarMonthProps, CalenderMonthPropFields> {
@@ -48,7 +48,7 @@ export interface DateRangePickerControlState {
     selectionActive: boolean;
 }
 
-type CalenderMonthLocaleFields = 'daysOfWeek' | 'monthNames';
+export type CalenderMonthLocaleFields = 'daysOfWeek' | 'monthNames';
 
 export class DateRangePickerControl extends React.Component<
     DateRangePickerControlProps,

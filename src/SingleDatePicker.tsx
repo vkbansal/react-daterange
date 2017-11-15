@@ -11,11 +11,11 @@ import {
     SingleDatePickerControlProps
 } from './SingleDatePickerControl';
 
-type PickedDropDownProps = Partial<Pick<DropDownProps, 'opens' | 'drops'>>;
+export type PickedDropDownProps = Partial<Pick<DropDownProps, 'opens' | 'drops'>>;
 
 export interface SingleDatePickerLocale extends SingleDatePickerControlLocale {}
 
-type ControlProps = Partial<
+export type ControlProps = Partial<
     Overwrite<
         SingleDatePickerControlProps,
         {

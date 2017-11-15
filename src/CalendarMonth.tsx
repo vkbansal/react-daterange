@@ -4,9 +4,8 @@ import isBefore from 'date-fns/isBefore';
 import isSameDay from 'date-fns/isSameDay';
 import isSameMonth from 'date-fns/isSameMonth';
 import setMonth from 'date-fns/setMonth';
-// import setYear from 'date-fns/setYear';
 import startOfMonth from 'date-fns/startOfMonth';
-import glamorous, { CSSProperties } from 'glamorous';
+import glamorous, { CSSProperties, ExtraGlamorousProps, GlamorousComponent } from 'glamorous';
 import defaults from 'lodash.defaults';
 import range from 'lodash.range';
 import * as React from 'react';
@@ -16,12 +15,16 @@ import { NavButton } from './Common';
 const SIZE = 38;
 const sizeInPixels = `${SIZE}px`;
 
-export const Month = glamorous('div')('rdr-calendar-month', {
-    display: 'inline-block',
-    padding: '0 16px',
-    background: '#fff',
-    minHeight: `${SIZE * 8}px`
-});
+// explicitly defined type for declarations to work
+export const Month: GlamorousComponent<React.HTMLProps<HTMLDivElement>, {}> = glamorous('div')(
+    'rdr-calendar-month',
+    {
+        display: 'inline-block',
+        padding: '0 16px',
+        background: '#fff',
+        minHeight: `${SIZE * 8}px`
+    }
+);
 
 Month.displayName = 'Month';
 
@@ -41,7 +44,7 @@ export const Row = glamorous('div')<RowProps>(
 
 Row.displayName = 'Row';
 
-interface CellProps {
+export interface CellProps {
     span?: number;
     justifyContent?: CSSProperties['justifyContent'];
 }
@@ -64,13 +67,17 @@ export const Cell = glamorous('div')<CellProps>(
 
 Cell.displayName = 'Cell';
 
-interface DayProps {
+export interface DayProps {
     selected?: boolean;
     inRange?: boolean;
     isDisabled?: boolean;
 }
 
-export const Day = glamorous(Cell)<DayProps>(
+// explicitly defined type for declarations to work
+export const Day: GlamorousComponent<
+    React.HTMLProps<HTMLDivElement> & object & CellProps & ExtraGlamorousProps & DayProps,
+    DayProps
+> = glamorous(Cell)<DayProps>(
     'rdr-calendar-day',
     {
         width: `${SIZE + 1}px`,
@@ -349,9 +356,3 @@ export class CalendarMonth extends React.Component<CalendarMonthProps> {
         );
     }
 }
-
-/**
- * TODO:
- * - add & handle maxDropdownYear prop
- * - add & handle maxDropdownMonth prop
- */

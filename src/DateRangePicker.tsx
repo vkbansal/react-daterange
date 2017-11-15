@@ -13,7 +13,7 @@ import {
 import { DropDown, DropDownProps } from './Dropdown';
 import { Overwrite, callIfExists, parseDate } from './helpers';
 
-type PickedDropDownProps = Partial<Pick<DropDownProps, 'opens' | 'drops'>>;
+export type PickedDropDownProps = Partial<Pick<DropDownProps, 'opens' | 'drops'>>;
 
 export interface DateRangePickerLocale extends DateRangePickerControlLocale {
     separator: string;
@@ -25,7 +25,7 @@ export interface Range {
     endDate: (today: Date) => Date;
 }
 
-type ControlProps = Partial<
+export type ControlProps = Partial<
     Overwrite<
         DateRangePickerControlProps,
         {
