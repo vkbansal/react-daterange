@@ -1,8 +1,0 @@
---allowSyntheticDefaultImports
---charset "utf8"
---jsx "React"
---strict
---moduleResolution "node"
---declaration
---target "ES5"
---outDir "./lib"

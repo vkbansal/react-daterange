@@ -2,11 +2,18 @@
   "name": "react-daterange",
   "version": "0.0.1",
   "description": "Daterange picker in react",
-  "main": "index.js",
+  "main": "./lib/index.js",
+  "module": "./esm/index.js",
   "scripts": {
     "test": "jest --no-cache",
-    "build:dev": "cross-env BABEL_ENV=es6 webpack --config examples/webpack.config.js --progress --profile --colors"
+    "build:dev": "cross-env BABEL_ENV=es6 webpack --config examples/webpack.config.js --progress --profile --colors",
+    "build:es6": "rimraf ./esm && tsc --module ES6 --outDir ./esm",
+    "build:es5": "rimraf ./lib && tsc"
   },
+  "files": [
+    "esm",
+    "lib"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vkbansal/react-daterange.git"

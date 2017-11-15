@@ -1,6 +1,7 @@
 node_modules/
 public/
 lib/
-es6/
+esm/
 .vscode/
 coverage/
+src/*.js
