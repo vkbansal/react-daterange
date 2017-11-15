@@ -6,12 +6,14 @@ interface NavButtonProps {
 }
 
 export const NavButton = glamorous('button')<NavButtonProps>(
+    'rdr-nav-button',
     {
         background: 'transparent',
         border: 'none',
         fontWeight: 'bold',
         fontSize: '18px',
-        outline: 'none'
+        outline: 'none',
+        cursor: 'pointer'
     },
     props => ({
         width: props.width || '42px',
@@ -21,3 +23,30 @@ export const NavButton = glamorous('button')<NavButtonProps>(
 );
 
 NavButton.displayName = 'NavButton';
+
+export const CalendarInput = glamorous('input')('rdr-input', {
+    display: 'inline-block',
+    border: '1px solid #cecece',
+    background: '#fff',
+    fontSize: '14px',
+    lineHeight: '18px',
+    padding: '8px',
+    '&:focus': {
+        outline: 'none'
+    }
+});
+
+CalendarInput.displayName = 'CalendarInput';
+
+export const CalHeader = glamorous('div')('rdr-calendar-head', {
+    display: 'flex',
+    justifyContent: 'flex-end'
+});
+
+CalHeader.displayName = 'CalHeader';
+
+export const CalBody = glamorous('div')('rdr-calendar-body', {
+    display: 'flex'
+});
+
+CalBody.displayName = 'CalBody';

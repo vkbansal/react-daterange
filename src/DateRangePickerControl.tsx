@@ -5,37 +5,37 @@ import isBefore from 'date-fns/isBefore';
 import isSameMonth from 'date-fns/isSameMonth';
 import setMonth from 'date-fns/setMonth';
 import setYear from 'date-fns/setYear';
+import startOfMonth from 'date-fns/startOfMonth';
 import glamorous from 'glamorous';
 import pick from 'lodash.pick';
 import * as React from 'react';
 
-import { CalendarMonth, CalendarMonthProps } from './CalendarMonth';
-import { getStartofMonth, parseDate } from './helpers';
+import { CalendarMonth, CalendarMonthLocale, CalendarMonthProps } from './CalendarMonth';
+import { callIfExists } from './helpers';
 
-const ControlWrapper = glamorous('div')({
+const ControlWrapper = glamorous('div')('rdr-range-control', {
     display: 'flex',
     alignItems: 'flex-start'
 });
 
 export interface DateRange {
     startDate: Date;
-    endDate: Date;
+    endDate?: Date;
 }
 
-export interface DateRangePickerControlLocale
-    extends Pick<CalendarMonthProps, 'daysOfWeek' | 'monthNames'> {
+export interface DateRangePickerControlLocale extends Partial<CalendarMonthLocale> {
     format: string;
 }
 
-type LocaleFields = 'daysOfWeek' | 'monthNames';
-type PropFields = 'showDropdowns';
+type CalenderMonthPropFields = 'showDropdowns' | 'showWeekNumbers' | 'showISOWeekNumbers';
 
-export interface DateRangePickerControlProps extends Pick<CalendarMonthProps, 'showDropdowns'> {
+export interface DateRangePickerControlProps
+    extends Pick<CalendarMonthProps, CalenderMonthPropFields> {
     locale?: Partial<DateRangePickerControlLocale>;
-    startDate?: Date | string;
-    endDate?: Date | string;
-    minDate?: string | Date;
-    maxDate?: string | Date;
+    startDate?: Date;
+    endDate?: Date;
+    minDate?: Date;
+    maxDate?: Date;
     individualCalendars?: boolean;
     onDatesChange?: (dates: DateRange) => void;
 }
@@ -48,40 +48,17 @@ export interface DateRangePickerControlState {
     selectionActive: boolean;
 }
 
+type CalenderMonthLocaleFields = 'daysOfWeek' | 'monthNames';
+
 export class DateRangePickerControl extends React.Component<
     DateRangePickerControlProps,
     DateRangePickerControlState
 > {
-    private locale: DateRangePickerControlLocale;
-
-    private minDate?: Date;
-
-    private maxDate?: Date;
-
     constructor(props: DateRangePickerControlProps) {
         super(props);
 
-        this.locale = Object.assign(
-            {
-                format: 'YYYY-MM-DD'
-            },
-            props.locale
-        );
-
-        const thisMonth = getStartofMonth(new Date(), this.locale.format);
-
-        if (props.minDate) {
-            this.minDate = parseDate(props.minDate, this.locale.format);
-        }
-
-        if (props.maxDate) {
-            this.maxDate = parseDate(props.maxDate, this.locale.format);
-        }
-
-        const startDate = props.startDate
-            ? parseDate(props.startDate, this.locale.format)
-            : undefined;
-        const endDate = props.endDate ? parseDate(props.endDate, this.locale.format) : undefined;
+        const thisMonth = startOfMonth(new Date());
+        const { startDate, endDate } = props;
 
         this.state = {
             startDate,
@@ -95,26 +72,7 @@ export class DateRangePickerControl extends React.Component<
     }
 
     componentWillReceiveProps(nextProps: DateRangePickerControlProps) {
-        this.locale = Object.assign(
-            {
-                format: 'YYYY-MM-DD'
-            },
-            nextProps.locale
-        );
-
-        this.minDate = nextProps.minDate
-            ? parseDate(nextProps.minDate, this.locale.format)
-            : undefined;
-
-        this.maxDate = nextProps.maxDate
-            ? parseDate(nextProps.maxDate, this.locale.format)
-            : undefined;
-        const startDate = nextProps.startDate
-            ? parseDate(nextProps.startDate, this.locale.format)
-            : undefined;
-        const endDate = nextProps.endDate
-            ? parseDate(nextProps.endDate, this.locale.format)
-            : undefined;
+        const { startDate, endDate } = nextProps;
 
         this.setState({ startDate, endDate });
     }
@@ -145,17 +103,21 @@ export class DateRangePickerControl extends React.Component<
     handleDayClick = (day: Date) => {
         this.setState<'startDate' | 'endDate' | 'selectionActive'>(state => {
             if (state.startDate && state.selectionActive && isAfter(day, state.startDate)) {
-                if (typeof this.props.onDatesChange === 'function') {
-                    this.props.onDatesChange({
-                        startDate: state.startDate,
-                        endDate: day
-                    });
-                }
+                callIfExists(this.props.onDatesChange, {
+                    startDate: state.startDate,
+                    endDate: day
+                });
+
                 return {
                     selectionActive: false,
                     endDate: day
                 };
             }
+
+            callIfExists(this.props.onDatesChange, {
+                startDate: day,
+                endDate: undefined
+            });
 
             return {
                 selectionActive: true,
@@ -194,8 +156,6 @@ export class DateRangePickerControl extends React.Component<
                 return { monthLeft: m, monthRight: addMonths(m, 1) };
             }
 
-            console.log(month);
-
             const m = setMonth(monthRight, month);
             return { monthLeft: addMonths(m, -1), monthRight: m };
         });
@@ -225,38 +185,41 @@ export class DateRangePickerControl extends React.Component<
 
     render() {
         const { startDate, endDate, monthLeft, monthRight } = this.state;
-        const pickedProps: Pick<DateRangePickerControlProps, PropFields> = pick(this.props, [
-            'showDropdowns'
-        ]);
-        const locale: Pick<DateRangePickerControlLocale, LocaleFields> = pick(this.props.locale, [
-            'daysOfWeek',
-            'monthNames'
-        ]);
-
+        const { minDate, maxDate } = this.props;
+        const pickedProps: Pick<DateRangePickerControlProps, CalenderMonthPropFields> = pick(
+            this.props,
+            ['showDropdowns', 'showWeekNumbers', 'showISOWeekNumbers']
+        );
+        const locale: Pick<DateRangePickerControlLocale, CalenderMonthLocaleFields> = pick(
+            this.props.locale,
+            ['daysOfWeek', 'monthNames']
+        );
         const commonProps = {
             startDate,
             endDate,
-            maxDate: this.maxDate,
             onDayClick: this.handleDayClick,
             onDayHover: this.handleDayHover,
-            ...locale,
+            maxDate,
             ...pickedProps
         };
 
         return (
             <ControlWrapper>
                 <CalendarMonth
+                    {...commonProps}
                     month={monthLeft}
-                    minDate={this.minDate}
+                    minDate={minDate}
                     onPrevClick={this.handleNavClick(-1, 'left')}
                     onNextClick={this.handleNavClick(1, 'left')}
                     onMonthChange={this.handleMonthChange('left')}
                     onYearChange={this.handleYearChange('left')}
                     hideNextButton={!this.props.individualCalendars}
-                    {...commonProps}
+                    locale={locale}
                 />
                 <CalendarMonth
+                    {...commonProps}
                     month={monthRight}
+                    minDate={endOfMonth(monthLeft)}
                     onPrevClick={this.handleNavClick(-1, 'right')}
                     onNextClick={this.handleNavClick(1, 'right')}
                     onMonthChange={this.handleMonthChange('right')}
@@ -266,15 +229,9 @@ export class DateRangePickerControl extends React.Component<
                         isBefore(monthRight, monthLeft) ||
                         isSameMonth(monthRight, monthLeft)
                     }
-                    minDate={endOfMonth(monthLeft)}
-                    {...commonProps}
+                    locale={locale}
                 />
             </ControlWrapper>
         );
     }
 }
-
-/**
- * TODO:
- * - handle minDate/maxDate props in dropdowns too
- */

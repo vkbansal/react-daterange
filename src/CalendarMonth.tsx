@@ -7,6 +7,7 @@ import setMonth from 'date-fns/setMonth';
 // import setYear from 'date-fns/setYear';
 import startOfMonth from 'date-fns/startOfMonth';
 import glamorous, { CSSProperties } from 'glamorous';
+import defaults from 'lodash.defaults';
 import range from 'lodash.range';
 import * as React from 'react';
 
@@ -15,7 +16,7 @@ import { NavButton } from './Common';
 const SIZE = 38;
 const sizeInPixels = `${SIZE}px`;
 
-export const Month = glamorous('div')({
+export const Month = glamorous('div')('rdr-calendar-month', {
     display: 'inline-block',
     padding: '0 16px',
     background: '#fff',
@@ -29,6 +30,7 @@ export interface RowProps {
 }
 
 export const Row = glamorous('div')<RowProps>(
+    'rdr-calendar-row',
     {
         display: 'flex'
     },
@@ -45,6 +47,7 @@ interface CellProps {
 }
 
 export const Cell = glamorous('div')<CellProps>(
+    'rdr-calendar-cell',
     {
         height: sizeInPixels,
         lineHeight: sizeInPixels,
@@ -68,6 +71,7 @@ interface DayProps {
 }
 
 export const Day = glamorous(Cell)<DayProps>(
+    'rdr-calendar-day',
     {
         width: `${SIZE + 1}px`,
         height: `${SIZE + 1}px`,
@@ -97,7 +101,7 @@ export const Day = glamorous(Cell)<DayProps>(
 
 Day.displayName = 'Day';
 
-export const Select = glamorous('select')({
+export const Select = glamorous('select')('rdr-calendar-select', {
     background: 'transparent',
     border: 'none',
     outline: 'none'
@@ -105,15 +109,19 @@ export const Select = glamorous('select')({
 
 Select.displayName = 'Select';
 
+export interface CalendarMonthLocale {
+    daysOfWeek: Array<string>;
+    monthNames: Array<string>;
+}
+
 export interface CalendarMonthProps {
     month: Date;
     startDate?: Date;
     endDate?: Date;
     minDate?: Date;
     maxDate?: Date;
+    locale?: Partial<CalendarMonthLocale>;
     showDropdowns?: boolean;
-    daysOfWeek?: Array<string>;
-    monthNames?: Array<string>;
     onPrevClick?: () => void;
     onNextClick?: () => void;
     onDayClick?: (date: Date) => void;
@@ -122,41 +130,63 @@ export interface CalendarMonthProps {
     onYearChange?: (year: number) => void;
     hideNextButton?: boolean;
     hidePrevButton?: boolean;
+    showWeekNumbers?: boolean;
+    showISOWeekNumbers?: boolean;
 }
 
+const defaultLocale: CalendarMonthLocale = {
+    daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+    monthNames: [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December'
+    ]
+};
+
 export class CalendarMonth extends React.Component<CalendarMonthProps> {
-    static defaultProps = {
-        daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-        monthNames: [
-            'January',
-            'February',
-            'March',
-            'April',
-            'May',
-            'June',
-            'July',
-            'August',
-            'September',
-            'October',
-            'November',
-            'December'
-        ]
-    };
+    private locale: CalendarMonthLocale;
 
     constructor(props: CalendarMonthProps) {
         super(props);
 
-        if (!Array.isArray(props.daysOfWeek) || props.daysOfWeek.length !== 7) {
+        if (
+            props.locale &&
+            props.locale.daysOfWeek &&
+            (!Array.isArray(props.locale.daysOfWeek) || props.locale.daysOfWeek.length !== 7)
+        ) {
             throw new Error(
-                `props.daysofWeek must an array of length 7 but ${props.daysOfWeek} given`
+                `props.locale.daysofWeek must an array of length 7 but ${
+                    props.locale.daysOfWeek
+                } given`
             );
         }
 
-        if (!Array.isArray(props.monthNames) || props.monthNames.length !== 12) {
+        if (
+            props.locale &&
+            props.locale.monthNames &&
+            (!Array.isArray(props.locale.monthNames) || props.locale.monthNames.length !== 12)
+        ) {
             throw new Error(
-                `props.monthNames must an array of length 7 but ${props.daysOfWeek} given`
+                `props.locale.monthNames must an array of length 7 but ${
+                    props.locale.daysOfWeek
+                } given`
             );
         }
+
+        this.locale = defaults({}, props.locale, defaultLocale);
+    }
+
+    componentWillReceiveProps(nextProps: CalendarMonthProps) {
+        this.locale = defaults({}, nextProps.locale, defaultLocale);
     }
 
     handlePrevClick = (e: React.SyntheticEvent<EventTarget>) => {
@@ -206,11 +236,11 @@ export class CalendarMonth extends React.Component<CalendarMonthProps> {
     };
 
     renderDropDowns = (firstDay: Date) => {
-        const { monthNames, minDate, maxDate, month } = this.props;
+        const { minDate, maxDate, month } = this.props;
 
         return [
             <Select key="months" value={firstDay.getMonth()} onChange={this.handleMonthChange}>
-                {(monthNames || []).map((m, i) => {
+                {this.locale.monthNames.map((m, i) => {
                     const isDisabled =
                         (minDate && isBefore(setMonth(month, i), minDate)) ||
                         (maxDate && isAfter(setMonth(month, i), maxDate));
@@ -240,8 +270,6 @@ export class CalendarMonth extends React.Component<CalendarMonthProps> {
     render() {
         const {
             month,
-            daysOfWeek,
-            monthNames,
             startDate,
             endDate,
             hideNextButton,
@@ -251,11 +279,9 @@ export class CalendarMonth extends React.Component<CalendarMonthProps> {
             showDropdowns
         } = this.props;
 
-        if (!daysOfWeek || !monthNames) return null;
-
-        const firstDay: Date = startOfMonth(month);
+        const firstDay = startOfMonth(month);
         const firstDayInWeek: number = firstDay.getDay();
-        const monthName = monthNames[firstDay.getMonth()];
+        const monthName = this.locale.monthNames[firstDay.getMonth()];
         const key = `${monthName}-${firstDay.getFullYear()}`;
 
         return (
@@ -278,7 +304,9 @@ export class CalendarMonth extends React.Component<CalendarMonthProps> {
                     </Cell>
                 </Row>
                 <Row>
-                    {range(0, 7).map(i => <Cell key={`${key}-day-${i}`}>{daysOfWeek[i]}</Cell>)}
+                    {range(0, 7).map(i => (
+                        <Cell key={`${key}-day-${i}`}>{this.locale.daysOfWeek[i]}</Cell>
+                    ))}
                 </Row>
                 {range(0, 6).map(i => (
                     <Row key={`${key}-${i}`} justifyContent={i === 0 ? 'flex-end' : 'flex-start'}>

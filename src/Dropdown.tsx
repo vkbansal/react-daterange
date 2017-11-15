@@ -16,6 +16,7 @@ export interface DropDownProps {
 }
 
 const DropDownWrapper = glamorous('div')<DropDownProps>(
+    'rdr-dropdown',
     {
         position: 'absolute',
         background: '#fff',

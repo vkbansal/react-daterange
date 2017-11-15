@@ -1,85 +1,46 @@
 import addMonths from 'date-fns/addMonths';
 import setMonth from 'date-fns/setMonth';
 import setYear from 'date-fns/setYear';
+import startOfMonth from 'date-fns/startOfMonth';
 import pick from 'lodash.pick';
 import * as React from 'react';
 
-import { CalendarMonth, CalendarMonthProps } from './CalendarMonth';
-import { getStartofMonth, parseDate } from './helpers';
+import { CalendarMonth, CalendarMonthLocale, CalendarMonthProps } from './CalendarMonth';
 
-export interface SingleDatePickerControlLocale
-    extends Pick<CalendarMonthProps, 'daysOfWeek' | 'monthNames'> {
+export interface SingleDatePickerControlLocale extends Partial<CalendarMonthLocale> {
     format: string;
 }
 
-// type LocaleFields = 'daysOfWeek' | 'monthNames';
-type PropFields = 'showDropdowns';
+type CalendarMonthPropFields =
+    | 'showDropdowns'
+    | 'showWeekNumbers'
+    | 'showISOWeekNumbers'
+    | 'minDate'
+    | 'maxDate';
 
-export interface SingleDatePickerControlProps {
-    date?: string | Date;
-    minDate?: string | Date;
-    maxDate?: string | Date;
+export interface SingleDatePickerControlProps
+    extends Pick<CalendarMonthProps, CalendarMonthPropFields> {
+    date?: Date;
     onDateChange?: (day: Date) => void;
     locale?: Partial<SingleDatePickerControlLocale>;
-    showDropdowns?: boolean;
 }
 
 export interface SingleDatePickerControlState {
     month: Date;
 }
 
+type CalenderMonthLocaleFields = 'daysOfWeek' | 'monthNames';
+
 export class SingleDatePickerControl extends React.Component<
     SingleDatePickerControlProps,
     SingleDatePickerControlState
 > {
-    private locale: SingleDatePickerControlLocale;
-
-    private minDate?: Date;
-
-    private maxDate?: Date;
-
     constructor(props: SingleDatePickerControlProps) {
         super(props);
 
-        this.locale = Object.assign(
-            {
-                format: 'YYYY-MM-DD'
-            },
-            props.locale
-        );
-
-        if (props.minDate) {
-            this.minDate = parseDate(props.minDate, this.locale.format);
-        }
-
-        if (props.maxDate) {
-            this.maxDate = parseDate(props.maxDate, this.locale.format);
-        }
-
         this.state = {
-            month: props.date ? getStartofMonth(props.date, this.locale.format) : new Date()
+            month: startOfMonth(props.date || new Date())
         };
-    }
-
-    componentWillReceiveProps(nextProps: SingleDatePickerControlProps) {
-        this.locale = Object.assign(
-            {
-                format: 'YYYY-MM-DD'
-            },
-            nextProps.locale
-        );
-
-        if (nextProps.minDate) {
-            this.minDate = parseDate(nextProps.minDate, this.locale.format);
-        } else {
-            this.minDate = undefined;
-        }
-
-        if (nextProps.maxDate) {
-            this.maxDate = parseDate(nextProps.maxDate, this.locale.format);
-        } else {
-            this.maxDate = undefined;
-        }
     }
 
     handleNavClick = (months: number) => () => {
@@ -109,26 +70,33 @@ export class SingleDatePickerControl extends React.Component<
     };
 
     render() {
-        const pickedProps: Pick<SingleDatePickerControlProps, PropFields> = pick(this.props, [
-            'showDropdowns'
-        ]);
+        const pickedProps: Pick<SingleDatePickerControlProps, CalendarMonthPropFields> = pick(
+            this.props,
+            ['showDropdowns', 'showWeekNumbers', 'showISOWeekNumbers', 'minDate', 'maxDate']
+        );
+
+        const locale: Pick<SingleDatePickerControlLocale, CalenderMonthLocaleFields> = pick(
+            this.props.locale,
+            ['daysOfWeek', 'monthNames']
+        );
+
+        const { date } = this.props;
+
+        const otherProps = {
+            startDate: date
+        };
 
         return (
             <CalendarMonth
-                minDate={this.minDate}
-                maxDate={this.maxDate}
                 month={this.state.month}
-                startDate={
-                    this.props.date ? parseDate(this.props.date, this.locale.format) : undefined
-                }
                 onNextClick={this.handleNavClick(1)}
                 onPrevClick={this.handleNavClick(-1)}
                 onMonthChange={this.handleMonthChange}
                 onYearChange={this.handleYearChange}
                 onDayClick={this.handleDayClick}
-                monthNames={this.locale.monthNames}
-                daysOfWeek={this.locale.daysOfWeek}
+                locale={locale}
                 {...pickedProps}
+                {...otherProps}
             />
         );
     }
