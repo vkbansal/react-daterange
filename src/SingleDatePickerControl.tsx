@@ -11,7 +11,7 @@ export interface SingleDatePickerControlLocale extends Partial<CalendarMonthLoca
     format: string;
 }
 
-type CalendarMonthPropFields =
+export type CalendarMonthPropFields =
     | 'showDropdowns'
     | 'showWeekNumbers'
     | 'showISOWeekNumbers'
@@ -29,7 +29,7 @@ export interface SingleDatePickerControlState {
     month: Date;
 }
 
-type CalenderMonthLocaleFields = 'daysOfWeek' | 'monthNames';
+export type CalenderMonthLocaleFields = 'daysOfWeek' | 'monthNames';
 
 export class SingleDatePickerControl extends React.Component<
     SingleDatePickerControlProps,
