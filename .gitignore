@@ -2,6 +2,7 @@ node_modules/
 public/
 lib/
 esm/
+esnext/
 .vscode/
 coverage/
 src/*.js
