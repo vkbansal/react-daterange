@@ -8,15 +8,18 @@
   "typings": "./lib/index.d.ts",
   "scripts": {
     "test": "jest --no-cache",
-    "build:dev": "cross-env BABEL_ENV=es6 webpack --config examples/webpack.config.js --progress --profile --colors",
-    "build:es6": "rimraf ./esm && tsc --module ES6 --outDir ./esm",
-    "build:es5": "rimraf ./lib && tsc",
-    "build:esnext": "rimraf ./esnext && tsc --target es6 --module es6 --outDir ./esnext"
+    "build": "npm run build:es5 && npm run build:es6 && npm run build:esnext",
+    "build:dev": "webpack --config examples/webpack.config.js --progress --profile --colors",
+    "build:es6": "rimraf ./esm && tsc --target es5 --module es6 --outDir ./esm",
+    "build:es5": "rimraf ./lib && tsc --target es5 --module commonjs --outDir ./lib",
+    "build:esnext": "rimraf ./esnext && tsc --target es6 --module es6 --outDir ./esnext",
+    "prepublishOnly": "npm test && npm run build"
   },
   "files": [
     "esm",
     "lib",
-    "esnext"
+    "esnext",
+    "typings.d.ts"
   ],
   "repository": {
     "type": "git",
