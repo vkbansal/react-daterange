@@ -7,10 +7,9 @@ import setMonth from 'date-fns/setMonth';
 import setYear from 'date-fns/setYear';
 import startOfMonth from 'date-fns/startOfMonth';
 import glamorous from 'glamorous';
-import pick from 'lodash.pick';
 import * as React from 'react';
 
-import { CalendarMonth, CalendarMonthLocale, CalendarMonthProps } from './CalendarMonth';
+import { CalendarMonth, CalendarMonthProps } from './CalendarMonth';
 import { callIfExists } from './helpers';
 
 const ControlWrapper = glamorous('div')('rdr-range-control', {
@@ -23,19 +22,18 @@ export interface DateRange {
     endDate?: Date;
 }
 
-export interface DateRangePickerControlLocale extends Partial<CalendarMonthLocale> {
-    format: string;
-}
-
-export type CalenderMonthPropFields = 'showDropdowns' | 'showWeekNumbers' | 'showISOWeekNumbers';
+export type CalenderMonthPropFields =
+    | 'showDropdowns'
+    | 'showWeekNumbers'
+    | 'showISOWeekNumbers'
+    | 'startDate'
+    | 'endDate'
+    | 'minDate'
+    | 'maxDate'
+    | 'locale';
 
 export interface DateRangePickerControlProps
     extends Pick<CalendarMonthProps, CalenderMonthPropFields> {
-    locale?: Partial<DateRangePickerControlLocale>;
-    startDate?: Date;
-    endDate?: Date;
-    minDate?: Date;
-    maxDate?: Date;
     individualCalendars?: boolean;
     onDatesChange?: (dates: DateRange) => void;
 }
@@ -185,22 +183,25 @@ export class DateRangePickerControl extends React.Component<
 
     render() {
         const { startDate, endDate, monthLeft, monthRight } = this.state;
-        const { minDate, maxDate } = this.props;
-        const pickedProps: Pick<DateRangePickerControlProps, CalenderMonthPropFields> = pick(
-            this.props,
-            ['showDropdowns', 'showWeekNumbers', 'showISOWeekNumbers']
-        );
-        const locale: Pick<DateRangePickerControlLocale, CalenderMonthLocaleFields> = pick(
-            this.props.locale,
-            ['daysOfWeek', 'monthNames']
-        );
+        const {
+            minDate,
+            maxDate,
+            locale,
+            showDropdowns,
+            showISOWeekNumbers,
+            showWeekNumbers
+        } = this.props;
+
         const commonProps = {
             startDate,
             endDate,
             onDayClick: this.handleDayClick,
             onDayHover: this.handleDayHover,
             maxDate,
-            ...pickedProps
+            locale,
+            showDropdowns,
+            showISOWeekNumbers,
+            showWeekNumbers
         };
 
         return (
@@ -214,7 +215,6 @@ export class DateRangePickerControl extends React.Component<
                     onMonthChange={this.handleMonthChange('left')}
                     onYearChange={this.handleYearChange('left')}
                     hideNextButton={!this.props.individualCalendars}
-                    locale={locale}
                 />
                 <CalendarMonth
                     {...commonProps}
@@ -229,7 +229,6 @@ export class DateRangePickerControl extends React.Component<
                         isBefore(monthRight, monthLeft) ||
                         isSameMonth(monthRight, monthLeft)
                     }
-                    locale={locale}
                 />
             </ControlWrapper>
         );

@@ -1,24 +1,17 @@
-import format from 'date-fns/format';
+import formatDate from 'date-fns/format';
 import glamorous from 'glamorous';
-import defaults from 'lodash.defaults';
 import * as React from 'react';
 
 import { CalBody, CalHeader, CalendarInput, NavButton } from './Common';
 import {
     DateRange,
     DateRangePickerControl,
-    DateRangePickerControlLocale,
     DateRangePickerControlProps
 } from './DateRangePickerControl';
 import { DropDown, DropDownProps } from './Dropdown';
-import { Overwrite, callIfExists, parseDate } from './helpers';
+import { DEFAULT_FORMAT, Overwrite, callIfExists, parseDate } from './helpers';
 
 export type PickedDropDownProps = Partial<Pick<DropDownProps, 'opens' | 'drops'>>;
-
-export interface DateRangePickerLocale extends DateRangePickerControlLocale {
-    separator: string;
-    customRangeLabel: string;
-}
 
 export interface Range {
     startDate: (today: Date) => Date;
@@ -31,7 +24,6 @@ export type ControlProps = Partial<
         {
             startDate?: string | Date;
             endDate?: string | Date;
-            locale?: Partial<DateRangePickerLocale>;
         }
     >
 >;
@@ -44,6 +36,9 @@ export interface DateRangePickerProps extends PickedDropDownProps, ControlProps 
     ranges?: Record<string, Range>;
     showCustomRangeLabel?: boolean;
     alwaysShowCalendars?: boolean;
+    format?: string;
+    separator?: string;
+    customRangeLabel?: string;
 }
 
 export interface DateRangePickerState {
@@ -62,25 +57,14 @@ const Seperator = glamorous('div')('rdr-seperator', {
 
 Seperator.displayName = 'Seperator';
 
-const defaultLocale: DateRangePickerLocale = {
-    format: 'YYYY-MM-DD',
-    separator: '',
-    customRangeLabel: 'Custom'
-};
-
 export class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePickerState> {
     private input: HTMLDivElement;
-
-    private locale: DateRangePickerLocale;
 
     constructor(props: DateRangePickerProps) {
         super(props);
 
-        this.locale = defaults({}, props.locale, defaultLocale);
-        const startDate = props.startDate
-            ? parseDate(props.startDate, this.locale.format)
-            : undefined;
-        const endDate = props.endDate ? parseDate(props.endDate, this.locale.format) : undefined;
+        const startDate = props.startDate ? parseDate(props.startDate, props.format) : undefined;
+        const endDate = props.endDate ? parseDate(props.endDate, props.format) : undefined;
         this.state = {
             position: null,
             showDropdown: false,
@@ -90,12 +74,11 @@ export class DateRangePicker extends React.Component<DateRangePickerProps, DateR
     }
 
     componentWillReceiveProps(nextProps: DateRangePickerProps) {
-        this.locale = defaults({}, nextProps.locale, defaultLocale);
         const startDate = nextProps.startDate
-            ? parseDate(nextProps.startDate, this.locale.format)
+            ? parseDate(nextProps.startDate, nextProps.format)
             : undefined;
         const endDate = nextProps.endDate
-            ? parseDate(nextProps.endDate, this.locale.format)
+            ? parseDate(nextProps.endDate, nextProps.format)
             : undefined;
         this.setState({ startDate, endDate });
     }
@@ -152,10 +135,30 @@ export class DateRangePicker extends React.Component<DateRangePickerProps, DateR
 
     render() {
         const { position, showDropdown, startDate, endDate } = this.state;
-        const { onDatesChange, opens, drops, minDate, maxDate, ...rest } = this.props;
-        const otherProps = {
-            minDate: minDate ? parseDate(minDate, this.locale.format) : undefined,
-            maxDate: maxDate ? parseDate(maxDate, this.locale.format) : undefined
+        const {
+            opens,
+            drops,
+            format,
+            separator,
+            // customRangeLabel,
+            // showCustomRangeLabel,
+            minDate,
+            maxDate,
+            showDropdowns,
+            showISOWeekNumbers,
+            showWeekNumbers,
+            locale
+        } = this.props;
+
+        const props = {
+            minDate: minDate ? parseDate(minDate, format) : undefined,
+            maxDate: maxDate ? parseDate(maxDate, format) : undefined,
+            startDate,
+            endDate,
+            showDropdowns,
+            showISOWeekNumbers,
+            showWeekNumbers,
+            locale
         };
 
         return (
@@ -164,17 +167,17 @@ export class DateRangePicker extends React.Component<DateRangePickerProps, DateR
                     <CalendarInput
                         onFocus={this.handleShowDropdown}
                         placeholder="Start Date"
-                        value={startDate ? format(startDate, this.locale.format) : ''}
+                        value={startDate ? formatDate(startDate, format || DEFAULT_FORMAT) : ''}
                     />
-                    {this.locale.separator ? (
-                        <Seperator>this.locale.separator</Seperator>
+                    {separator ? (
+                        <Seperator>{separator}</Seperator>
                     ) : (
                         <Seperator>&#8594;</Seperator>
                     )}
                     <CalendarInput
                         onFocus={this.handleShowDropdown}
                         placeholder="End Date"
-                        value={endDate ? format(endDate, this.locale.format) : ''}
+                        value={endDate ? formatDate(endDate, format || DEFAULT_FORMAT) : ''}
                     />
                 </div>
                 {showDropdown &&
@@ -192,10 +195,7 @@ export class DateRangePicker extends React.Component<DateRangePickerProps, DateR
                                 </CalHeader>
                                 <CalBody>
                                     <DateRangePickerControl
-                                        {...rest}
-                                        {...otherProps}
-                                        startDate={startDate}
-                                        endDate={endDate}
+                                        {...props}
                                         onDatesChange={this.handleDateChange}
                                     />
                                 </CalBody>

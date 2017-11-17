@@ -3,14 +3,14 @@ import isAfter from 'date-fns/isAfter';
 import isBefore from 'date-fns/isBefore';
 import isSameDay from 'date-fns/isSameDay';
 import isSameMonth from 'date-fns/isSameMonth';
+import { localize as en } from 'date-fns/locale/en-US';
 import setMonth from 'date-fns/setMonth';
 import startOfMonth from 'date-fns/startOfMonth';
 import glamorous, { CSSProperties, ExtraGlamorousProps, GlamorousComponent } from 'glamorous';
-import defaults from 'lodash.defaults';
-import range from 'lodash.range';
 import * as React from 'react';
 
 import { NavButton } from './Common';
+import { callIfExists, range } from './helpers';
 
 const SIZE = 38;
 const sizeInPixels = `${SIZE}px`;
@@ -116,86 +116,27 @@ export const Select = glamorous('select')('rdr-calendar-select', {
 
 Select.displayName = 'Select';
 
-export interface CalendarMonthLocale {
-    daysOfWeek: Array<string>;
-    monthNames: Array<string>;
-}
-
 export interface CalendarMonthProps {
-    month: Date;
-    startDate?: Date;
-    endDate?: Date;
-    minDate?: Date;
-    maxDate?: Date;
-    locale?: Partial<CalendarMonthLocale>;
-    showDropdowns?: boolean;
-    onPrevClick?: () => void;
-    onNextClick?: () => void;
-    onDayClick?: (date: Date) => void;
-    onDayHover?: (date: Date) => void;
-    onMonthChange?: (month: number) => void;
-    onYearChange?: (year: number) => void;
-    hideNextButton?: boolean;
-    hidePrevButton?: boolean;
-    showWeekNumbers?: boolean;
-    showISOWeekNumbers?: boolean;
+    month: Date; // Current month.
+    startDate?: Date; // Start of range.
+    endDate?: Date; // End of range.
+    minDate?: Date; // Min selectable Date.
+    maxDate?: Date; // Max selectable Date.
+    locale?: Locale['localize']; // Localization (localize object from date-fns).
+    showDropdowns?: boolean; // Whether to show month and year dropdowns.
+    onPrevClick?: () => void; // Callback for "prev" button click.
+    onNextClick?: () => void; // Callback for "next" button click.
+    onDayClick?: (date: Date) => void; // Callback for when "Day" is clicked on.
+    onDayHover?: (date: Date) => void; // Callback for "Day" is hovered upon.
+    onMonthChange?: (month: number) => void; // Callback for when "month" dropdown is changed
+    onYearChange?: (year: number) => void; // Callback for when "year" dropdown is changed
+    hideNextButton?: boolean; // Whether to hide "next" button
+    hidePrevButton?: boolean; // Whether to hide "prev" button
+    showWeekNumbers?: boolean; // TODO: implement this
+    showISOWeekNumbers?: boolean; // TODO: implement this
 }
-
-const defaultLocale: CalendarMonthLocale = {
-    daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-    monthNames: [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July',
-        'August',
-        'September',
-        'October',
-        'November',
-        'December'
-    ]
-};
 
 export class CalendarMonth extends React.Component<CalendarMonthProps> {
-    private locale: CalendarMonthLocale;
-
-    constructor(props: CalendarMonthProps) {
-        super(props);
-
-        if (
-            props.locale &&
-            props.locale.daysOfWeek &&
-            (!Array.isArray(props.locale.daysOfWeek) || props.locale.daysOfWeek.length !== 7)
-        ) {
-            throw new Error(
-                `props.locale.daysofWeek must an array of length 7 but ${
-                    props.locale.daysOfWeek
-                } given`
-            );
-        }
-
-        if (
-            props.locale &&
-            props.locale.monthNames &&
-            (!Array.isArray(props.locale.monthNames) || props.locale.monthNames.length !== 12)
-        ) {
-            throw new Error(
-                `props.locale.monthNames must an array of length 7 but ${
-                    props.locale.daysOfWeek
-                } given`
-            );
-        }
-
-        this.locale = defaults({}, props.locale, defaultLocale);
-    }
-
-    componentWillReceiveProps(nextProps: CalendarMonthProps) {
-        this.locale = defaults({}, nextProps.locale, defaultLocale);
-    }
-
     handlePrevClick = (e: React.SyntheticEvent<EventTarget>) => {
         e.preventDefault();
 
@@ -206,48 +147,37 @@ export class CalendarMonth extends React.Component<CalendarMonthProps> {
 
     handleNextClick = (e: React.SyntheticEvent<EventTarget>) => {
         e.preventDefault();
-
-        if (typeof this.props.onNextClick === 'function') {
-            this.props.onNextClick();
-        }
+        callIfExists(this.props.onNextClick);
     };
 
     handleDayClick = (day: Date) => (e: React.SyntheticEvent<EventTarget>) => {
         e.preventDefault();
-
-        if (typeof this.props.onDayClick === 'function') {
-            this.props.onDayClick(day);
-        }
+        callIfExists(this.props.onDayClick, day);
     };
 
     handleDayHover = (day: Date) => (e: React.SyntheticEvent<EventTarget>) => {
         e.preventDefault();
-
-        if (typeof this.props.onDayHover === 'function') {
-            this.props.onDayHover(day);
-        }
+        callIfExists(this.props.onDayHover, day);
     };
 
-    handleMonthChange = (e: React.SyntheticEvent<EventTarget>) => {
-        const { value } = e.target as HTMLOptionElement;
-        if (typeof this.props.onMonthChange === 'function') {
-            this.props.onMonthChange(parseInt(value, 10));
-        }
+    handleMonthChange = (e: React.FormEvent<HTMLSelectElement>) => {
+        const { value } = e.target as HTMLSelectElement;
+        callIfExists(this.props.onMonthChange, parseInt(value, 10));
     };
 
-    handleYearChange = (e: React.SyntheticEvent<EventTarget>) => {
-        const { value } = e.target as HTMLOptionElement;
-        if (typeof this.props.onYearChange === 'function') {
-            this.props.onYearChange(parseInt(value, 10));
-        }
+    handleYearChange = (e: React.FormEvent<HTMLSelectElement>) => {
+        const { value } = e.target as HTMLSelectElement;
+        callIfExists(this.props.onYearChange, parseInt(value, 10));
     };
 
     renderDropDowns = (firstDay: Date) => {
-        const { minDate, maxDate, month } = this.props;
+        const { minDate, maxDate, month, locale } = this.props;
+
+        const monthNames: string[] = (locale || en).months();
 
         return [
             <Select key="months" value={firstDay.getMonth()} onChange={this.handleMonthChange}>
-                {this.locale.monthNames.map((m, i) => {
+                {monthNames.map((m, i) => {
                     const isDisabled =
                         (minDate && isBefore(setMonth(month, i), minDate)) ||
                         (maxDate && isAfter(setMonth(month, i), maxDate));
@@ -286,10 +216,12 @@ export class CalendarMonth extends React.Component<CalendarMonthProps> {
             showDropdowns
         } = this.props;
 
+        const locale = this.props.locale || en;
         const firstDay = startOfMonth(month);
         const firstDayInWeek: number = firstDay.getDay();
-        const monthName = this.locale.monthNames[firstDay.getMonth()];
+        const monthName = locale.months()[firstDay.getMonth()];
         const key = `${monthName}-${firstDay.getFullYear()}`;
+        const daysOfWeek = locale.weekdays({ type: 'narrow' });
 
         return (
             <Month>
@@ -311,9 +243,7 @@ export class CalendarMonth extends React.Component<CalendarMonthProps> {
                     </Cell>
                 </Row>
                 <Row>
-                    {range(0, 7).map(i => (
-                        <Cell key={`${key}-day-${i}`}>{this.locale.daysOfWeek[i]}</Cell>
-                    ))}
+                    {range(0, 7).map(i => <Cell key={`${key}-day-${i}`}>{daysOfWeek[i]}</Cell>)}
                 </Row>
                 {range(0, 6).map(i => (
                     <Row key={`${key}-${i}`} justifyContent={i === 0 ? 'flex-end' : 'flex-start'}>
@@ -346,7 +276,7 @@ export class CalendarMonth extends React.Component<CalendarMonthProps> {
                                     }
                                     isDisabled={isDisabled}
                                 >
-                                    {day.getDate()}
+                                    {locale.ordinalNumber(day.getDate())}
                                 </Day>
                             );
                         })}

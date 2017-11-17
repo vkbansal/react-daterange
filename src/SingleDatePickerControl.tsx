@@ -2,34 +2,27 @@ import addMonths from 'date-fns/addMonths';
 import setMonth from 'date-fns/setMonth';
 import setYear from 'date-fns/setYear';
 import startOfMonth from 'date-fns/startOfMonth';
-import pick from 'lodash.pick';
 import * as React from 'react';
 
-import { CalendarMonth, CalendarMonthLocale, CalendarMonthProps } from './CalendarMonth';
-
-export interface SingleDatePickerControlLocale extends Partial<CalendarMonthLocale> {
-    format: string;
-}
+import { CalendarMonth, CalendarMonthProps } from './CalendarMonth';
 
 export type CalendarMonthPropFields =
     | 'showDropdowns'
     | 'showWeekNumbers'
     | 'showISOWeekNumbers'
     | 'minDate'
-    | 'maxDate';
+    | 'maxDate'
+    | 'locale';
 
 export interface SingleDatePickerControlProps
     extends Pick<CalendarMonthProps, CalendarMonthPropFields> {
     date?: Date;
     onDateChange?: (day: Date) => void;
-    locale?: Partial<SingleDatePickerControlLocale>;
 }
 
 export interface SingleDatePickerControlState {
     month: Date;
 }
-
-export type CalenderMonthLocaleFields = 'daysOfWeek' | 'monthNames';
 
 export class SingleDatePickerControl extends React.Component<
     SingleDatePickerControlProps,
@@ -70,33 +63,31 @@ export class SingleDatePickerControl extends React.Component<
     };
 
     render() {
-        const pickedProps: Pick<SingleDatePickerControlProps, CalendarMonthPropFields> = pick(
-            this.props,
-            ['showDropdowns', 'showWeekNumbers', 'showISOWeekNumbers', 'minDate', 'maxDate']
-        );
-
-        const locale: Pick<SingleDatePickerControlLocale, CalenderMonthLocaleFields> = pick(
-            this.props.locale,
-            ['daysOfWeek', 'monthNames']
-        );
-
-        const { date } = this.props;
-
-        const otherProps = {
-            startDate: date
-        };
+        const {
+            date,
+            showDropdowns,
+            showISOWeekNumbers,
+            showWeekNumbers,
+            minDate,
+            maxDate,
+            locale
+        } = this.props;
 
         return (
             <CalendarMonth
                 month={this.state.month}
+                startDate={date}
                 onNextClick={this.handleNavClick(1)}
                 onPrevClick={this.handleNavClick(-1)}
                 onMonthChange={this.handleMonthChange}
                 onYearChange={this.handleYearChange}
                 onDayClick={this.handleDayClick}
+                showDropdowns={showDropdowns}
+                showISOWeekNumbers={showISOWeekNumbers}
+                showWeekNumbers={showWeekNumbers}
+                minDate={minDate}
+                maxDate={maxDate}
                 locale={locale}
-                {...pickedProps}
-                {...otherProps}
             />
         );
     }

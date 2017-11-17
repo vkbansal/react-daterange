@@ -1,26 +1,18 @@
-import format from 'date-fns/format';
-import defaults from 'lodash.defaults';
+import formatDate from 'date-fns/format';
 import * as React from 'react';
 
 import { CalBody, CalHeader, CalendarInput, NavButton } from './Common';
 import { DropDown, DropDownProps } from './Dropdown';
-import { Overwrite, callIfExists, parseDate } from './helpers';
-import {
-    SingleDatePickerControl,
-    SingleDatePickerControlLocale,
-    SingleDatePickerControlProps
-} from './SingleDatePickerControl';
+import { DEFAULT_FORMAT, Overwrite, callIfExists, parseDate } from './helpers';
+import { SingleDatePickerControl, SingleDatePickerControlProps } from './SingleDatePickerControl';
 
 export type PickedDropDownProps = Partial<Pick<DropDownProps, 'opens' | 'drops'>>;
-
-export interface SingleDatePickerLocale extends SingleDatePickerControlLocale {}
 
 export type ControlProps = Partial<
     Overwrite<
         SingleDatePickerControlProps,
         {
             date?: string | Date;
-            locale?: Partial<SingleDatePickerLocale>;
         }
     >
 >;
@@ -28,6 +20,7 @@ export type ControlProps = Partial<
 export interface SingleDatePickerProps extends PickedDropDownProps, ControlProps {
     onShow?: () => void;
     onHide?: () => void;
+    format?: string;
 }
 
 export interface SingleDatePickerState {
@@ -36,25 +29,19 @@ export interface SingleDatePickerState {
     position: DropDownProps['position'] | null;
 }
 
-const defaultLocale: SingleDatePickerLocale = {
-    format: 'YYYY-MM-DD'
-};
-
 export class SingleDatePicker extends React.Component<
     SingleDatePickerProps,
     SingleDatePickerState
 > {
     private input: HTMLDivElement;
 
-    private locale: SingleDatePickerLocale;
-
     constructor(props: SingleDatePickerProps) {
         super(props);
 
-        this.locale = defaults({}, props.locale, defaultLocale);
-
         this.state = {
-            date: props.date ? parseDate(props.date, this.locale.format) : undefined,
+            date: props.date
+                ? parseDate(props.date, this.props.format || DEFAULT_FORMAT)
+                : undefined,
             position: null,
             showDropdown: false
         };
@@ -101,14 +88,34 @@ export class SingleDatePicker extends React.Component<
 
     render() {
         const { position, showDropdown, date } = this.state;
-        const { onDateChange, opens, drops, date: propDate, ...rest } = this.props;
+        const {
+            opens,
+            drops,
+            format,
+            minDate,
+            maxDate,
+            showDropdowns,
+            showISOWeekNumbers,
+            showWeekNumbers,
+            locale
+        } = this.props;
+
+        const props = {
+            date,
+            minDate: minDate ? parseDate(minDate, format) : undefined,
+            maxDate: maxDate ? parseDate(maxDate, format) : undefined,
+            showDropdowns,
+            showISOWeekNumbers,
+            showWeekNumbers,
+            locale
+        };
 
         return (
             <div>
                 <div ref={this.inputRef} style={{ display: 'inline-block' }}>
                     <CalendarInput
                         onFocus={this.handleShowDropdown}
-                        value={date ? format(date, this.locale.format) : ''}
+                        value={date ? formatDate(date, format || DEFAULT_FORMAT) : ''}
                     />
                 </div>
                 {showDropdown &&
@@ -126,8 +133,7 @@ export class SingleDatePicker extends React.Component<
                                 </CalHeader>
                                 <CalBody>
                                     <SingleDatePickerControl
-                                        date={date}
-                                        {...rest}
+                                        {...props}
                                         onDateChange={this.handleDateChange}
                                     />
                                 </CalBody>
