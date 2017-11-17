@@ -276,7 +276,7 @@ export class CalendarMonth extends React.Component<CalendarMonthProps> {
                                     }
                                     isDisabled={isDisabled}
                                 >
-                                    {locale.ordinalNumber(day.getDate())}
+                                    {day.getDate()}
                                 </Day>
                             );
                         })}
