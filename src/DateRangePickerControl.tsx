@@ -1,11 +1,11 @@
-import addMonths from 'date-fns/addMonths';
-import endOfMonth from 'date-fns/endOfMonth';
-import isAfter from 'date-fns/isAfter';
-import isBefore from 'date-fns/isBefore';
-import isSameMonth from 'date-fns/isSameMonth';
-import setMonth from 'date-fns/setMonth';
-import setYear from 'date-fns/setYear';
-import startOfMonth from 'date-fns/startOfMonth';
+import * as addMonths from 'date-fns/addMonths';
+import * as endOfMonth from 'date-fns/endOfMonth';
+import * as isAfter from 'date-fns/isAfter';
+import * as isBefore from 'date-fns/isBefore';
+import * as isSameMonth from 'date-fns/isSameMonth';
+import * as setMonth from 'date-fns/setMonth';
+import * as setYear from 'date-fns/setYear';
+import * as startOfMonth from 'date-fns/startOfMonth';
 import glamorous from 'glamorous';
 import * as React from 'react';
 

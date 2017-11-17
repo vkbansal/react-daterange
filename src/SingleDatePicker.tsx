@@ -1,4 +1,4 @@
-import formatDate from 'date-fns/format';
+import * as formatDate from 'date-fns/format';
 import * as React from 'react';
 
 import { CalBody, CalHeader, CalendarInput, NavButton } from './Common';

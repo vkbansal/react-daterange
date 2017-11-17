@@ -1,4 +1,4 @@
-import formatDate from 'date-fns/format';
+import * as formatDate from 'date-fns/format';
 import glamorous from 'glamorous';
 import * as React from 'react';
 

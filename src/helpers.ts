@@ -1,4 +1,4 @@
-import parse from 'date-fns/parse';
+import * as parse from 'date-fns/parse';
 
 export const DEFAULT_FORMAT = 'YYYY-MM-DD';
 

@@ -1,7 +1,7 @@
-import addMonths from 'date-fns/addMonths';
-import setMonth from 'date-fns/setMonth';
-import setYear from 'date-fns/setYear';
-import startOfMonth from 'date-fns/startOfMonth';
+import * as addMonths from 'date-fns/addMonths';
+import * as setMonth from 'date-fns/setMonth';
+import * as setYear from 'date-fns/setYear';
+import * as startOfMonth from 'date-fns/startOfMonth';
 import * as React from 'react';
 
 import { CalendarMonth, CalendarMonthProps } from './CalendarMonth';

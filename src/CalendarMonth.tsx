@@ -1,11 +1,11 @@
-import addDays from 'date-fns/addDays';
-import isAfter from 'date-fns/isAfter';
-import isBefore from 'date-fns/isBefore';
-import isSameDay from 'date-fns/isSameDay';
-import isSameMonth from 'date-fns/isSameMonth';
+import * as addDays from 'date-fns/addDays';
+import * as isAfter from 'date-fns/isAfter';
+import * as isBefore from 'date-fns/isBefore';
+import * as isSameDay from 'date-fns/isSameDay';
+import * as isSameMonth from 'date-fns/isSameMonth';
 import { localize as en } from 'date-fns/locale/en-US';
-import setMonth from 'date-fns/setMonth';
-import startOfMonth from 'date-fns/startOfMonth';
+import * as setMonth from 'date-fns/setMonth';
+import * as startOfMonth from 'date-fns/startOfMonth';
 import glamorous, { CSSProperties, ExtraGlamorousProps, GlamorousComponent } from 'glamorous';
 import * as React from 'react';
 

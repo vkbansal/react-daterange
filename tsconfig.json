@@ -1,6 +1,5 @@
 {
     "compilerOptions": {
-        "allowSyntheticDefaultImports": true,
         "alwaysStrict": true,
         "baseUrl": "./",
         "charset": "utf8",
