@@ -1,18 +1,16 @@
 {
     "compilerOptions": {
         "alwaysStrict": true,
-        "baseUrl": "./",
-        "charset": "utf8",
-        "jsx": "react",
-        "strict": true,
-        "module": "es6",
-        "newLine": "LF",
-        "moduleResolution": "node",
-        "declaration": true,
         "target": "es6",
+        "module": "es6",
+        "jsx": "react",
+        "baseUrl": "../",
+        "strict": true,
+        "noEmitOnError": false,
+        "moduleResolution": "node",
+        "types": ["jest"],
         "typeRoots": ["node_modules/@types", "node_modules"],
         "noUnusedLocals": true,
         "noUnusedParameters": true
-    },
-    "include": ["./src"]
+    }
 }
