@@ -8,7 +8,7 @@ import {
     DateRangePickerControlProps
 } from './DateRangePickerControl';
 import { Dropdown, DropdownProps } from './Dropdown';
-import { ISODateString, callIfExists } from './helpers';
+import { callIfExists, formatDateDefault } from './helpers';
 
 export type PickedDropDownProps = Partial<Pick<DropdownProps, 'opens' | 'drops'>>;
 
@@ -177,7 +177,7 @@ export class DateRangePicker extends React.Component<DateRangePickerProps, DateR
             daysOfWeek
         };
 
-        const formatDate = format || ISODateString;
+        const formatDate = format || formatDateDefault;
 
         return (
             <div>

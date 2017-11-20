@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { CalBody, CalHeader, CalendarInput, NavButton } from './Common';
 import { Dropdown, DropdownProps } from './Dropdown';
-import { ISODateString, callIfExists } from './helpers';
+import { callIfExists, formatDateDefault } from './helpers';
 import { SingleDatePickerControl, SingleDatePickerControlProps } from './SingleDatePickerControl';
 
 export type PickedDropDownProps = Partial<Pick<DropdownProps, 'opens' | 'drops'>>;
@@ -102,7 +102,7 @@ export class SingleDatePicker extends React.Component<
             daysOfWeek
         };
 
-        const formatDate = format || ISODateString;
+        const formatDate = format || formatDateDefault;
 
         return (
             <div>

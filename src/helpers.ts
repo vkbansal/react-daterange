@@ -101,8 +101,10 @@ export function isDayBefore(date: Date, dateToCompare: Date): boolean {
     return newDate.getTime() < newDateToCompare.getTime();
 }
 
-export function ISODateString(date: Date): string {
-    return date.toISOString().slice(0, 10);
+const padZero = (i: string | number) => `0${i}`.slice(-2);
+
+export function formatDateDefault(date: Date): string {
+    return `${date.getFullYear()}-${padZero(date.getMonth() + 1)}-${padZero(date.getDate())}`;
 }
 
 export const LOCALE_EN = {
