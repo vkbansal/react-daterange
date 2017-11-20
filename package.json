@@ -41,8 +41,7 @@
   "homepage": "https://github.com/vkbansal/react-daterange#readme",
   "peerDependencies": {
     "react": "^16.0.0",
-    "react-dom": "^16.0.0",
-    "date-fns": "^2.0.0-alpha.7"
+    "react-dom": "^16.0.0"
   },
   "devDependencies": {
     "@types/enzyme": "^3.1.4",
@@ -56,7 +55,6 @@
     "@types/react-router-dom": "^4.2.1",
     "@types/shallowequal": "^0.2.1",
     "cross-env": "^5.1.1",
-    "date-fns": "^2.0.0-alpha.7",
     "enzyme": "^3.2.0",
     "enzyme-adapter-react-16": "^1.1.0",
     "enzyme-to-json": "^3.2.2",
@@ -64,7 +62,6 @@
     "glamor": "^2.20.40",
     "glamorous": "^4.11.0",
     "html-webpack-plugin": "^2.30.1",
-    "illuminate-js": "^0.3.0",
     "jest": "^21.2.1",
     "jest-glamor-react": "^3.2.1",
     "jsdom": "^11.3.0",
@@ -73,7 +70,6 @@
     "react": "^16.1.1",
     "react-docgen-typescript": "^1.1.0",
     "react-dom": "^16.1.1",
-    "react-illuminate": "^2.0.0",
     "react-router-dom": "^4.2.2",
     "react-test-renderer": "^16.1.1",
     "rimraf": "^2.6.2",

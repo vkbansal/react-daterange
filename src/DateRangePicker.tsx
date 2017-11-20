@@ -1,4 +1,3 @@
-import * as formatDate from 'date-fns/format';
 import glamorous from 'glamorous';
 import * as React from 'react';
 
@@ -9,7 +8,7 @@ import {
     DateRangePickerControlProps
 } from './DateRangePickerControl';
 import { Dropdown, DropdownProps } from './Dropdown';
-import { DEFAULT_FORMAT, Overwrite, callIfExists, parseDate } from './helpers';
+import { ISODateString, callIfExists } from './helpers';
 
 export type PickedDropDownProps = Partial<Pick<DropdownProps, 'opens' | 'drops'>>;
 
@@ -18,16 +17,11 @@ export interface Range {
     endDate: (today: Date) => Date;
 }
 
-export type ControlProps = Partial<
-    Overwrite<
-        DateRangePickerControlProps,
-        {
-            startDate?: string | Date;
-            endDate?: string | Date;
-        }
-    >
->;
+export type ControlProps = Partial<DateRangePickerControlProps>;
 
+/**
+ *
+ */
 export interface DateRangePickerProps extends PickedDropDownProps, ControlProps {
     /**
      * Callback for when the picker is shown
@@ -61,7 +55,7 @@ export interface DateRangePickerProps extends PickedDropDownProps, ControlProps 
      * The format used to parse date strings
      * @default "YYYY-MM-DD"
      */
-    format?: string;
+    format?: (date: Date) => string;
     /**
      * The text to be displayed as a separator
      * @default "→"
@@ -95,24 +89,12 @@ export class DateRangePicker extends React.Component<DateRangePickerProps, DateR
     constructor(props: DateRangePickerProps) {
         super(props);
 
-        const startDate = props.startDate ? parseDate(props.startDate, props.format) : undefined;
-        const endDate = props.endDate ? parseDate(props.endDate, props.format) : undefined;
         this.state = {
             position: null,
             showDropdown: false,
-            startDate,
-            endDate
+            startDate: props.startDate,
+            endDate: props.endDate
         };
-    }
-
-    componentWillReceiveProps(nextProps: DateRangePickerProps) {
-        const startDate = nextProps.startDate
-            ? parseDate(nextProps.startDate, nextProps.format)
-            : undefined;
-        const endDate = nextProps.endDate
-            ? parseDate(nextProps.endDate, nextProps.format)
-            : undefined;
-        this.setState({ startDate, endDate });
     }
 
     componentDidUpdate(_: DateRangePickerProps, prevState: DateRangePickerState) {
@@ -179,19 +161,23 @@ export class DateRangePicker extends React.Component<DateRangePickerProps, DateR
             showDropdowns,
             showISOWeekNumbers,
             showWeekNumbers,
-            locale
+            monthNames,
+            daysOfWeek
         } = this.props;
 
         const props = {
-            minDate: minDate ? parseDate(minDate, format) : undefined,
-            maxDate: maxDate ? parseDate(maxDate, format) : undefined,
+            minDate,
+            maxDate,
             startDate,
             endDate,
             showDropdowns,
             showISOWeekNumbers,
             showWeekNumbers,
-            locale
+            monthNames,
+            daysOfWeek
         };
+
+        const formatDate = format || ISODateString;
 
         return (
             <div>
@@ -199,7 +185,7 @@ export class DateRangePicker extends React.Component<DateRangePickerProps, DateR
                     <CalendarInput
                         onFocus={this.handleShowDropdown}
                         placeholder="Start Date"
-                        value={startDate ? formatDate(startDate, format || DEFAULT_FORMAT) : ''}
+                        value={startDate ? formatDate(startDate) : ''}
                     />
                     {separator ? (
                         <Seperator>{separator}</Seperator>
@@ -209,7 +195,7 @@ export class DateRangePicker extends React.Component<DateRangePickerProps, DateR
                     <CalendarInput
                         onFocus={this.handleShowDropdown}
                         placeholder="End Date"
-                        value={endDate ? formatDate(endDate, format || DEFAULT_FORMAT) : ''}
+                        value={endDate ? formatDate(endDate) : ''}
                     />
                 </div>
                 {showDropdown &&

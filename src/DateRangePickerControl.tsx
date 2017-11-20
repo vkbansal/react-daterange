@@ -1,16 +1,18 @@
-import * as addMonths from 'date-fns/addMonths';
-import * as endOfMonth from 'date-fns/endOfMonth';
-import * as isAfter from 'date-fns/isAfter';
-import * as isBefore from 'date-fns/isBefore';
-import * as isSameMonth from 'date-fns/isSameMonth';
-import * as setMonth from 'date-fns/setMonth';
-import * as setYear from 'date-fns/setYear';
-import * as startOfMonth from 'date-fns/startOfMonth';
 import glamorous from 'glamorous';
 import * as React from 'react';
 
 import { CalendarMonth, CalendarMonthProps } from './CalendarMonth';
-import { callIfExists } from './helpers';
+import {
+    addMonths,
+    callIfExists,
+    endOfMonth,
+    isDayAfter,
+    isDayBefore,
+    isSameMonth,
+    setMonth,
+    setYear,
+    startOfMonth
+} from './helpers';
 
 const ControlWrapper = glamorous('div')('rdr-range-control', {
     display: 'flex',
@@ -30,7 +32,8 @@ export type CalenderMonthPropFields =
     | 'endDate'
     | 'minDate'
     | 'maxDate'
-    | 'locale';
+    | 'daysOfWeek'
+    | 'monthNames';
 
 export interface DateRangePickerControlProps
     extends Pick<CalendarMonthProps, CalenderMonthPropFields> {
@@ -115,7 +118,7 @@ export class DateRangePickerControl extends React.Component<
 
     handleDayClick = (day: Date) => {
         this.setState<'startDate' | 'endDate' | 'selectionActive'>(state => {
-            if (state.startDate && state.selectionActive && isAfter(day, state.startDate)) {
+            if (state.startDate && state.selectionActive && isDayAfter(day, state.startDate)) {
                 callIfExists(this.props.onDatesChange, {
                     startDate: state.startDate,
                     endDate: day
@@ -142,7 +145,7 @@ export class DateRangePickerControl extends React.Component<
 
     handleDayHover = (day: Date) => {
         this.setState<'endDate'>(state => {
-            if (state.selectionActive && state.startDate && !isBefore(day, state.startDate)) {
+            if (state.selectionActive && state.startDate && !isDayBefore(day, state.startDate)) {
                 return {
                     endDate: day
                 };
@@ -201,10 +204,11 @@ export class DateRangePickerControl extends React.Component<
         const {
             minDate,
             maxDate,
-            locale,
             showDropdowns,
             showISOWeekNumbers,
-            showWeekNumbers
+            showWeekNumbers,
+            monthNames,
+            daysOfWeek
         } = this.props;
 
         const commonProps = {
@@ -213,7 +217,8 @@ export class DateRangePickerControl extends React.Component<
             onDayClick: this.handleDayClick,
             onDayHover: this.handleDayHover,
             maxDate,
-            locale,
+            monthNames,
+            daysOfWeek,
             showDropdowns,
             showISOWeekNumbers,
             showWeekNumbers
@@ -241,7 +246,7 @@ export class DateRangePickerControl extends React.Component<
                     onYearChange={this.handleYearChange('right')}
                     hidePrevButton={
                         !this.props.individualCalendars ||
-                        isBefore(monthRight, monthLeft) ||
+                        isDayBefore(monthRight, monthLeft) ||
                         isSameMonth(monthRight, monthLeft)
                     }
                 />

@@ -1,16 +1,19 @@
-import * as addDays from 'date-fns/addDays';
-import * as isAfter from 'date-fns/isAfter';
-import * as isBefore from 'date-fns/isBefore';
-import * as isSameDay from 'date-fns/isSameDay';
-import * as isSameMonth from 'date-fns/isSameMonth';
-import { localize as en } from 'date-fns/locale/en-US';
-import * as setMonth from 'date-fns/setMonth';
-import * as startOfMonth from 'date-fns/startOfMonth';
 import glamorous, { CSSProperties, ExtraGlamorousProps, GlamorousComponent } from 'glamorous';
 import * as React from 'react';
 
 import { NavButton } from './Common';
-import { callIfExists, range } from './helpers';
+import {
+    LOCALE_EN,
+    addDays,
+    callIfExists,
+    isDayAfter,
+    isDayBefore,
+    isSameDay,
+    isSameMonth,
+    range,
+    setMonth,
+    startOfMonth
+} from './helpers';
 
 const SIZE = 38;
 const sizeInPixels = `${SIZE}px`;
@@ -141,7 +144,12 @@ export interface CalendarMonthProps {
      *  Localization settings (*localize* object from `date-fns`)
      * `import { localize } from date-fns/locale/{lang}`
      */
-    locale?: Locale['localize'];
+    daysOfWeek?: Array<string>;
+    /**
+     *  Localization settings (*localize* object from `date-fns`)
+     * `import { localize } from date-fns/locale/{lang}`
+     */
+    monthNames?: Array<string>;
     /**
      * If set as `true`, shows **month** and **year** dropdowns above the calendar
      */
@@ -225,16 +233,16 @@ export class CalendarMonth extends React.Component<CalendarMonthProps> {
     };
 
     renderDropDowns = (firstDay: Date) => {
-        const { minDate, maxDate, month, locale } = this.props;
+        const { minDate, maxDate, month, monthNames } = this.props;
 
-        const monthNames: string[] = (locale || en).months();
+        const localeMonthNames = monthNames || LOCALE_EN.monthNames;
 
         return [
             <Select key="months" value={firstDay.getMonth()} onChange={this.handleMonthChange}>
-                {monthNames.map((m, i) => {
+                {localeMonthNames.map((m, i) => {
                     const isDisabled =
-                        (minDate && isBefore(setMonth(month, i), minDate)) ||
-                        (maxDate && isAfter(setMonth(month, i), maxDate));
+                        (minDate && isDayBefore(setMonth(month, i), minDate)) ||
+                        (maxDate && isDayAfter(setMonth(month, i), maxDate));
 
                     return (
                         <option key={i} value={i} disabled={isDisabled}>
@@ -267,15 +275,16 @@ export class CalendarMonth extends React.Component<CalendarMonthProps> {
             hidePrevButton,
             minDate,
             maxDate,
+            daysOfWeek,
+            monthNames,
             showDropdowns
         } = this.props;
 
-        const locale = this.props.locale || en;
-        const firstDay = startOfMonth(month);
-        const firstDayInWeek: number = firstDay.getDay();
-        const monthName = locale.months()[firstDay.getMonth()];
-        const key = `${monthName}-${firstDay.getFullYear()}`;
-        const daysOfWeek = locale.weekdays({ type: 'narrow' });
+        const firstDate = startOfMonth(month);
+        const firstDayInCurrentMonth = firstDate.getDay();
+        const monthName = (monthNames || LOCALE_EN.monthNames)[firstDate.getMonth()];
+        const key = `${monthName}-${firstDate.getFullYear()}`;
+        const localeDaysOfWeek = daysOfWeek || LOCALE_EN.daysOfWeek;
 
         return (
             <Month>
@@ -287,8 +296,8 @@ export class CalendarMonth extends React.Component<CalendarMonthProps> {
                     </Cell>
                     <Cell span={5} justifyContent={showDropdowns ? 'space-around' : 'center'}>
                         {showDropdowns
-                            ? this.renderDropDowns(firstDay)
-                            : `${monthName} ${firstDay.getFullYear()}`}
+                            ? this.renderDropDowns(firstDate)
+                            : `${monthName} ${firstDate.getFullYear()}`}
                     </Cell>
                     <Cell>
                         {!hideNextButton && (
@@ -297,27 +306,29 @@ export class CalendarMonth extends React.Component<CalendarMonthProps> {
                     </Cell>
                 </Row>
                 <Row>
-                    {range(0, 7).map(i => <Cell key={`${key}-day-${i}`}>{daysOfWeek[i]}</Cell>)}
+                    {range(0, 7).map(i => (
+                        <Cell key={`${key}-day-${i}`}>{localeDaysOfWeek[i]}</Cell>
+                    ))}
                 </Row>
                 {range(0, 6).map(i => (
                     <Row key={`${key}-${i}`} justifyContent={i === 0 ? 'flex-end' : 'flex-start'}>
                         {range(0, 7).map(j => {
-                            const day = addDays(firstDay, i * 7 + j - firstDayInWeek);
+                            const day = addDays(firstDate, i * 7 + j - firstDayInCurrentMonth);
 
-                            if (!isSameMonth(firstDay, day)) return null;
+                            if (!isSameMonth(firstDate, day)) return null;
 
                             const inRange =
                                 startDate &&
-                                isAfter(day, startDate) &&
+                                isDayAfter(day, startDate) &&
                                 endDate &&
-                                isBefore(day, endDate);
+                                isDayBefore(day, endDate);
 
                             const selected =
                                 (startDate && isSameDay(day, startDate)) ||
                                 (endDate && isSameDay(day, endDate));
                             const isDisabled =
-                                (minDate && isBefore(day, minDate)) ||
-                                (maxDate && isAfter(day, maxDate));
+                                (minDate && isDayBefore(day, minDate)) ||
+                                (maxDate && isDayAfter(day, maxDate));
 
                             return (
                                 <Day

@@ -1,10 +1,7 @@
-import * as addMonths from 'date-fns/addMonths';
-import * as setMonth from 'date-fns/setMonth';
-import * as setYear from 'date-fns/setYear';
-import * as startOfMonth from 'date-fns/startOfMonth';
 import * as React from 'react';
 
 import { CalendarMonth, CalendarMonthProps } from './CalendarMonth';
+import { addMonths, setMonth, setYear, startOfMonth } from './helpers';
 
 export type CalendarMonthPropFields =
     | 'showDropdowns'
@@ -12,7 +9,8 @@ export type CalendarMonthPropFields =
     | 'showISOWeekNumbers'
     | 'minDate'
     | 'maxDate'
-    | 'locale';
+    | 'daysOfWeek'
+    | 'monthNames';
 
 export interface SingleDatePickerControlProps
     extends Pick<CalendarMonthProps, CalendarMonthPropFields> {
@@ -70,7 +68,8 @@ export class SingleDatePickerControl extends React.Component<
             showWeekNumbers,
             minDate,
             maxDate,
-            locale
+            monthNames,
+            daysOfWeek
         } = this.props;
 
         return (
@@ -87,7 +86,8 @@ export class SingleDatePickerControl extends React.Component<
                 showWeekNumbers={showWeekNumbers}
                 minDate={minDate}
                 maxDate={maxDate}
-                locale={locale}
+                monthNames={monthNames}
+                daysOfWeek={daysOfWeek}
             />
         );
     }

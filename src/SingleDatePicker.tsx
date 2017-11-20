@@ -1,26 +1,18 @@
-import * as formatDate from 'date-fns/format';
 import * as React from 'react';
 
 import { CalBody, CalHeader, CalendarInput, NavButton } from './Common';
 import { Dropdown, DropdownProps } from './Dropdown';
-import { DEFAULT_FORMAT, Overwrite, callIfExists, parseDate } from './helpers';
+import { ISODateString, callIfExists } from './helpers';
 import { SingleDatePickerControl, SingleDatePickerControlProps } from './SingleDatePickerControl';
 
 export type PickedDropDownProps = Partial<Pick<DropdownProps, 'opens' | 'drops'>>;
 
-export type ControlProps = Partial<
-    Overwrite<
-        SingleDatePickerControlProps,
-        {
-            date?: string | Date;
-        }
-    >
->;
+export type ControlProps = Partial<SingleDatePickerControlProps>;
 
 export interface SingleDatePickerProps extends PickedDropDownProps, ControlProps {
     onShow?: () => void;
     onHide?: () => void;
-    format?: string;
+    format?: (date: Date) => string;
 }
 
 export interface SingleDatePickerState {
@@ -39,9 +31,7 @@ export class SingleDatePicker extends React.Component<
         super(props);
 
         this.state = {
-            date: props.date
-                ? parseDate(props.date, this.props.format || DEFAULT_FORMAT)
-                : undefined,
+            date: props.date,
             position: null,
             showDropdown: false
         };
@@ -97,25 +87,29 @@ export class SingleDatePicker extends React.Component<
             showDropdowns,
             showISOWeekNumbers,
             showWeekNumbers,
-            locale
+            monthNames,
+            daysOfWeek
         } = this.props;
 
         const props = {
             date,
-            minDate: minDate ? parseDate(minDate, format) : undefined,
-            maxDate: maxDate ? parseDate(maxDate, format) : undefined,
+            minDate,
+            maxDate,
             showDropdowns,
             showISOWeekNumbers,
             showWeekNumbers,
-            locale
+            monthNames,
+            daysOfWeek
         };
+
+        const formatDate = format || ISODateString;
 
         return (
             <div>
                 <div ref={this.inputRef} style={{ display: 'inline-block' }}>
                     <CalendarInput
                         onFocus={this.handleShowDropdown}
-                        value={date ? formatDate(date, format || DEFAULT_FORMAT) : ''}
+                        value={date ? formatDate(date) : ''}
                     />
                 </div>
                 {showDropdown &&

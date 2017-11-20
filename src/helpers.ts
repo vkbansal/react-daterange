@@ -1,11 +1,3 @@
-import * as parse from 'date-fns/parse';
-
-export const DEFAULT_FORMAT = 'YYYY-MM-DD';
-
-export function parseDate(date: Date | string, format?: string): Date {
-    return typeof date === 'string' ? parse(date, format || DEFAULT_FORMAT, new Date()) : date;
-}
-
 export function callIfExists(callback: any, ...args: any[]) {
     if (typeof callback === 'function') {
         callback(...args);
@@ -24,7 +16,109 @@ export function range(start: number, end: number, step: number = 1) {
     return result;
 }
 
-export type Diff<T extends string, U extends string> = ({ [P in T]: P } &
-    { [P in U]: never } & { [x: string]: never })[T];
-export type Omit<T, K extends keyof T> = { [P in Diff<keyof T, K>]: T[P] };
-export type Overwrite<T, U> = { [P in Diff<keyof T, keyof U>]: T[P] } & U;
+export function setDay(date: Date, day: number): Date {
+    let newDate = new Date(date.getTime());
+
+    newDate.setDate(day);
+
+    return newDate;
+}
+
+export function addDays(date: Date, days: number): Date {
+    return setDay(date, date.getDate() + days);
+}
+
+export function setMonth(date: Date, month: number): Date {
+    let newDate = new Date(date.getTime());
+
+    newDate.setMonth(month);
+
+    return newDate;
+}
+
+export function addMonths(date: Date, months: number): Date {
+    return setMonth(date, date.getMonth() + months);
+}
+
+export function setYear(date: Date, year: number): Date {
+    let newDate = new Date(date.getTime());
+
+    newDate.setFullYear(year);
+
+    return newDate;
+}
+
+export function startOfMonth(date: Date): Date {
+    let newDate = new Date(date.getTime());
+
+    newDate.setDate(1);
+    newDate.setHours(0, 0, 0, 0);
+
+    return newDate;
+}
+
+export function endOfMonth(date: Date): Date {
+    let newDate = new Date(date.getTime());
+
+    newDate.setFullYear(date.getFullYear(), date.getMonth() + 1, 0);
+    newDate.setHours(23, 59, 59, 999);
+
+    return newDate;
+}
+
+export function isSameMonth(dateLeft: Date, dateRight: Date): boolean {
+    return (
+        dateLeft.getFullYear() === dateRight.getFullYear() &&
+        dateLeft.getMonth() === dateRight.getMonth()
+    );
+}
+
+export function isSameDay(dateLeft: Date, dateRight: Date): boolean {
+    return (
+        dateLeft.getFullYear() === dateRight.getFullYear() &&
+        dateLeft.getMonth() === dateRight.getMonth() &&
+        dateLeft.getDate() === dateRight.getDate()
+    );
+}
+
+export function isDayAfter(date: Date, dateToCompare: Date): boolean {
+    let newDate = new Date(date.getTime());
+    let newDateToCompare = new Date(dateToCompare.getTime());
+
+    newDate.setHours(0, 0, 0, 0);
+    newDateToCompare.setHours(0, 0, 0, 0);
+
+    return newDate.getTime() > newDateToCompare.getTime();
+}
+
+export function isDayBefore(date: Date, dateToCompare: Date): boolean {
+    let newDate = new Date(date.getTime());
+    let newDateToCompare = new Date(dateToCompare.getTime());
+
+    newDate.setHours(0, 0, 0, 0);
+    newDateToCompare.setHours(0, 0, 0, 0);
+
+    return newDate.getTime() < newDateToCompare.getTime();
+}
+
+export function ISODateString(date: Date): string {
+    return date.toISOString().slice(0, 10);
+}
+
+export const LOCALE_EN = {
+    daysOfWeek: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    monthNames: [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December'
+    ]
+};
