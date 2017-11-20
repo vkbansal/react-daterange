@@ -1,7 +1,7 @@
 // This is automatically generated using './scripts/docs.js', please do not change anything here
 export const SingleDatePickerControlDocs = {
     "displayName": "SingleDatePickerControl",
-    "description": "",
+    "description": "SingleDatePickerControl component\n@example import React from 'react';\nimport { SingleDatePickerControl } from 'react-daterange';\n\nclass MyDatePicker extends React.component {\nrender() {\nreturn <SingleDatePickerControl />;\n}\n}",
     "props": {
         "children": {
             "required": false,
@@ -16,7 +16,7 @@ export const SingleDatePickerControlDocs = {
             "type": {
                 "name": "Date"
             },
-            "description": "",
+            "description": "The initially selected date",
             "defaultValue": null
         },
         "daysOfWeek": {
@@ -24,8 +24,10 @@ export const SingleDatePickerControlDocs = {
             "type": {
                 "name": "string[]"
             },
-            "description": "Localization settings (*localize* object from `date-fns`)\n`import { localize } from date-fns/locale/{lang}`",
-            "defaultValue": null
+            "description": "An array of strings, that is used to display the days of the week in the calendar.",
+            "defaultValue": {
+                "value": "['Sun','Mon','Tue','Wed','Thu','Fri','Sat']"
+            }
         },
         "maxDate": {
             "required": false,
@@ -48,15 +50,17 @@ export const SingleDatePickerControlDocs = {
             "type": {
                 "name": "string[]"
             },
-            "description": "Localization settings (*localize* object from `date-fns`)\n`import { localize } from date-fns/locale/{lang}`",
-            "defaultValue": null
+            "description": "An array of strings, that is used to display the month names in the calendar",
+            "defaultValue": {
+                "value": "['January','February','March','April','May','June','July','August','September','October','November','December']"
+            }
         },
         "onDateChange": {
             "required": false,
             "type": {
                 "name": "(day: Date) => void"
             },
-            "description": "",
+            "description": "Callback for when a date is selected",
             "defaultValue": null
         },
         "showDropdowns": {
@@ -103,7 +107,7 @@ export const SingleDatePickerDocs = {
             "type": {
                 "name": "Date"
             },
-            "description": "",
+            "description": "The initially selected date",
             "defaultValue": null
         },
         "daysOfWeek": {
@@ -111,7 +115,17 @@ export const SingleDatePickerDocs = {
             "type": {
                 "name": "string[]"
             },
-            "description": "Localization settings (*localize* object from `date-fns`)\n`import { localize } from date-fns/locale/{lang}`",
+            "description": "An array of strings, that is used to display the days of the week in the calendar.",
+            "defaultValue": {
+                "value": "['Sun','Mon','Tue','Wed','Thu','Fri','Sat']"
+            }
+        },
+        "displayFormat": {
+            "required": false,
+            "type": {
+                "name": "(date: Date) => string"
+            },
+            "description": "A function used to format the date that is displayed .\nIt accepts a `Date` as a param and must return a `string`.\nDefault function displays the date in `YYYY-MM-DD` format.",
             "defaultValue": null
         },
         "drops": {
@@ -119,18 +133,10 @@ export const SingleDatePickerDocs = {
             "type": {
                 "name": "\"down\" | \"up\""
             },
-            "description": "Vertical position of the popup with respect to the input",
+            "description": "Vertical position of the picker with respect to the input field.",
             "defaultValue": {
                 "value": "\"down\""
             }
-        },
-        "format": {
-            "required": false,
-            "type": {
-                "name": "(date: Date) => string"
-            },
-            "description": "",
-            "defaultValue": null
         },
         "maxDate": {
             "required": false,
@@ -153,15 +159,17 @@ export const SingleDatePickerDocs = {
             "type": {
                 "name": "string[]"
             },
-            "description": "Localization settings (*localize* object from `date-fns`)\n`import { localize } from date-fns/locale/{lang}`",
-            "defaultValue": null
+            "description": "An array of strings, that is used to display the month names in the calendar",
+            "defaultValue": {
+                "value": "['January','February','March','April','May','June','July','August','September','October','November','December']"
+            }
         },
         "onDateChange": {
             "required": false,
             "type": {
                 "name": "(day: Date) => void"
             },
-            "description": "",
+            "description": "Callback for when a date is selected",
             "defaultValue": null
         },
         "onHide": {
@@ -169,7 +177,7 @@ export const SingleDatePickerDocs = {
             "type": {
                 "name": "() => void"
             },
-            "description": "",
+            "description": "Callback for when the picker is hidden",
             "defaultValue": null
         },
         "onShow": {
@@ -177,7 +185,7 @@ export const SingleDatePickerDocs = {
             "type": {
                 "name": "() => void"
             },
-            "description": "",
+            "description": "Callback for when the picker is shown",
             "defaultValue": null
         },
         "opens": {
@@ -185,7 +193,7 @@ export const SingleDatePickerDocs = {
             "type": {
                 "name": "\"left\" | \"right\" | \"center\""
             },
-            "description": "Horizontal alignment of the popup with respect to the input",
+            "description": "Horizontal alignment of the picker with respect to the input field.",
             "defaultValue": {
                 "value": "\"left\""
             }
@@ -234,8 +242,10 @@ export const DateRangePickerControlDocs = {
             "type": {
                 "name": "string[]"
             },
-            "description": "Localization settings (*localize* object from `date-fns`)\n`import { localize } from date-fns/locale/{lang}`",
-            "defaultValue": null
+            "description": "An array of strings, that is used to display the days of the week in the calendar.",
+            "defaultValue": {
+                "value": "['Sun','Mon','Tue','Wed','Thu','Fri','Sat']"
+            }
         },
         "endDate": {
             "required": false,
@@ -276,8 +286,10 @@ export const DateRangePickerControlDocs = {
             "type": {
                 "name": "string[]"
             },
-            "description": "Localization settings (*localize* object from `date-fns`)\n`import { localize } from date-fns/locale/{lang}`",
-            "defaultValue": null
+            "description": "An array of strings, that is used to display the month names in the calendar",
+            "defaultValue": {
+                "value": "['January','February','March','April','May','June','July','August','September','October','November','December']"
+            }
         },
         "onDatesChange": {
             "required": false,
@@ -355,7 +367,17 @@ export const DateRangePickerDocs = {
             "type": {
                 "name": "string[]"
             },
-            "description": "Localization settings (*localize* object from `date-fns`)\n`import { localize } from date-fns/locale/{lang}`",
+            "description": "An array of strings, that is used to display the days of the week in the calendar.",
+            "defaultValue": {
+                "value": "['Sun','Mon','Tue','Wed','Thu','Fri','Sat']"
+            }
+        },
+        "displayFormat": {
+            "required": false,
+            "type": {
+                "name": "(date: Date) => string"
+            },
+            "description": "A function used to format the date that are displayed.\nIt accepts a `Date` as a param and must return a `string`.\nDefault function displays the dates in `YYYY-MM-DD` format.",
             "defaultValue": null
         },
         "drops": {
@@ -363,7 +385,7 @@ export const DateRangePickerDocs = {
             "type": {
                 "name": "\"down\" | \"up\""
             },
-            "description": "Vertical position of the popup with respect to the input",
+            "description": "Vertical position of the picker with respect to the input field.",
             "defaultValue": {
                 "value": "\"down\""
             }
@@ -375,16 +397,6 @@ export const DateRangePickerDocs = {
             },
             "description": "The end of the initially selected date range",
             "defaultValue": null
-        },
-        "format": {
-            "required": false,
-            "type": {
-                "name": "(date: Date) => string"
-            },
-            "description": "The format used to parse date strings",
-            "defaultValue": {
-                "value": "\"YYYY-MM-DD\""
-            }
         },
         "individualCalendars": {
             "required": false,
@@ -417,8 +429,10 @@ export const DateRangePickerDocs = {
             "type": {
                 "name": "string[]"
             },
-            "description": "Localization settings (*localize* object from `date-fns`)\n`import { localize } from date-fns/locale/{lang}`",
-            "defaultValue": null
+            "description": "An array of strings, that is used to display the month names in the calendar",
+            "defaultValue": {
+                "value": "['January','February','March','April','May','June','July','August','September','October','November','December']"
+            }
         },
         "onCalendarShow": {
             "required": false,
@@ -465,7 +479,7 @@ export const DateRangePickerDocs = {
             "type": {
                 "name": "\"left\" | \"right\" | \"center\""
             },
-            "description": "Horizontal alignment of the popup with respect to the input",
+            "description": "Horizontal alignment of the picker with respect to the input field.",
             "defaultValue": {
                 "value": "\"left\""
             }
