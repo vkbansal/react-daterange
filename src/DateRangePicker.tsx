@@ -52,10 +52,11 @@ export interface DateRangePickerProps extends PickedDropDownProps, ControlProps 
      */
     alwaysShowCalendars?: boolean;
     /**
-     * The format used to parse date strings
-     * @default "YYYY-MM-DD"
+     * A function used to format the date that are displayed.
+     * It accepts a `Date` as a param and must return a `string`.
+     * Default function displays the dates in `YYYY-MM-DD` format.
      */
-    format?: (date: Date) => string;
+    displayFormat?: (date: Date) => string;
     /**
      * The text to be displayed as a separator
      * @default "→"
@@ -152,7 +153,7 @@ export class DateRangePicker extends React.Component<DateRangePickerProps, DateR
         const {
             opens,
             drops,
-            format,
+            displayFormat,
             separator,
             // customRangeLabel,
             // showCustomRangeLabel,
@@ -177,7 +178,7 @@ export class DateRangePicker extends React.Component<DateRangePickerProps, DateR
             daysOfWeek
         };
 
-        const formatDate = format || formatDateDefault;
+        const formatDate = displayFormat || formatDateDefault;
 
         return (
             <div>

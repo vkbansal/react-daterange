@@ -14,7 +14,13 @@ export type CalendarMonthPropFields =
 
 export interface SingleDatePickerControlProps
     extends Pick<CalendarMonthProps, CalendarMonthPropFields> {
+    /**
+     * The initially selected date
+     */
     date?: Date;
+    /**
+     * Callback for when a date is selected
+     */
     onDateChange?: (day: Date) => void;
 }
 
@@ -22,6 +28,18 @@ export interface SingleDatePickerControlState {
     month: Date;
 }
 
+/**
+ * SingleDatePickerControl component
+ * @example
+ * import React from 'react';
+ * import { SingleDatePickerControl } from 'react-daterange';
+ *
+ * class MyDatePicker extends React.component {
+ *      render() {
+ *          return <SingleDatePickerControl />;
+ *      }
+ * }
+ */
 export class SingleDatePickerControl extends React.Component<
     SingleDatePickerControlProps,
     SingleDatePickerControlState

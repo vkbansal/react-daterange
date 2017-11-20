@@ -141,13 +141,13 @@ export interface CalendarMonthProps {
      */
     maxDate?: Date;
     /**
-     *  Localization settings (*localize* object from `date-fns`)
-     * `import { localize } from date-fns/locale/{lang}`
+     * An array of strings, that is used to display the days of the week in the calendar.
+     * @default ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
      */
     daysOfWeek?: Array<string>;
     /**
-     *  Localization settings (*localize* object from `date-fns`)
-     * `import { localize } from date-fns/locale/{lang}`
+     *  An array of strings, that is used to display the month names in the calendar
+     * @default ['January','February','March','April','May','June','July','August','September','October','November','December']
      */
     monthNames?: Array<string>;
     /**

@@ -12,12 +12,12 @@ export interface DropdownProps {
         height: number;
     };
     /**
-     * Horizontal alignment of the popup with respect to the input
+     * Horizontal alignment of the picker with respect to the input field.
      * @default "left"
      */
     opens: 'left' | 'right' | 'center';
     /**
-     * Vertical position of the popup with respect to the input
+     * Vertical position of the picker with respect to the input field.
      * @default "down"
      */
     drops: 'down' | 'up';

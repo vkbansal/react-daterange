@@ -10,9 +10,20 @@ export type PickedDropDownProps = Partial<Pick<DropdownProps, 'opens' | 'drops'>
 export type ControlProps = Partial<SingleDatePickerControlProps>;
 
 export interface SingleDatePickerProps extends PickedDropDownProps, ControlProps {
+    /**
+     * Callback for when the picker is shown
+     */
     onShow?: () => void;
+    /**
+     * Callback for when the picker is hidden
+     */
     onHide?: () => void;
-    format?: (date: Date) => string;
+    /**
+     * A function used to format the date that is displayed .
+     * It accepts a `Date` as a param and must return a `string`.
+     * Default function displays the date in `YYYY-MM-DD` format.
+     */
+    displayFormat?: (date: Date) => string;
 }
 
 export interface SingleDatePickerState {
@@ -81,7 +92,7 @@ export class SingleDatePicker extends React.Component<
         const {
             opens,
             drops,
-            format,
+            displayFormat,
             minDate,
             maxDate,
             showDropdowns,
@@ -102,7 +113,7 @@ export class SingleDatePicker extends React.Component<
             daysOfWeek
         };
 
-        const formatDate = format || formatDateDefault;
+        const formatDate = displayFormat || formatDateDefault;
 
         return (
             <div>
