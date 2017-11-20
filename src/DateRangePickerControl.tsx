@@ -34,7 +34,22 @@ export type CalenderMonthPropFields =
 
 export interface DateRangePickerControlProps
     extends Pick<CalendarMonthProps, CalenderMonthPropFields> {
+    /**
+     * When enabled, the two calendars can be individually advanced and display any month/year.
+     * When disabled, the two calendars displayed will always be for two sequential months
+     * (i.e. January and February), and both will be advanced when clicking the left or right
+     * arrows above the calendars.
+     *
+     * @default false
+     */
     individualCalendars?: boolean;
+    /**
+     * Callback when start and/or end dates are changed
+     *
+     * @param {Object} dates
+     * @param {Date} dates.startDate
+     * @param {Date | undefined} dates.endDate
+     */
     onDatesChange?: (dates: DateRange) => void;
 }
 

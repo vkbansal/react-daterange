@@ -117,23 +117,77 @@ export const Select = glamorous('select')('rdr-calendar-select', {
 Select.displayName = 'Select';
 
 export interface CalendarMonthProps {
-    month: Date; // Current month.
-    startDate?: Date; // Start of range.
-    endDate?: Date; // End of range.
-    minDate?: Date; // Min selectable Date.
-    maxDate?: Date; // Max selectable Date.
-    locale?: Locale['localize']; // Localization (localize object from date-fns).
-    showDropdowns?: boolean; // Whether to show month and year dropdowns.
-    onPrevClick?: () => void; // Callback for "prev" button click.
-    onNextClick?: () => void; // Callback for "next" button click.
-    onDayClick?: (date: Date) => void; // Callback for when "Day" is clicked on.
-    onDayHover?: (date: Date) => void; // Callback for "Day" is hovered upon.
-    onMonthChange?: (month: number) => void; // Callback for when "month" dropdown is changed
-    onYearChange?: (year: number) => void; // Callback for when "year" dropdown is changed
-    hideNextButton?: boolean; // Whether to hide "next" button
-    hidePrevButton?: boolean; // Whether to hide "prev" button
-    showWeekNumbers?: boolean; // TODO: implement this
-    showISOWeekNumbers?: boolean; // TODO: implement this
+    /**
+     * Current Month
+     */
+    month: Date;
+    /**
+     * The start of the initially selected date range
+     */
+    startDate?: Date;
+    /**
+     * The end of the initially selected date range
+     */
+    endDate?: Date;
+    /**
+     * The earliest date a user may select
+     */
+    minDate?: Date;
+    /**
+     * The latest date a user may select
+     */
+    maxDate?: Date;
+    /**
+     *  Localization settings (*localize* object from `date-fns`)
+     * `import { localize } from date-fns/locale/{lang}`
+     */
+    locale?: Locale['localize'];
+    /**
+     * If set as `true`, shows **month** and **year** dropdowns above the calendar
+     */
+    showDropdowns?: boolean;
+    /**
+     * Callback for when "prev" buton is clicked
+     */
+    onPrevClick?: () => void;
+    /**
+     * Callback for when "next" buton is clicked
+     */
+    onNextClick?: () => void;
+    /**
+     * Callback for when user clicks on a "Day"
+     */
+    onDayClick?: (date: Date) => void;
+    /**
+     * Callback for when user hovers on a "Day"
+     */
+    onDayHover?: (date: Date) => void;
+    /**
+     * Callback for when user selects a month from the dropdown
+     * Applicable only when `showDropdowns: true`
+     */
+    onMonthChange?: (month: number) => void;
+    /**
+     * Callback for when user selects a year from the dropdown
+     * Applicable only when `showDropdowns: true`
+     */
+    onYearChange?: (year: number) => void;
+    /**
+     * When sets as `true`, hide the "next" button
+     */
+    hideNextButton?: boolean;
+    /**
+     * When sets as `true`, hide the "prev" button
+     */
+    hidePrevButton?: boolean;
+    /**
+     * TODO: implement this feature
+     */
+    showWeekNumbers?: boolean;
+    /**
+     * TODO: implement this feature
+     */
+    showISOWeekNumbers?: boolean;
 }
 
 export class CalendarMonth extends React.Component<CalendarMonthProps> {

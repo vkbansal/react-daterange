@@ -2,7 +2,7 @@ import glamorous from 'glamorous';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-export interface DropDownProps {
+export interface DropdownProps {
     position: {
         top: number;
         bottom: number;
@@ -11,11 +11,19 @@ export interface DropDownProps {
         right: number;
         height: number;
     };
+    /**
+     * Horizontal alignment of the popup with respect to the input
+     * @default "left"
+     */
     opens: 'left' | 'right' | 'center';
+    /**
+     * Vertical position of the popup with respect to the input
+     * @default "down"
+     */
     drops: 'down' | 'up';
 }
 
-const DropDownWrapper = glamorous('div')<DropDownProps>(
+const DropdownWrapper = glamorous('div')<DropdownProps>(
     'rdr-dropdown',
     {
         position: 'absolute',
@@ -66,10 +74,10 @@ const DropDownWrapper = glamorous('div')<DropDownProps>(
     })
 );
 
-export class DropDown extends React.Component<DropDownProps> {
+export class Dropdown extends React.Component<DropdownProps> {
     private root: HTMLDivElement;
 
-    constructor(props: DropDownProps) {
+    constructor(props: DropdownProps) {
         super(props);
 
         this.root = document.createElement('div');
@@ -89,7 +97,7 @@ export class DropDown extends React.Component<DropDownProps> {
     }
 
     render() {
-        const dropdown = <DropDownWrapper {...this.props}>{this.props.children}</DropDownWrapper>;
+        const dropdown = <DropdownWrapper {...this.props}>{this.props.children}</DropdownWrapper>;
         return ReactDOM.createPortal(dropdown, this.root);
     }
 }

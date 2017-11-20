@@ -2,11 +2,11 @@ import * as formatDate from 'date-fns/format';
 import * as React from 'react';
 
 import { CalBody, CalHeader, CalendarInput, NavButton } from './Common';
-import { DropDown, DropDownProps } from './Dropdown';
+import { Dropdown, DropdownProps } from './Dropdown';
 import { DEFAULT_FORMAT, Overwrite, callIfExists, parseDate } from './helpers';
 import { SingleDatePickerControl, SingleDatePickerControlProps } from './SingleDatePickerControl';
 
-export type PickedDropDownProps = Partial<Pick<DropDownProps, 'opens' | 'drops'>>;
+export type PickedDropDownProps = Partial<Pick<DropdownProps, 'opens' | 'drops'>>;
 
 export type ControlProps = Partial<
     Overwrite<
@@ -26,7 +26,7 @@ export interface SingleDatePickerProps extends PickedDropDownProps, ControlProps
 export interface SingleDatePickerState {
     date?: Date;
     showDropdown: boolean;
-    position: DropDownProps['position'] | null;
+    position: DropdownProps['position'] | null;
 }
 
 export class SingleDatePicker extends React.Component<
@@ -120,7 +120,7 @@ export class SingleDatePicker extends React.Component<
                 </div>
                 {showDropdown &&
                     position && (
-                        <DropDown
+                        <Dropdown
                             opens={opens || 'left'}
                             drops={drops || 'down'}
                             position={position}
@@ -138,7 +138,7 @@ export class SingleDatePicker extends React.Component<
                                     />
                                 </CalBody>
                             </div>
-                        </DropDown>
+                        </Dropdown>
                     )}
             </div>
         );

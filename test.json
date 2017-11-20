@@ -1,0 +1,80 @@
+[
+    {
+        "displayName": "SingleDatePickerControl",
+        "description": "",
+        "props": {
+            "children": {
+                "required": false,
+                "type": {
+                    "name": "ReactNode"
+                },
+                "description": "",
+                "defaultValue": null
+            },
+            "date": {
+                "required": false,
+                "type": {
+                    "name": "Date | undefined"
+                },
+                "description": "",
+                "defaultValue": null
+            },
+            "onDateChange": {
+                "required": false,
+                "type": {
+                    "name": "((day: Date) => void) | undefined"
+                },
+                "description": "",
+                "defaultValue": null
+            },
+            "showDropdowns": {
+                "required": false,
+                "type": {
+                    "name": "boolean | undefined"
+                },
+                "description": "",
+                "defaultValue": null
+            },
+            "showWeekNumbers": {
+                "required": false,
+                "type": {
+                    "name": "boolean | undefined"
+                },
+                "description": "",
+                "defaultValue": null
+            },
+            "showISOWeekNumbers": {
+                "required": false,
+                "type": {
+                    "name": "boolean | undefined"
+                },
+                "description": "",
+                "defaultValue": null
+            },
+            "minDate": {
+                "required": false,
+                "type": {
+                    "name": "Date | undefined"
+                },
+                "description": "",
+                "defaultValue": null
+            },
+            "maxDate": {
+                "required": false,
+                "type": {
+                    "name": "Date | undefined"
+                },
+                "description": "",
+                "defaultValue": null
+            },
+            "locale": {
+                "required": false,
+                "type": {
+                    "name": "{ ordinalNumber: Function; weekday: Function; weekdays: Function; month: Function; months: Functi..."
+                },
+                "description": "",
+                "defaultValue": null
+            }
+        }
+    }
+]

@@ -8,10 +8,10 @@ import {
     DateRangePickerControl,
     DateRangePickerControlProps
 } from './DateRangePickerControl';
-import { DropDown, DropDownProps } from './Dropdown';
+import { Dropdown, DropdownProps } from './Dropdown';
 import { DEFAULT_FORMAT, Overwrite, callIfExists, parseDate } from './helpers';
 
-export type PickedDropDownProps = Partial<Pick<DropDownProps, 'opens' | 'drops'>>;
+export type PickedDropDownProps = Partial<Pick<DropdownProps, 'opens' | 'drops'>>;
 
 export interface Range {
     startDate: (today: Date) => Date;
@@ -29,21 +29,53 @@ export type ControlProps = Partial<
 >;
 
 export interface DateRangePickerProps extends PickedDropDownProps, ControlProps {
+    /**
+     * Callback for when the picker is shown
+     */
     onShow?: () => void;
+    /**
+     * Callback for when the picker is hidden
+     */
     onHide?: () => void;
+    /**
+     * TODO: implement this feature
+     */
     onCalendarShow?: () => void;
+    /**
+     * TODO: implement this feature
+     */
     onCalenderHide?: () => void;
+    /**
+     * TODO: implement this feature
+     */
     ranges?: Record<string, Range>;
+    /**
+     * TODO: implement this feature
+     */
     showCustomRangeLabel?: boolean;
+    /**
+     * TODO: implement this feature
+     */
     alwaysShowCalendars?: boolean;
+    /**
+     * The format used to parse date strings
+     * @default "YYYY-MM-DD"
+     */
     format?: string;
+    /**
+     * The text to be displayed as a separator
+     * @default "→"
+     */
     separator?: string;
+    /**
+     * TODO: implement this feature
+     */
     customRangeLabel?: string;
 }
 
 export interface DateRangePickerState {
     showDropdown: boolean;
-    position: DropDownProps['position'] | null;
+    position: DropdownProps['position'] | null;
     startDate?: Date;
     endDate?: Date;
 }
@@ -182,7 +214,7 @@ export class DateRangePicker extends React.Component<DateRangePickerProps, DateR
                 </div>
                 {showDropdown &&
                     position && (
-                        <DropDown
+                        <Dropdown
                             opens={opens || 'left'}
                             drops={drops || 'down'}
                             position={position}
@@ -200,7 +232,7 @@ export class DateRangePicker extends React.Component<DateRangePickerProps, DateR
                                     />
                                 </CalBody>
                             </div>
-                        </DropDown>
+                        </Dropdown>
                     )}
             </div>
         );
