@@ -19,10 +19,10 @@ export const SingleDatePickerControlDocs = {
             "description": "",
             "defaultValue": null
         },
-        "locale": {
+        "daysOfWeek": {
             "required": false,
             "type": {
-                "name": "{ ordinalNumber: Function; weekday: Function; weekdays: Function; month: Function; months: Functi..."
+                "name": "string[]"
             },
             "description": "Localization settings (*localize* object from `date-fns`)\n`import { localize } from date-fns/locale/{lang}`",
             "defaultValue": null
@@ -41,6 +41,14 @@ export const SingleDatePickerControlDocs = {
                 "name": "Date"
             },
             "description": "The earliest date a user may select",
+            "defaultValue": null
+        },
+        "monthNames": {
+            "required": false,
+            "type": {
+                "name": "string[]"
+            },
+            "description": "Localization settings (*localize* object from `date-fns`)\n`import { localize } from date-fns/locale/{lang}`",
             "defaultValue": null
         },
         "onDateChange": {
@@ -93,9 +101,17 @@ export const SingleDatePickerDocs = {
         "date": {
             "required": false,
             "type": {
-                "name": "string | Date"
+                "name": "Date"
             },
             "description": "",
+            "defaultValue": null
+        },
+        "daysOfWeek": {
+            "required": false,
+            "type": {
+                "name": "string[]"
+            },
+            "description": "Localization settings (*localize* object from `date-fns`)\n`import { localize } from date-fns/locale/{lang}`",
             "defaultValue": null
         },
         "drops": {
@@ -111,17 +127,9 @@ export const SingleDatePickerDocs = {
         "format": {
             "required": false,
             "type": {
-                "name": "string"
+                "name": "(date: Date) => string"
             },
             "description": "",
-            "defaultValue": null
-        },
-        "locale": {
-            "required": false,
-            "type": {
-                "name": "{ ordinalNumber: Function; weekday: Function; weekdays: Function; month: Function; months: Functi..."
-            },
-            "description": "Localization settings (*localize* object from `date-fns`)\n`import { localize } from date-fns/locale/{lang}`",
             "defaultValue": null
         },
         "maxDate": {
@@ -138,6 +146,14 @@ export const SingleDatePickerDocs = {
                 "name": "Date"
             },
             "description": "The earliest date a user may select",
+            "defaultValue": null
+        },
+        "monthNames": {
+            "required": false,
+            "type": {
+                "name": "string[]"
+            },
+            "description": "Localization settings (*localize* object from `date-fns`)\n`import { localize } from date-fns/locale/{lang}`",
             "defaultValue": null
         },
         "onDateChange": {
@@ -213,6 +229,14 @@ export const DateRangePickerControlDocs = {
             "description": "",
             "defaultValue": null
         },
+        "daysOfWeek": {
+            "required": false,
+            "type": {
+                "name": "string[]"
+            },
+            "description": "Localization settings (*localize* object from `date-fns`)\n`import { localize } from date-fns/locale/{lang}`",
+            "defaultValue": null
+        },
         "endDate": {
             "required": false,
             "type": {
@@ -231,14 +255,6 @@ export const DateRangePickerControlDocs = {
                 "value": "false"
             }
         },
-        "locale": {
-            "required": false,
-            "type": {
-                "name": "{ ordinalNumber: Function; weekday: Function; weekdays: Function; month: Function; months: Functi..."
-            },
-            "description": "Localization settings (*localize* object from `date-fns`)\n`import { localize } from date-fns/locale/{lang}`",
-            "defaultValue": null
-        },
         "maxDate": {
             "required": false,
             "type": {
@@ -253,6 +269,14 @@ export const DateRangePickerControlDocs = {
                 "name": "Date"
             },
             "description": "The earliest date a user may select",
+            "defaultValue": null
+        },
+        "monthNames": {
+            "required": false,
+            "type": {
+                "name": "string[]"
+            },
+            "description": "Localization settings (*localize* object from `date-fns`)\n`import { localize } from date-fns/locale/{lang}`",
             "defaultValue": null
         },
         "onDatesChange": {
@@ -326,6 +350,14 @@ export const DateRangePickerDocs = {
             "description": "TODO: implement this feature",
             "defaultValue": null
         },
+        "daysOfWeek": {
+            "required": false,
+            "type": {
+                "name": "string[]"
+            },
+            "description": "Localization settings (*localize* object from `date-fns`)\n`import { localize } from date-fns/locale/{lang}`",
+            "defaultValue": null
+        },
         "drops": {
             "required": false,
             "type": {
@@ -339,7 +371,7 @@ export const DateRangePickerDocs = {
         "endDate": {
             "required": false,
             "type": {
-                "name": "string | Date"
+                "name": "Date"
             },
             "description": "The end of the initially selected date range",
             "defaultValue": null
@@ -347,7 +379,7 @@ export const DateRangePickerDocs = {
         "format": {
             "required": false,
             "type": {
-                "name": "string"
+                "name": "(date: Date) => string"
             },
             "description": "The format used to parse date strings",
             "defaultValue": {
@@ -364,14 +396,6 @@ export const DateRangePickerDocs = {
                 "value": "false"
             }
         },
-        "locale": {
-            "required": false,
-            "type": {
-                "name": "{ ordinalNumber: Function; weekday: Function; weekdays: Function; month: Function; months: Functi..."
-            },
-            "description": "Localization settings (*localize* object from `date-fns`)\n`import { localize } from date-fns/locale/{lang}`",
-            "defaultValue": null
-        },
         "maxDate": {
             "required": false,
             "type": {
@@ -386,6 +410,14 @@ export const DateRangePickerDocs = {
                 "name": "Date"
             },
             "description": "The earliest date a user may select",
+            "defaultValue": null
+        },
+        "monthNames": {
+            "required": false,
+            "type": {
+                "name": "string[]"
+            },
+            "description": "Localization settings (*localize* object from `date-fns`)\n`import { localize } from date-fns/locale/{lang}`",
             "defaultValue": null
         },
         "onCalendarShow": {
@@ -491,7 +523,7 @@ export const DateRangePickerDocs = {
         "startDate": {
             "required": false,
             "type": {
-                "name": "string | Date"
+                "name": "Date"
             },
             "description": "The start of the initially selected date range",
             "defaultValue": null

@@ -106,7 +106,7 @@ export function ISODateString(date: Date): string {
 }
 
 export const LOCALE_EN = {
-    daysOfWeek: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    daysOfWeek: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
     monthNames: [
         'January',
         'February',
