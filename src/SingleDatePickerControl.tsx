@@ -35,9 +35,9 @@ export interface SingleDatePickerControlState {
  * import { SingleDatePickerControl } from 'react-daterange';
  *
  * class MyDatePicker extends React.component {
- *      render() {
- *          return <SingleDatePickerControl />;
- *      }
+ * \t\trender() {
+ * \t\t\t\treturn <SingleDatePickerControl />;
+ * \t\t;}
  * }
  */
 export class SingleDatePickerControl extends React.Component<

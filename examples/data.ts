@@ -1,7 +1,7 @@
 // This is automatically generated using './scripts/docs.js', please do not change anything here
 export const SingleDatePickerControlDocs = {
     "displayName": "SingleDatePickerControl",
-    "description": "SingleDatePickerControl component\n@example import React from 'react';\nimport { SingleDatePickerControl } from 'react-daterange';\n\nclass MyDatePicker extends React.component {\nrender() {\nreturn <SingleDatePickerControl />;\n}\n}",
+    "description": "SingleDatePickerControl component\n@example import React from 'react';\nimport { SingleDatePickerControl } from 'react-daterange';\n\nclass MyDatePicker extends React.component {\n\\t\\trender() {\n\\t\\t\\t\\treturn <SingleDatePickerControl />;\n\\t\\t;}\n}",
     "props": {
         "children": {
             "required": false,

@@ -1,32 +1,18 @@
-import { css } from 'glamor';
 import glamorous from 'glamorous';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { NavLink, Route, HashRouter as Router, Switch } from 'react-router-dom';
+import { addLanguage } from 'illuminate-js';
+import { javascript } from 'illuminate-js/lib/languages/javascript';
+
+import './styles';
 
 import { DateRangePickerControlExample } from './DateRangePickerControlExample';
 import DateRangePickerExample from './DateRangePickerExample';
 import { SingleDatePickerControlExample } from './SingleDatePickerControlExample';
 import { SingleDatePickerExample } from './SingleDatePickerExample';
 
-css.global('code', {
-    padding: '4px',
-    display: 'inline-block',
-    borderRadius: '2px',
-    color: 'crimson',
-    whiteSpace: 'nowrap',
-    fontSize: '0.85rem'
-});
-
-css.global('pre', {
-    padding: '24px 12px',
-    display: 'block',
-    borderRadius: '2px',
-    color: 'crimson',
-    overflow: 'auto',
-    background: '#eee',
-    fontSize: '0.85rem'
-});
+addLanguage('js', javascript);
 
 const Container = glamorous('div')({
     display: 'flex',

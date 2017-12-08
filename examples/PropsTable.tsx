@@ -1,5 +1,7 @@
 import * as React from 'react';
 import snarkdown from 'snarkdown';
+
+import { Illuminate } from 'react-illuminate';
 export interface IPropsTableProps {
     docs: any;
 }
@@ -44,7 +46,7 @@ export class PropsTable extends React.Component<IPropsTableProps> {
                 {usage && (
                     <div>
                         <h2>Usage</h2>
-                        <pre>{usage}</pre>
+                        <Illuminate lang="js">{usage.replace(/\\t/g, ' ')}</Illuminate>
                     </div>
                 )}
                 <h2>API</h2>
