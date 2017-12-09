@@ -31,13 +31,28 @@ export interface SingleDatePickerControlState {
 /**
  * SingleDatePickerControl component
  * @example
- * import React from 'react';
+ *
  * import { SingleDatePickerControl } from 'react-daterange';
  *
  * class MyDatePicker extends React.component {
- * \t\trender() {
- * \t\t\t\treturn <SingleDatePickerControl />;
- * \t\t;}
+ *   constructor(props) {
+ *     super(props);
+ *     this.state = {
+ *       date: null
+ *     };
+ *   }
+ *
+ *   handleDateChange = (date) => {
+ *     this.setState({ date });
+ *   }
+ *
+ *   render() {
+ *     return (
+ *       <SingleDatePickerControl
+ *         onDateChange={this.handleDateChange}
+ *       />
+ *     );
+ *   }
  * }
  */
 export class SingleDatePickerControl extends React.Component<

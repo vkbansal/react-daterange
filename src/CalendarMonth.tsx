@@ -1,7 +1,6 @@
-import glamorous, { CSSProperties, ExtraGlamorousProps, GlamorousComponent } from 'glamorous';
 import * as React from 'react';
+import * as cx from 'classnames';
 
-import { NavButton } from './Common';
 import {
     LOCALE_EN,
     addDays,
@@ -15,111 +14,6 @@ import {
     setMonth,
     startOfMonth
 } from './helpers';
-
-const SIZE = 38;
-const sizeInPixels = `${SIZE}px`;
-
-// explicitly defined type for declarations to work
-export const Month: GlamorousComponent<React.HTMLProps<HTMLDivElement>, {}> = glamorous('div')(
-    'rdr-calendar-month',
-    {
-        display: 'inline-flex',
-        alignItems: 'flex-start',
-        padding: '0 16px',
-        background: '#fff',
-        minHeight: `${SIZE * 8}px`
-    }
-);
-
-Month.displayName = 'Month';
-
-export interface RowProps {
-    justifyContent?: CSSProperties['justifyContent'];
-}
-
-export const Row = glamorous('div')<RowProps>(
-    'rdr-calendar-row',
-    {
-        display: 'flex'
-    },
-    props => ({
-        justifyContent: props.justifyContent || 'flex-start'
-    })
-);
-
-Row.displayName = 'Row';
-
-export interface CellProps {
-    span?: number;
-    justifyContent?: CSSProperties['justifyContent'];
-}
-
-export const Cell = glamorous('div')<CellProps>(
-    'rdr-calendar-cell',
-    {
-        height: sizeInPixels,
-        lineHeight: sizeInPixels,
-        fontWeight: 'bold',
-        fontSize: '14px',
-        textAlign: 'center',
-        display: 'flex'
-    },
-    props => ({
-        width: `${SIZE * (props.span || 1)}px`,
-        justifyContent: props.justifyContent || 'center'
-    })
-);
-
-Cell.displayName = 'Cell';
-
-export interface DayProps {
-    selected?: boolean;
-    inRange?: boolean;
-    isDisabled?: boolean;
-}
-
-// explicitly defined type for declarations to work
-export const Day: GlamorousComponent<
-    React.HTMLProps<HTMLDivElement> & object & CellProps & ExtraGlamorousProps & DayProps,
-    DayProps
-> = glamorous(Cell)<DayProps>(
-    'rdr-calendar-day',
-    {
-        width: `${SIZE + 1}px`,
-        height: `${SIZE + 1}px`,
-        lineHeight: `${SIZE + 1}px`,
-        fontWeight: 'normal',
-        border: '1px solid #ddd',
-        marginTop: '-1px',
-        marginLeft: '-1px',
-        '&:last-child': {
-            borderRight: '1px solid #ddd'
-        }
-    },
-    props => ({
-        cursor: props.isDisabled ? 'not-allowed' : 'pointer',
-        textDecoration: props.isDisabled ? 'line-through' : 'none',
-        color: props.isDisabled ? '#ddd' : props.selected ? '#fff' : '#222',
-        background: props.selected
-            ? 'rgb(0, 202, 255)'
-            : props.inRange ? 'rgba(0, 202, 255, 0.3)' : 'transparent',
-        '&:hover': {
-            background: props.isDisabled
-                ? 'transparent'
-                : props.selected ? 'rgb(0, 202, 255)' : '#ddd'
-        }
-    })
-);
-
-Day.displayName = 'Day';
-
-export const Select = glamorous('select')('rdr-calendar-select', {
-    background: 'transparent',
-    border: 'none',
-    outline: 'none'
-});
-
-Select.displayName = 'Select';
 
 export interface CalendarMonthProps {
     /**
@@ -241,7 +135,12 @@ export class CalendarMonth extends React.Component<CalendarMonthProps> {
         const localeMonthNames = monthNames || LOCALE_EN.monthNames;
 
         return [
-            <Select key="months" value={firstDay.getMonth()} onChange={this.handleMonthChange}>
+            <select
+                className="rdr-calendar-select"
+                key="months"
+                value={firstDay.getMonth()}
+                onChange={this.handleMonthChange}
+            >
                 {localeMonthNames.map((m, i) => {
                     const isDisabled =
                         (minDate && isDayBefore(setMonth(month, i), minDate)) ||
@@ -253,8 +152,13 @@ export class CalendarMonth extends React.Component<CalendarMonthProps> {
                         </option>
                     );
                 })}
-            </Select>,
-            <Select key="years" value={firstDay.getFullYear()} onChange={this.handleYearChange}>
+            </select>,
+            <select
+                className="rdr-calendar-select"
+                key="years"
+                value={firstDay.getFullYear()}
+                onChange={this.handleYearChange}
+            >
                 {range(
                     minDate ? minDate.getFullYear() : firstDay.getFullYear() - 50,
                     maxDate ? maxDate.getFullYear() + 1 : firstDay.getFullYear() + 5
@@ -265,7 +169,7 @@ export class CalendarMonth extends React.Component<CalendarMonthProps> {
                         </option>
                     );
                 })}
-            </Select>
+            </select>
         ];
     };
 
@@ -323,7 +227,7 @@ export class CalendarMonth extends React.Component<CalendarMonthProps> {
         const weeks = getWeeksInMonth(firstDate, showISOWeek);
 
         return (
-            <Month>
+            <div className="rdr-calendar-month">
                 {/* showWeekNumbers && (
                     <div>
                         <Cell />
@@ -335,36 +239,40 @@ export class CalendarMonth extends React.Component<CalendarMonthProps> {
                         })}
                     </div>
                 )*/}
-                <div>
-                    <Row>
-                        <Cell>
-                            {!hidePrevButton && (
-                                <NavButton onClick={this.handlePrevClick}>&#8592;</NavButton>
-                            )}
-                        </Cell>
-                        <Cell span={5} justifyContent={showDropdowns ? 'space-around' : 'center'}>
-                            {showDropdowns
-                                ? this.renderDropDowns(firstDate)
-                                : `${monthName} ${firstDate.getFullYear()}`}
-                        </Cell>
-                        <Cell>
-                            {!hideNextButton && (
-                                <NavButton onClick={this.handleNextClick}>&#8594;</NavButton>
-                            )}
-                        </Cell>
-                    </Row>
-                    <Row>
-                        {range(0, 7).map(i => (
-                            <Cell key={`${key}-day-${i}`}>
-                                {localeDaysOfWeek[showISOWeek ? (i + 1) % 7 : i]}
-                            </Cell>
-                        ))}
-                    </Row>
+                <div className="rdr-calendar-row">
+                    <div className="rdr-calendar-cell">
+                        {!hidePrevButton && (
+                            <button className="rdr-nav-button" onClick={this.handlePrevClick}>
+                                &#8592;
+                            </button>
+                        )}
+                    </div>
+                    <div
+                        className="rdr-calendar-cell rdr-month-name"
+                        style={{ justifyContent: showDropdowns ? 'space-around' : 'center' }}
+                    >
+                        {showDropdowns
+                            ? this.renderDropDowns(firstDate)
+                            : `${monthName} ${firstDate.getFullYear()}`}
+                    </div>
+                    <div>
+                        {!hideNextButton && (
+                            <button className="rdr-nav-button" onClick={this.handleNextClick}>
+                                &#8594;
+                            </button>
+                        )}
+                    </div>
+                </div>
+                <div className="rdr-calendar-row">
+                    {range(0, 7).map(i => (
+                        <div className="rdr-calendar-cell" key={`${key}-day-${i}`}>
+                            {localeDaysOfWeek[showISOWeek ? (i + 1) % 7 : i]}
+                        </div>
+                    ))}
+                </div>
+                <div className="rdr-calender-weeks">
                     {range(0, weeks).map(i => (
-                        <Row
-                            key={`${key}-${i}`}
-                            justifyContent={i === 0 ? 'flex-end' : 'flex-start'}
-                        >
+                        <div key={`${key}-${i}`} className="rdr-calendar-row rdr-calendar-week">
                             {range(0, 7).map(j => {
                                 const day = addDays(firstDate, i * 7 + j - firstDayInCurrentMonth);
 
@@ -384,24 +292,26 @@ export class CalendarMonth extends React.Component<CalendarMonthProps> {
                                     (maxDate && isDayAfter(day, maxDate));
 
                                 return (
-                                    <Day
+                                    <div
+                                        className={cx('rdr-calendar-cell rdr-calendar-day', {
+                                            'rdr-calendar-day--selected': selected,
+                                            'rdr-calendar-day--in-range': inRange,
+                                            'rdr-calendar-day--disabled': isDisabled
+                                        })}
                                         key={`${key}-${i}-${j}`}
-                                        selected={selected}
-                                        inRange={inRange}
                                         onClick={!isDisabled ? this.handleDayClick(day) : undefined}
                                         onMouseEnter={
                                             !isDisabled ? this.handleDayHover(day) : undefined
                                         }
-                                        isDisabled={isDisabled}
                                     >
                                         {day.getDate()}
-                                    </Day>
+                                    </div>
                                 );
                             })}
-                        </Row>
+                        </div>
                     ))}
                 </div>
-            </Month>
+            </div>
         );
     }
 }

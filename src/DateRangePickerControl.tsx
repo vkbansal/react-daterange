@@ -1,4 +1,3 @@
-import glamorous from 'glamorous';
 import * as React from 'react';
 
 import { CalendarMonth, CalendarMonthProps } from './CalendarMonth';
@@ -13,11 +12,6 @@ import {
     setYear,
     startOfMonth
 } from './helpers';
-
-const ControlWrapper = glamorous('div')('rdr-range-control', {
-    display: 'flex',
-    alignItems: 'flex-start'
-});
 
 export interface DateRange {
     startDate: Date;
@@ -225,7 +219,7 @@ export class DateRangePickerControl extends React.Component<
         };
 
         return (
-            <ControlWrapper>
+            <div className="rdr-range-control-wrapper">
                 <CalendarMonth
                     {...commonProps}
                     month={monthLeft}
@@ -250,7 +244,7 @@ export class DateRangePickerControl extends React.Component<
                         isSameMonth(monthRight, monthLeft)
                     }
                 />
-            </ControlWrapper>
+            </div>
         );
     }
 }

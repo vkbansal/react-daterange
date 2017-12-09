@@ -1,6 +1,6 @@
-import glamorous from 'glamorous';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import * as cx from 'classnames';
 
 export interface DropdownProps {
     position: {
@@ -22,57 +22,6 @@ export interface DropdownProps {
      */
     drops: 'down' | 'up';
 }
-
-const DropdownWrapper = glamorous('div')<DropdownProps>(
-    'rdr-dropdown',
-    {
-        position: 'absolute',
-        background: '#fff',
-        padding: '4px 8px 24px 8px',
-        filter: 'drop-shadow(0 2px 5px rgba(0, 0, 0, 0.1))',
-        '&::before': {
-            content: '""',
-            position: 'absolute',
-            width: 0,
-            height: 0,
-            border: '8px solid transparent'
-        }
-    },
-    props => ({
-        top:
-            props.drops === 'down'
-                ? `${(props.position.bottom + window.scrollY + 8).toFixed(2)}px`
-                : 'auto',
-        bottom: props.drops === 'up' ? `${(props.position.top - 8).toFixed(2)}px` : 'auto',
-        right: props.opens === 'right' ? `${props.position.right.toFixed(2)}px` : 'auto',
-        left: (() => {
-            if (props.opens === 'left') {
-                return `${props.position.left.toFixed(2)}px`;
-            }
-
-            if (props.opens === 'center') {
-                return `${(props.position.left + props.position.width / 2).toFixed(2)}px`;
-            }
-
-            return 'auto';
-        })(),
-        '&::before': {
-            borderBottomColor: props.drops === 'down' ? '#fff' : 'transparent',
-            top: props.drops === 'down' ? '-16px' : 'auto',
-            left: (() => {
-                if (props.opens === 'left') {
-                    return '8px';
-                }
-
-                if (props.opens === 'center') {
-                    return '50%';
-                }
-
-                return 'auto';
-            })()
-        }
-    })
-);
 
 export class Dropdown extends React.Component<DropdownProps> {
     private root: HTMLDivElement;
@@ -96,8 +45,42 @@ export class Dropdown extends React.Component<DropdownProps> {
         delete this.root;
     }
 
+    computePosition(props: DropdownProps) {
+        return {
+            top:
+                props.drops === 'down'
+                    ? `${(props.position.bottom + window.scrollY + 8).toFixed(2)}px`
+                    : 'auto',
+            bottom: props.drops === 'up' ? `${(props.position.top - 8).toFixed(2)}px` : 'auto',
+            right: props.opens === 'right' ? `${props.position.right.toFixed(2)}px` : 'auto',
+            left: (() => {
+                if (props.opens === 'left') {
+                    return `${props.position.left.toFixed(2)}px`;
+                }
+
+                if (props.opens === 'center') {
+                    return `${(props.position.left + props.position.width / 2).toFixed(2)}px`;
+                }
+
+                return 'auto';
+            })()
+        };
+    }
+
     render() {
-        const dropdown = <DropdownWrapper {...this.props}>{this.props.children}</DropdownWrapper>;
+        const classes = cx('rdr-dropdown', {
+            'rdr-dropdown--left': this.props.opens === 'left',
+            'rdr-dropdown--right': this.props.opens === 'right',
+            'rdr-dropdown--center': this.props.opens === 'center',
+            'rdr-dropdown--up': this.props.drops === 'up',
+            'rdr-dropdown--down': this.props.drops === 'down'
+        });
+
+        const dropdown = (
+            <div className={classes} style={this.computePosition(this.props)}>
+                {this.props.children}
+            </div>
+        );
         return ReactDOM.createPortal(dropdown, this.root);
     }
 }

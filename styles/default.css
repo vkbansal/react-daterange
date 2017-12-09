@@ -1,0 +1,166 @@
+* {
+    box-sizing: border-box;
+}
+
+.rdr-calendar-head {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.rdr-calendar-body {
+    display: flex;
+}
+
+.rdr-nav-button {
+    background: transparent;
+    border: none;
+    font-weight: bold;
+    fontsize: 18px;
+    outline: none;
+    cursor: pointer;
+    width: 42px;
+    height: 42px;
+    line-height: 42px;
+}
+
+.rdr-nav-button--close {
+    width: 32px;
+    line-height: 32px;
+    height: 32px;
+}
+
+.rdr-input {
+    display: inline-block;
+    border: 1px solid #cecece;
+    background: #fff;
+    fontsize: 14px;
+    line-height: 18px;
+    padding: 8px;
+}
+
+.rdr-input:focus {
+    outline: none;
+}
+
+.rdr-seperator {
+    padding: 8px;
+    line-height: 18px;
+    border: 1px solid;
+    border-color: #cecece transparent;
+}
+
+.rdr-range-control-wrapper {
+    display: flex;
+    align-items: flex-start;
+}
+
+.rdr-dropdown {
+    position: absolute;
+    background: #fff;
+    padding: 4px 8px 24px 8px;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.1));
+}
+.rdr-dropdown::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border: 8px solid transparent;
+}
+
+.rdr-dropdown.rdr-dropdown--left::before {
+    left: 8px;
+}
+
+.rdr-dropdown.rdr-dropdown--right::before {
+}
+
+.rdr-dropdown.rdr-dropdown--center::before {
+    left: 50%;
+}
+
+.rdr-dropdown.rdr-dropdown--up::before {
+}
+
+.rdr-dropdown.rdr-dropdown--down::before {
+    top: -16px;
+    border-bottom-color: #fff;
+}
+
+.rdr-calendar-month {
+    display: inline-flex;
+    align-items: flex-start;
+    flex-flow: column;
+    padding: 0 16px;
+    background: #fff;
+    min-height: 304px;
+}
+
+.rdr-calendar-row {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.rdr-calendar-week:first-child {
+    justify-content: flex-end;
+}
+
+.rdr-calendar-cell {
+    height: 38px;
+    width: 38px;
+    line-height: 38px;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+}
+
+.rdr-calendar-cell.rdr-month-name {
+    width: 190px;
+}
+
+.rdr-calendar-day {
+    height: 39px;
+    width: 39px;
+    line-height: 39px;
+    margin: -1px 0 0 -1px;
+    font-weight: normal;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    color: #222;
+    background: transparent;
+    transition: background 0.2s ease-out;
+}
+
+.rdr-calendar-day:hover {
+    background: #ddd;
+}
+
+.rdr-calendar-day.rdr-calendar-day--selected {
+    color: #fff;
+    background: rgb(0, 202, 255);
+}
+
+.rdr-calendar-day.rdr-calendar-day--selected:hover {
+    background: rgb(0, 202, 255);
+}
+
+.rdr-calendar-day.rdr-calendar-day--in-range {
+    background: rgba(0, 202, 255, 0.3);
+}
+
+.rdr-calendar-day.rdr-calendar-day--disabled {
+    cursor: not-allowed;
+    text-decoration: line-through;
+    color: #ddd;
+}
+
+.rdr-calendar-day.rdr-calendar-day--disabled:hover {
+    background: transparent;
+}
+
+.rdr-calendar-select {
+    background: transparent;
+    border: none;
+    outline: none;
+}

@@ -44,6 +44,7 @@
     "react-dom": "^16.0.0"
   },
   "devDependencies": {
+    "@types/classnames": "^2.2.3",
     "@types/enzyme": "^3.1.5",
     "@types/jest": "^21.1.8",
     "@types/lodash.defaults": "^4.2.3",
@@ -83,6 +84,7 @@
     "webpack-dev-server": "^2.9.7"
   },
   "dependencies": {
+    "classnames": "^2.2.5",
     "shallowequal": "^1.0.2"
   },
   "importSort": {

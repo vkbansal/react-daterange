@@ -1,8 +1,7 @@
 import { shallow } from 'enzyme';
 import * as React from 'react';
 
-import { CalendarMonth, Cell, Day, Select } from '../CalendarMonth';
-import { NavButton } from '../Common';
+import { CalendarMonth } from '../CalendarMonth';
 
 const shortMonths = [
     'Jan',
@@ -20,7 +19,7 @@ const shortMonths = [
 ];
 const shortDays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 
-describe('<Month/>', () => {
+describe('<CalenderMonth /> tests', () => {
     const month = new Date(2017, 0 /* Jan */, 1, 0, 0, 0, 0);
     test('renders given month', () => {
         const component = shallow(<CalendarMonth month={month} />);
@@ -28,48 +27,23 @@ describe('<Month/>', () => {
     });
 
     describe('Localization', () => {
-        test('accepts only Array of length 7 for `daysOfWeek`', () => {
-            expect(() =>
-                shallow(<CalendarMonth month={month} locale={{ daysOfWeek: [] }} />)
-            ).toThrow();
-            expect(() =>
-                shallow(<CalendarMonth month={month} locale={{ daysOfWeek: shortDays }} />)
-            ).not.toThrow();
-        });
-
-        test('accepts only Array of length 7 for `monthName`', () => {
-            expect(() =>
-                shallow(<CalendarMonth month={month} locale={{ monthNames: [] }} />)
-            ).toThrow();
-            expect(() =>
-                shallow(<CalendarMonth month={month} locale={{ monthNames: shortMonths }} />)
-            ).not.toThrow();
-        });
-
         test('renders given `daysOfWeek`', () => {
-            const component = shallow(
-                <CalendarMonth month={month} locale={{ daysOfWeek: shortDays }} />
-            );
+            const component = shallow(<CalendarMonth month={month} daysOfWeek={shortDays} />);
             expect(
                 component
-                    .find(Cell)
-                    .slice(3)
-                    .map(c => c.shallow().text())
+                    .find('.rdr-calendar-row')
+                    .at(1)
+                    .children()
+                    .map(c => c.text())
             ).toEqual(shortDays);
             expect(component).toMatchSnapshot();
         });
 
         test('renders given `monthNames`', () => {
-            const component = shallow(
-                <CalendarMonth month={month} locale={{ monthNames: shortMonths }} />
+            const component = shallow(<CalendarMonth month={month} monthNames={shortMonths} />);
+            expect(component.find('.rdr-month-name').text()).toBe(
+                `${shortMonths[month.getMonth()]} ${month.getFullYear()}`
             );
-            expect(
-                component
-                    .find(Cell)
-                    .at(1)
-                    .shallow()
-                    .text()
-            ).toBe(`${shortMonths[month.getMonth()]} ${month.getFullYear()}`);
             expect(component).toMatchSnapshot();
         });
     });
@@ -82,12 +56,7 @@ describe('<Month/>', () => {
                     startDate={new Date(2017, 0 /* Jan */, 5, 0, 0, 0, 0)}
                 />
             );
-            expect(
-                component
-                    .find(Day)
-                    .map(d => d.prop('selected'))
-                    .filter(d => d).length
-            ).toBe(1);
+            expect(component.find('.rdr-calendar-day--selected').length).toBe(1);
             expect(component).toMatchSnapshot();
         });
 
@@ -99,49 +68,39 @@ describe('<Month/>', () => {
                     endDate={new Date(2017, 0 /* Jan */, 11, 0, 0, 0, 0)}
                 />
             );
-            expect(
-                component
-                    .find(Day)
-                    .map(d => d.prop('selected'))
-                    .filter(d => d).length
-            ).toBe(2);
-            expect(
-                component
-                    .find(Day)
-                    .map(d => d.prop('inRange'))
-                    .filter(d => d).length
-            ).toBe(5);
+            expect(component.find('.rdr-calendar-day--selected').length).toBe(2);
+            expect(component.find('.rdr-calendar-day--in-range').length).toBe(5);
             expect(component).toMatchSnapshot();
         });
 
-        test('mouseover on `Day` triggers callback', () => {
+        test('mouseover on a day triggers callback', () => {
             const onDayHover = jest.fn();
             const component = shallow(<CalendarMonth month={month} onDayHover={onDayHover} />);
             component
-                .find(Day)
+                .find('.rdr-calendar-day')
                 .at(0)
                 .simulate('mouseenter', { preventDefault: jest.fn() });
             expect(onDayHover).toHaveBeenCalledTimes(1);
 
             component
-                .find(Day)
+                .find('.rdr-calendar-day')
                 .at(10)
                 .simulate('mouseenter', { preventDefault: jest.fn() });
             expect(onDayHover).toHaveBeenCalledTimes(2);
 
             component
-                .find(Day)
+                .find('.rdr-calendar-day')
                 .at(23)
                 .simulate('mouseenter', { preventDefault: jest.fn() });
             expect(onDayHover).toHaveBeenCalledTimes(3);
         });
 
-        test('click on `Day` triggers callback', () => {
+        test('click on a day triggers callback', () => {
             const onDayClick = jest.fn();
             const component = shallow(<CalendarMonth month={month} onDayClick={onDayClick} />);
 
             component
-                .find(Day)
+                .find('.rdr-calendar-day')
                 .at(0)
                 .simulate('click', { preventDefault: jest.fn() });
             expect(onDayClick).toHaveBeenCalledTimes(1);
@@ -151,13 +110,13 @@ describe('<Month/>', () => {
     describe('Navigation', () => {
         test('`hidePrevButton` hides prev button', () => {
             const component = shallow(<CalendarMonth month={month} hidePrevButton />);
-            expect(component.find(NavButton).length).toBe(1);
+            expect(component.find('.rdr-nav-button').length).toBe(1);
             expect(component).toMatchSnapshot();
         });
 
         test('`hideNextButton` hides next button', () => {
             const component = shallow(<CalendarMonth month={month} hideNextButton />);
-            expect(component.find(NavButton).length).toBe(1);
+            expect(component.find('.rdr-nav-button').length).toBe(1);
             expect(component).toMatchSnapshot();
         });
 
@@ -167,14 +126,14 @@ describe('<Month/>', () => {
             const component = shallow(
                 <CalendarMonth month={month} onNextClick={onNextClick} onPrevClick={onPrevClick} />
             );
-            expect(component.find(NavButton).length).toBe(2);
+            expect(component.find('.rdr-nav-button').length).toBe(2);
             component
-                .find(NavButton)
+                .find('.rdr-nav-button')
                 .at(0)
                 .simulate('click', { preventDefault: jest.fn() });
             expect(onPrevClick).toHaveBeenCalledTimes(1);
             component
-                .find(NavButton)
+                .find('.rdr-nav-button')
                 .at(1)
                 .simulate('click', { preventDefault: jest.fn() });
             expect(onNextClick).toHaveBeenCalledTimes(1);
@@ -182,7 +141,7 @@ describe('<Month/>', () => {
 
         test('shows dropdowns for navigation', () => {
             const component = shallow(<CalendarMonth month={month} showDropdowns />);
-            expect(component.find(Select).length).toBe(2);
+            expect(component.find('.rdr-calendar-select').length).toBe(2);
             expect(component).toMatchSnapshot();
         });
 
@@ -199,13 +158,13 @@ describe('<Month/>', () => {
             );
 
             component
-                .find(Select)
+                .find('.rdr-calendar-select')
                 .at(0)
                 .simulate('change', { target: { value: '9' } });
             expect(onMonthChange).toHaveBeenCalled();
 
             component
-                .find(Select)
+                .find('.rdr-calendar-select')
                 .at(1)
                 .simulate('change', { target: { value: '2015' } });
             expect(onYearChange).toHaveBeenCalled();

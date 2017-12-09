@@ -1,7 +1,5 @@
-import glamorous from 'glamorous';
 import * as React from 'react';
 
-import { CalBody, CalHeader, CalendarInput, NavButton } from './Common';
 import {
     DateRange,
     DateRangePickerControl,
@@ -74,15 +72,6 @@ export interface DateRangePickerState {
     startDate?: Date;
     endDate?: Date;
 }
-
-const Seperator = glamorous('div')('rdr-seperator', {
-    padding: '8px',
-    lineHeight: '18px',
-    border: '1px solid',
-    borderColor: '#cecece transparent'
-});
-
-Seperator.displayName = 'Seperator';
 
 export class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePickerState> {
     private input: HTMLDivElement;
@@ -183,17 +172,21 @@ export class DateRangePicker extends React.Component<DateRangePickerProps, DateR
         return (
             <div>
                 <div ref={this.inputRef} style={{ display: 'flex' }}>
-                    <CalendarInput
+                    <input
+                        type="text"
+                        className="rdr-input"
                         onFocus={this.handleShowDropdown}
                         placeholder="Start Date"
                         value={startDate ? formatDate(startDate) : ''}
                     />
                     {separator ? (
-                        <Seperator>{separator}</Seperator>
+                        <div className="rdr-seperator">{separator}</div>
                     ) : (
-                        <Seperator>&#8594;</Seperator>
+                        <div className="rdr-seperator">&#8594;</div>
                     )}
-                    <CalendarInput
+                    <input
+                        type="text"
+                        className="rdr-input"
                         onFocus={this.handleShowDropdown}
                         placeholder="End Date"
                         value={endDate ? formatDate(endDate) : ''}
@@ -207,17 +200,20 @@ export class DateRangePicker extends React.Component<DateRangePickerProps, DateR
                             position={position}
                         >
                             <div>
-                                <CalHeader>
-                                    <NavButton height="32px" onClick={this.handleHideDropdown}>
+                                <div className="rdr-calendar-head">
+                                    <button
+                                        className="rdr-nav-button rdr-nav-button--close"
+                                        onClick={this.handleHideDropdown}
+                                    >
                                         &times;
-                                    </NavButton>
-                                </CalHeader>
-                                <CalBody>
+                                    </button>
+                                </div>
+                                <div className="rdr-calendar-body">
                                     <DateRangePickerControl
                                         {...props}
                                         onDatesChange={this.handleDateChange}
                                     />
-                                </CalBody>
+                                </div>
                             </div>
                         </Dropdown>
                     )}
