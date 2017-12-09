@@ -1,8 +1,8 @@
 import { shallow } from 'enzyme';
 import * as React from 'react';
 
-import { CalendarMonth, Cell, Day, Select } from '../src/CalendarMonth';
-import { NavButton } from '../src/Common';
+import { CalendarMonth, Cell, Day, Select } from '../CalendarMonth';
+import { NavButton } from '../Common';
 
 const shortMonths = [
     'Jan',
