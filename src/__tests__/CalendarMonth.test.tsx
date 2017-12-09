@@ -26,6 +26,11 @@ describe('<CalenderMonth /> tests', () => {
         expect(component).toMatchSnapshot();
     });
 
+    test('renders ISO weeks in month', () => {
+        const component = shallow(<CalendarMonth showISOWeek month={month} />);
+        expect(component).toMatchSnapshot();
+    });
+
     describe('Localization', () => {
         test('renders given `daysOfWeek`', () => {
             const component = shallow(<CalendarMonth month={month} daysOfWeek={shortDays} />);
@@ -70,6 +75,41 @@ describe('<CalenderMonth /> tests', () => {
             );
             expect(component.find('.rdr-calendar-day--selected').length).toBe(2);
             expect(component.find('.rdr-calendar-day--in-range').length).toBe(5);
+            expect(component).toMatchSnapshot();
+        });
+
+        test('dates before `minDate` are disabled ', () => {
+            const component = shallow(
+                <CalendarMonth month={month} minDate={new Date(2017, 0 /* Jan */, 5, 0, 0, 0, 0)} />
+            );
+            const disabled = component.find('.rdr-calendar-day--disabled');
+            expect(disabled.length).toBe(4);
+            expect(disabled.map(d => d.text())).toMatchObject(['1', '2', '3', '4']);
+            expect(component).toMatchSnapshot();
+        });
+
+        test('dates after `maxDate` are disabled ', () => {
+            const component = shallow(
+                <CalendarMonth
+                    month={month}
+                    maxDate={new Date(2017, 0 /* Jan */, 20, 0, 0, 0, 0)}
+                />
+            );
+            const disabled = component.find('.rdr-calendar-day--disabled');
+            expect(disabled.length).toBe(11);
+            expect(disabled.map(d => d.text())).toMatchObject([
+                '21',
+                '22',
+                '23',
+                '24',
+                '25',
+                '26',
+                '27',
+                '28',
+                '29',
+                '30',
+                '31'
+            ]);
             expect(component).toMatchSnapshot();
         });
 

@@ -1,5 +1,699 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`<CalenderMonth /> tests Dates dates after \`maxDate\` are disabled  1`] = `
+<div
+  className="rdr-calendar-month"
+>
+  <div
+    className="rdr-calendar-row"
+  >
+    <div
+      className="rdr-calendar-cell"
+    >
+      <button
+        className="rdr-nav-button"
+        onClick={[Function]}
+      >
+        ←
+      </button>
+    </div>
+    <div
+      className="rdr-calendar-cell rdr-month-name"
+      style={
+        Object {
+          "justifyContent": "center",
+        }
+      }
+    >
+      January 2017
+    </div>
+    <div>
+      <button
+        className="rdr-nav-button"
+        onClick={[Function]}
+      >
+        →
+      </button>
+    </div>
+  </div>
+  <div
+    className="rdr-calendar-row"
+  >
+    <div
+      className="rdr-calendar-cell"
+      key="January-2017-day-0"
+    >
+      Sun
+    </div>
+    <div
+      className="rdr-calendar-cell"
+      key="January-2017-day-1"
+    >
+      Mon
+    </div>
+    <div
+      className="rdr-calendar-cell"
+      key="January-2017-day-2"
+    >
+      Tue
+    </div>
+    <div
+      className="rdr-calendar-cell"
+      key="January-2017-day-3"
+    >
+      Wed
+    </div>
+    <div
+      className="rdr-calendar-cell"
+      key="January-2017-day-4"
+    >
+      Thu
+    </div>
+    <div
+      className="rdr-calendar-cell"
+      key="January-2017-day-5"
+    >
+      Fri
+    </div>
+    <div
+      className="rdr-calendar-cell"
+      key="January-2017-day-6"
+    >
+      Sat
+    </div>
+  </div>
+  <div
+    className="rdr-calender-weeks"
+  >
+    <div
+      className="rdr-calendar-row rdr-calendar-week"
+      key="January-2017-0"
+    >
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-0-0"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        1
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-0-1"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        2
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-0-2"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        3
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-0-3"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        4
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-0-4"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        5
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-0-5"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        6
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-0-6"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        7
+      </div>
+    </div>
+    <div
+      className="rdr-calendar-row rdr-calendar-week"
+      key="January-2017-1"
+    >
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-1-0"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        8
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-1-1"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        9
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-1-2"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        10
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-1-3"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        11
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-1-4"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        12
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-1-5"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        13
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-1-6"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        14
+      </div>
+    </div>
+    <div
+      className="rdr-calendar-row rdr-calendar-week"
+      key="January-2017-2"
+    >
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-2-0"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        15
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-2-1"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        16
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-2-2"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        17
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-2-3"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        18
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-2-4"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        19
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-2-5"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        20
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day rdr-calendar-day--disabled"
+        key="January-2017-2-6"
+      >
+        21
+      </div>
+    </div>
+    <div
+      className="rdr-calendar-row rdr-calendar-week"
+      key="January-2017-3"
+    >
+      <div
+        className="rdr-calendar-cell rdr-calendar-day rdr-calendar-day--disabled"
+        key="January-2017-3-0"
+      >
+        22
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day rdr-calendar-day--disabled"
+        key="January-2017-3-1"
+      >
+        23
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day rdr-calendar-day--disabled"
+        key="January-2017-3-2"
+      >
+        24
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day rdr-calendar-day--disabled"
+        key="January-2017-3-3"
+      >
+        25
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day rdr-calendar-day--disabled"
+        key="January-2017-3-4"
+      >
+        26
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day rdr-calendar-day--disabled"
+        key="January-2017-3-5"
+      >
+        27
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day rdr-calendar-day--disabled"
+        key="January-2017-3-6"
+      >
+        28
+      </div>
+    </div>
+    <div
+      className="rdr-calendar-row rdr-calendar-week"
+      key="January-2017-4"
+    >
+      <div
+        className="rdr-calendar-cell rdr-calendar-day rdr-calendar-day--disabled"
+        key="January-2017-4-0"
+      >
+        29
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day rdr-calendar-day--disabled"
+        key="January-2017-4-1"
+      >
+        30
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day rdr-calendar-day--disabled"
+        key="January-2017-4-2"
+      >
+        31
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<CalenderMonth /> tests Dates dates before \`minDate\` are disabled  1`] = `
+<div
+  className="rdr-calendar-month"
+>
+  <div
+    className="rdr-calendar-row"
+  >
+    <div
+      className="rdr-calendar-cell"
+    >
+      <button
+        className="rdr-nav-button"
+        onClick={[Function]}
+      >
+        ←
+      </button>
+    </div>
+    <div
+      className="rdr-calendar-cell rdr-month-name"
+      style={
+        Object {
+          "justifyContent": "center",
+        }
+      }
+    >
+      January 2017
+    </div>
+    <div>
+      <button
+        className="rdr-nav-button"
+        onClick={[Function]}
+      >
+        →
+      </button>
+    </div>
+  </div>
+  <div
+    className="rdr-calendar-row"
+  >
+    <div
+      className="rdr-calendar-cell"
+      key="January-2017-day-0"
+    >
+      Sun
+    </div>
+    <div
+      className="rdr-calendar-cell"
+      key="January-2017-day-1"
+    >
+      Mon
+    </div>
+    <div
+      className="rdr-calendar-cell"
+      key="January-2017-day-2"
+    >
+      Tue
+    </div>
+    <div
+      className="rdr-calendar-cell"
+      key="January-2017-day-3"
+    >
+      Wed
+    </div>
+    <div
+      className="rdr-calendar-cell"
+      key="January-2017-day-4"
+    >
+      Thu
+    </div>
+    <div
+      className="rdr-calendar-cell"
+      key="January-2017-day-5"
+    >
+      Fri
+    </div>
+    <div
+      className="rdr-calendar-cell"
+      key="January-2017-day-6"
+    >
+      Sat
+    </div>
+  </div>
+  <div
+    className="rdr-calender-weeks"
+  >
+    <div
+      className="rdr-calendar-row rdr-calendar-week"
+      key="January-2017-0"
+    >
+      <div
+        className="rdr-calendar-cell rdr-calendar-day rdr-calendar-day--disabled"
+        key="January-2017-0-0"
+      >
+        1
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day rdr-calendar-day--disabled"
+        key="January-2017-0-1"
+      >
+        2
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day rdr-calendar-day--disabled"
+        key="January-2017-0-2"
+      >
+        3
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day rdr-calendar-day--disabled"
+        key="January-2017-0-3"
+      >
+        4
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-0-4"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        5
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-0-5"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        6
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-0-6"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        7
+      </div>
+    </div>
+    <div
+      className="rdr-calendar-row rdr-calendar-week"
+      key="January-2017-1"
+    >
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-1-0"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        8
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-1-1"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        9
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-1-2"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        10
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-1-3"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        11
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-1-4"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        12
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-1-5"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        13
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-1-6"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        14
+      </div>
+    </div>
+    <div
+      className="rdr-calendar-row rdr-calendar-week"
+      key="January-2017-2"
+    >
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-2-0"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        15
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-2-1"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        16
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-2-2"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        17
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-2-3"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        18
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-2-4"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        19
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-2-5"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        20
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-2-6"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        21
+      </div>
+    </div>
+    <div
+      className="rdr-calendar-row rdr-calendar-week"
+      key="January-2017-3"
+    >
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-3-0"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        22
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-3-1"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        23
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-3-2"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        24
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-3-3"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        25
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-3-4"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        26
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-3-5"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        27
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-3-6"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        28
+      </div>
+    </div>
+    <div
+      className="rdr-calendar-row rdr-calendar-week"
+      key="January-2017-4"
+    >
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-4-0"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        29
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-4-1"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        30
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-4-2"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        31
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`<CalenderMonth /> tests Dates shows given \`startDate\` as selected 1`] = `
 <div
   className="rdr-calendar-month"
@@ -2925,6 +3619,373 @@ exports[`<CalenderMonth /> tests Navigation shows dropdowns for navigation 1`] =
       <div
         className="rdr-calendar-cell rdr-calendar-day"
         key="January-2017-4-2"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        31
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<CalenderMonth /> tests renders ISO weeks in month 1`] = `
+<div
+  className="rdr-calendar-month"
+>
+  <div
+    className="rdr-calendar-row"
+  >
+    <div
+      className="rdr-calendar-cell"
+    >
+      <button
+        className="rdr-nav-button"
+        onClick={[Function]}
+      >
+        ←
+      </button>
+    </div>
+    <div
+      className="rdr-calendar-cell rdr-month-name"
+      style={
+        Object {
+          "justifyContent": "center",
+        }
+      }
+    >
+      January 2017
+    </div>
+    <div>
+      <button
+        className="rdr-nav-button"
+        onClick={[Function]}
+      >
+        →
+      </button>
+    </div>
+  </div>
+  <div
+    className="rdr-calendar-row"
+  >
+    <div
+      className="rdr-calendar-cell"
+      key="January-2017-day-0"
+    >
+      Mon
+    </div>
+    <div
+      className="rdr-calendar-cell"
+      key="January-2017-day-1"
+    >
+      Tue
+    </div>
+    <div
+      className="rdr-calendar-cell"
+      key="January-2017-day-2"
+    >
+      Wed
+    </div>
+    <div
+      className="rdr-calendar-cell"
+      key="January-2017-day-3"
+    >
+      Thu
+    </div>
+    <div
+      className="rdr-calendar-cell"
+      key="January-2017-day-4"
+    >
+      Fri
+    </div>
+    <div
+      className="rdr-calendar-cell"
+      key="January-2017-day-5"
+    >
+      Sat
+    </div>
+    <div
+      className="rdr-calendar-cell"
+      key="January-2017-day-6"
+    >
+      Sun
+    </div>
+  </div>
+  <div
+    className="rdr-calender-weeks"
+  >
+    <div
+      className="rdr-calendar-row rdr-calendar-week"
+      key="January-2017-0"
+    >
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-0-6"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        1
+      </div>
+    </div>
+    <div
+      className="rdr-calendar-row rdr-calendar-week"
+      key="January-2017-1"
+    >
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-1-0"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        2
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-1-1"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        3
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-1-2"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        4
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-1-3"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        5
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-1-4"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        6
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-1-5"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        7
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-1-6"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        8
+      </div>
+    </div>
+    <div
+      className="rdr-calendar-row rdr-calendar-week"
+      key="January-2017-2"
+    >
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-2-0"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        9
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-2-1"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        10
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-2-2"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        11
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-2-3"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        12
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-2-4"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        13
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-2-5"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        14
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-2-6"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        15
+      </div>
+    </div>
+    <div
+      className="rdr-calendar-row rdr-calendar-week"
+      key="January-2017-3"
+    >
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-3-0"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        16
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-3-1"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        17
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-3-2"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        18
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-3-3"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        19
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-3-4"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        20
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-3-5"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        21
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-3-6"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        22
+      </div>
+    </div>
+    <div
+      className="rdr-calendar-row rdr-calendar-week"
+      key="January-2017-4"
+    >
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-4-0"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        23
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-4-1"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        24
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-4-2"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        25
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-4-3"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        26
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-4-4"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        27
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-4-5"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        28
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-4-6"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        29
+      </div>
+    </div>
+    <div
+      className="rdr-calendar-row rdr-calendar-week"
+      key="January-2017-5"
+    >
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-5-0"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+      >
+        30
+      </div>
+      <div
+        className="rdr-calendar-cell rdr-calendar-day"
+        key="January-2017-5-1"
         onClick={[Function]}
         onMouseEnter={[Function]}
       >
