@@ -20,6 +20,7 @@
     "esm",
     "lib",
     "esnext",
+    "styles",
     "typings.d.ts"
   ],
   "repository": {
@@ -63,6 +64,7 @@
     "enzyme-to-json": "^3.2.2",
     "extract-text-webpack-plugin": "^3.0.2",
     "glamor": "^2.20.40",
+    "glamor-loader": "^0.1.0",
     "glamorous": "^4.11.0",
     "html-webpack-plugin": "^2.30.1",
     "illuminate-js": "^1.0.0-alpha.0",
