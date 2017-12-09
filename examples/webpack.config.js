@@ -38,14 +38,7 @@ const config = {
             },
             {
                 test: /\.css$/,
-                use: Extract.extract({
-                    fallback: 'style-loader',
-                    use: [
-                        {
-                            loader: 'css-loader'
-                        }
-                    ]
-                })
+                use: 'glamor-loader'
             }
         ]
     },

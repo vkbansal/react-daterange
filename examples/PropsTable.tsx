@@ -41,7 +41,7 @@ export class PropsTable extends React.Component<IPropsTableProps> {
 
         return (
             <div>
-                {desc}
+                <p>{desc}</p>
 
                 {usage && (
                     <div>
@@ -85,7 +85,9 @@ export class PropsTable extends React.Component<IPropsTableProps> {
 
                             return (
                                 <tr key={key}>
-                                    <td>{key}</td>
+                                    <td>
+                                        <code>{key}</code>
+                                    </td>
                                     <td>
                                         <code>{refinedType}</code>
                                     </td>

@@ -101,10 +101,6 @@ pre {
 }
 `);
 
-css.global('#app', {
-    minHeight: '100vh'
-});
-
 css.global('.container pre', {
     margin: '8px -16px'
 });

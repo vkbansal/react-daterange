@@ -87,6 +87,7 @@ export class DRPControlExample extends React.Component<any, OwnState> {
     render() {
         return (
             <div>
+                <h1>DateRangePickerControl</h1>
                 <DateRangePickerControl
                     //showISOWeek
                     showWeekNumbers

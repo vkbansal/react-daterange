@@ -10,6 +10,7 @@ export class SingleDatePickerExample extends React.Component<DateRangePickerExam
     render() {
         return (
             <div>
+                <h1>SingleDatePicker</h1>
                 <SingleDatePicker />
                 <PropsTable docs={SingleDatePickerDocs} />
             </div>

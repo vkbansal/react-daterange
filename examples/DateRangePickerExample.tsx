@@ -6,10 +6,11 @@ import { PropsTable } from './PropsTable';
 
 export interface DateRangePickerExampleProps {}
 
-export default class DateRangePickerExample extends React.Component<DateRangePickerExampleProps> {
+export class DateRangePickerExample extends React.Component<DateRangePickerExampleProps> {
     render() {
         return (
             <div>
+                <h1>DateRangePicker</h1>
                 <DateRangePicker />
                 <PropsTable docs={DateRangePickerDocs} />
             </div>

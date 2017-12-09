@@ -80,6 +80,7 @@ export class SDPControlExample extends React.Component<any, OwnState> {
     render() {
         return (
             <div>
+                <h1>SingleDatePickerControl</h1>
                 <SingleDatePickerControl onDateChange={this.handleDateChange} />
                 <PropsTable docs={SingleDatePickerControlDocs} />
             </div>
