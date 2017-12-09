@@ -8,10 +8,11 @@
   "typings": "./lib/index.d.ts",
   "scripts": {
     "test": "jest --no-cache",
-    "build": "npm run build:es5 && npm run build:es6 && npm run build:esnext",
+    "coverage": "jest --no-cache --coverage",
+    "build": "npm run build:esm && npm run build:cjs && npm run build:esnext",
     "start": "node examples/server.js",
-    "build:es6": "rimraf ./esm && tsc --target es5 --module es6 --outDir ./esm",
-    "build:es5": "rimraf ./lib && tsc --target es5 --module commonjs --outDir ./lib",
+    "build:esm": "rimraf ./esm && tsc --target es5 --module es6 --outDir ./esm",
+    "build:cjs": "rimraf ./lib && tsc --target es5 --module commonjs --outDir ./lib",
     "build:esnext": "rimraf ./esnext && tsc --target es6 --module es6 --outDir ./esnext",
     "prepublishOnly": "npm test && npm run build"
   },
@@ -56,6 +57,7 @@
     "@types/react-router-dom": "^4.2.3",
     "@types/shallowequal": "^0.2.1",
     "cross-env": "^5.1.1",
+    "date-fns": "^2.0.0-alpha.7",
     "enzyme": "^3.2.0",
     "enzyme-adapter-react-16": "^1.1.0",
     "enzyme-to-json": "^3.2.2",
