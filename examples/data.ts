@@ -1,7 +1,7 @@
 // This is automatically generated using './scripts/docs.js', please do not change anything here
 export const SingleDatePickerControlDocs = {
     "displayName": "SingleDatePickerControl",
-    "description": "SingleDatePickerControl component\n@example import React from 'react';\nimport { SingleDatePickerControl } from 'react-daterange';\n\nclass MyDatePicker extends React.component {\n   constructor(props) {\n     super(props);\n     this.state = {\n       date: null\n     };\n   }\n\n   handleDateChange = (date) => {\n     this.setState({ date });\n   }\n\n   render() {\n     return (\n       <SingleDatePickerControl\n         onDateChange={this.handleDateChange}\n       />\n     );\n   }\n}",
+    "description": "SingleDatePickerControl component\n@example import { SingleDatePickerControl } from 'react-daterange';\n\nclass MyDatePicker extends React.component {\n   constructor(props) {\n     super(props);\n     this.state = {\n       date: null\n     };\n   }\n\n   handleDateChange = (date) => {\n     this.setState({ date });\n   }\n\n   render() {\n     return (\n       <SingleDatePickerControl\n         onDateChange={this.handleDateChange}\n       />\n     );\n   }\n}",
     "props": {
         "children": {
             "required": false,
@@ -92,7 +92,7 @@ export const SingleDatePickerControlDocs = {
 
 export const SingleDatePickerDocs = {
     "displayName": "SingleDatePicker",
-    "description": "SingleDatePicker\n@example import React from 'react';\nimport { SingleDatePicker } from 'react-daterange'",
+    "description": "SingleDatePicker\n@example import React from 'react';\nimport { SingleDatePicker } from 'react-daterange';\n\n<SingleDatePicker {...props} />",
     "props": {
         "children": {
             "required": false,
@@ -227,7 +227,7 @@ export const SingleDatePickerDocs = {
 
 export const DateRangePickerControlDocs = {
     "displayName": "DateRangePickerControl",
-    "description": "",
+    "description": "DateRangePickerControl\n@example import React from 'react';\nimport { DateRangePickerControl } from 'react-daterange';\n\n<DateRangePickerControl {...props} />",
     "props": {
         "children": {
             "required": false,
@@ -336,7 +336,7 @@ export const DateRangePickerControlDocs = {
 
 export const DateRangePickerDocs = {
     "displayName": "DateRangePicker",
-    "description": "",
+    "description": "DateRangePicker\n@example import React from 'react';\nimport { DateRangePicker } from 'react-daterange';\n\n<DateRangePicker {...props} />",
     "props": {
         "alwaysShowCalendars": {
             "required": false,

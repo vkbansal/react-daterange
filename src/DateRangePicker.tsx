@@ -17,9 +17,6 @@ export interface Range {
 
 export type ControlProps = Partial<DateRangePickerControlProps>;
 
-/**
- *
- */
 export interface DateRangePickerProps extends PickedDropDownProps, ControlProps {
     /**
      * Callback for when the picker is shown
@@ -73,6 +70,16 @@ export interface DateRangePickerState {
     endDate?: Date;
 }
 
+/**
+ * DateRangePicker
+ *
+ * @example
+ *
+ * import React from 'react';
+ * import { DateRangePicker } from 'react-daterange';
+ *
+ * <DateRangePicker {...props} />
+ */
 export class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePickerState> {
     private input: HTMLDivElement;
 

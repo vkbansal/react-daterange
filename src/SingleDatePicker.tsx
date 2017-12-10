@@ -37,7 +37,9 @@ export interface SingleDatePickerState {
  * @example
  *
  * import React from 'react';
- * import { SingleDatePicker } from 'react-daterange'
+ * import { SingleDatePicker } from 'react-daterange';
+ *
+ * <SingleDatePicker {...props} />
  */
 export class SingleDatePicker extends React.Component<
     SingleDatePickerProps,

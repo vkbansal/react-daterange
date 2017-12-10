@@ -3,9 +3,10 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { NavLink, Route, HashRouter as Router, Switch } from 'react-router-dom';
 import { addLanguage } from 'illuminate-js';
-import { javascript } from 'illuminate-js/lib/languages/javascript';
+import { jsx } from 'illuminate-js/lib/languages/jsx';
+import { bash } from 'illuminate-js/lib/languages/bash';
 
-import './styles';
+import './styles.css';
 import '../styles/default.css';
 
 import { About } from './About';
@@ -14,7 +15,8 @@ import { DateRangePickerExample } from './DateRangePickerExample';
 import { SingleDatePickerControlExample } from './SingleDatePickerControlExample';
 import { SingleDatePickerExample } from './SingleDatePickerExample';
 
-addLanguage('js', javascript);
+addLanguage('js', jsx);
+addLanguage('bash', bash);
 
 const Container = glamorous('div')({
     display: 'flex',

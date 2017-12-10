@@ -60,6 +60,16 @@ export interface DateRangePickerControlState {
 
 export type CalenderMonthLocaleFields = 'daysOfWeek' | 'monthNames';
 
+/**
+ * DateRangePickerControl
+ *
+ * @example
+ *
+ * import React from 'react';
+ * import { DateRangePickerControl } from 'react-daterange';
+ *
+ * <DateRangePickerControl {...props} />
+ */
 export class DateRangePickerControl extends React.Component<
     DateRangePickerControlProps,
     DateRangePickerControlState
