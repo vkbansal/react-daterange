@@ -1,5 +1,7 @@
 import * as React from 'react';
+import { ThemeProvider } from 'glamorous';
 
+import { StyleOverrides } from './Components';
 import {
     DateRange,
     DateRangePickerControl,
@@ -61,6 +63,7 @@ export interface DateRangePickerProps extends PickedDropDownProps, ControlProps 
      * TODO: implement this feature
      */
     customRangeLabel?: string;
+    styleOverrides?: StyleOverrides;
 }
 
 export interface DateRangePickerState {
@@ -159,7 +162,8 @@ export class DateRangePicker extends React.Component<DateRangePickerProps, DateR
             showISOWeek,
             showWeekNumbers,
             monthNames,
-            daysOfWeek
+            daysOfWeek,
+            styleOverrides = {}
         } = this.props;
 
         const props = {
@@ -177,54 +181,56 @@ export class DateRangePicker extends React.Component<DateRangePickerProps, DateR
         const formatDate = displayFormat || formatDateDefault;
 
         return (
-            <div>
-                <div ref={this.inputRef} style={{ display: 'flex' }}>
-                    <input
-                        type="text"
-                        className="rdr-input"
-                        onFocus={this.handleShowDropdown}
-                        placeholder="Start Date"
-                        value={startDate ? formatDate(startDate) : ''}
-                    />
-                    {separator ? (
-                        <div className="rdr-seperator">{separator}</div>
-                    ) : (
-                        <div className="rdr-seperator">&#8594;</div>
-                    )}
-                    <input
-                        type="text"
-                        className="rdr-input"
-                        onFocus={this.handleShowDropdown}
-                        placeholder="End Date"
-                        value={endDate ? formatDate(endDate) : ''}
-                    />
-                </div>
-                {showDropdown &&
-                    position && (
-                        <Dropdown
-                            opens={opens || 'left'}
-                            drops={drops || 'down'}
-                            position={position}
-                        >
-                            <div>
-                                <div className="rdr-calendar-head">
-                                    <button
-                                        className="rdr-nav-button rdr-nav-button--close"
-                                        onClick={this.handleHideDropdown}
-                                    >
-                                        &times;
-                                    </button>
+            <ThemeProvider theme={styleOverrides}>
+                <>
+                    <div ref={this.inputRef} style={{ display: 'flex' }}>
+                        <input
+                            type="text"
+                            className="rdr-input"
+                            onFocus={this.handleShowDropdown}
+                            placeholder="Start Date"
+                            value={startDate ? formatDate(startDate) : ''}
+                        />
+                        {separator ? (
+                            <div className="rdr-seperator">{separator}</div>
+                        ) : (
+                            <div className="rdr-seperator">&#8594;</div>
+                        )}
+                        <input
+                            type="text"
+                            className="rdr-input"
+                            onFocus={this.handleShowDropdown}
+                            placeholder="End Date"
+                            value={endDate ? formatDate(endDate) : ''}
+                        />
+                    </div>
+                    {showDropdown &&
+                        position && (
+                            <Dropdown
+                                opens={opens || 'left'}
+                                drops={drops || 'down'}
+                                position={position}
+                            >
+                                <div>
+                                    <div className="rdr-calendar-head">
+                                        <button
+                                            className="rdr-nav-button rdr-nav-button--close"
+                                            onClick={this.handleHideDropdown}
+                                        >
+                                            &times;
+                                        </button>
+                                    </div>
+                                    <div className="rdr-calendar-body">
+                                        <DateRangePickerControl
+                                            {...props}
+                                            onDatesChange={this.handleDateChange}
+                                        />
+                                    </div>
                                 </div>
-                                <div className="rdr-calendar-body">
-                                    <DateRangePickerControl
-                                        {...props}
-                                        onDatesChange={this.handleDateChange}
-                                    />
-                                </div>
-                            </div>
-                        </Dropdown>
-                    )}
-            </div>
+                            </Dropdown>
+                        )}
+                </>
+            </ThemeProvider>
         );
     }
 }

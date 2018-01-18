@@ -1,5 +1,7 @@
 import * as React from 'react';
+import { ThemeProvider } from 'glamorous';
 
+import { StyleOverrides } from './Components';
 import { CalendarMonth, CalendarMonthProps } from './CalendarMonth';
 import { addMonths, setMonth, setYear, startOfMonth } from './helpers';
 
@@ -22,6 +24,7 @@ export interface SingleDatePickerControlProps
      * Callback for when a date is selected
      */
     onDateChange?: (day: Date) => void;
+    styleOverrides?: StyleOverrides;
 }
 
 export interface SingleDatePickerControlState {
@@ -102,26 +105,29 @@ export class SingleDatePickerControl extends React.Component<
             minDate,
             maxDate,
             monthNames,
-            daysOfWeek
+            daysOfWeek,
+            styleOverrides = {}
         } = this.props;
 
         return (
-            <CalendarMonth
-                month={this.state.month}
-                startDate={date}
-                onNextClick={this.handleNavClick(1)}
-                onPrevClick={this.handleNavClick(-1)}
-                onMonthChange={this.handleMonthChange}
-                onYearChange={this.handleYearChange}
-                onDayClick={this.handleDayClick}
-                showDropdowns={showDropdowns}
-                showISOWeek={showISOWeek}
-                showWeekNumbers={showWeekNumbers}
-                minDate={minDate}
-                maxDate={maxDate}
-                monthNames={monthNames}
-                daysOfWeek={daysOfWeek}
-            />
+            <ThemeProvider theme={styleOverrides}>
+                <CalendarMonth
+                    month={this.state.month}
+                    startDate={date}
+                    onNextClick={this.handleNavClick(1)}
+                    onPrevClick={this.handleNavClick(-1)}
+                    onMonthChange={this.handleMonthChange}
+                    onYearChange={this.handleYearChange}
+                    onDayClick={this.handleDayClick}
+                    showDropdowns={showDropdowns}
+                    showISOWeek={showISOWeek}
+                    showWeekNumbers={showWeekNumbers}
+                    minDate={minDate}
+                    maxDate={maxDate}
+                    monthNames={monthNames}
+                    daysOfWeek={daysOfWeek}
+                />
+            </ThemeProvider>
         );
     }
 }

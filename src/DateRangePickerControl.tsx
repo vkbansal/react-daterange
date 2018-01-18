@@ -1,5 +1,7 @@
 import * as React from 'react';
+import { ThemeProvider } from 'glamorous';
 
+import { StyleOverrides } from './Components';
 import { CalendarMonth, CalendarMonthProps } from './CalendarMonth';
 import {
     addMonths,
@@ -48,6 +50,7 @@ export interface DateRangePickerControlProps
      * @param {Date | undefined} dates.endDate
      */
     onDatesChange?: (dates: DateRange) => void;
+    styleOverrides?: StyleOverrides;
 }
 
 export interface DateRangePickerControlState {
@@ -212,7 +215,8 @@ export class DateRangePickerControl extends React.Component<
             showISOWeek,
             showWeekNumbers,
             monthNames,
-            daysOfWeek
+            daysOfWeek,
+            styleOverrides = {}
         } = this.props;
 
         const commonProps = {
@@ -229,32 +233,34 @@ export class DateRangePickerControl extends React.Component<
         };
 
         return (
-            <div className="rdr-range-control-wrapper">
-                <CalendarMonth
-                    {...commonProps}
-                    month={monthLeft}
-                    minDate={minDate}
-                    onPrevClick={this.handleNavClick(-1, 'left')}
-                    onNextClick={this.handleNavClick(1, 'left')}
-                    onMonthChange={this.handleMonthChange('left')}
-                    onYearChange={this.handleYearChange('left')}
-                    hideNextButton={!this.props.individualCalendars}
-                />
-                <CalendarMonth
-                    {...commonProps}
-                    month={monthRight}
-                    minDate={endOfMonth(monthLeft)}
-                    onPrevClick={this.handleNavClick(-1, 'right')}
-                    onNextClick={this.handleNavClick(1, 'right')}
-                    onMonthChange={this.handleMonthChange('right')}
-                    onYearChange={this.handleYearChange('right')}
-                    hidePrevButton={
-                        !this.props.individualCalendars ||
-                        isDayBefore(monthRight, monthLeft) ||
-                        isSameMonth(monthRight, monthLeft)
-                    }
-                />
-            </div>
+            <ThemeProvider theme={styleOverrides}>
+                <div className="rdr-range-control-wrapper">
+                    <CalendarMonth
+                        {...commonProps}
+                        month={monthLeft}
+                        minDate={minDate}
+                        onPrevClick={this.handleNavClick(-1, 'left')}
+                        onNextClick={this.handleNavClick(1, 'left')}
+                        onMonthChange={this.handleMonthChange('left')}
+                        onYearChange={this.handleYearChange('left')}
+                        hideNextButton={!this.props.individualCalendars}
+                    />
+                    <CalendarMonth
+                        {...commonProps}
+                        month={monthRight}
+                        minDate={endOfMonth(monthLeft)}
+                        onPrevClick={this.handleNavClick(-1, 'right')}
+                        onNextClick={this.handleNavClick(1, 'right')}
+                        onMonthChange={this.handleMonthChange('right')}
+                        onYearChange={this.handleYearChange('right')}
+                        hidePrevButton={
+                            !this.props.individualCalendars ||
+                            isDayBefore(monthRight, monthLeft) ||
+                            isSameMonth(monthRight, monthLeft)
+                        }
+                    />
+                </div>
+            </ThemeProvider>
         );
     }
 }

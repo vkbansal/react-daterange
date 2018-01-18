@@ -1,5 +1,6 @@
 import * as React from 'react';
-import * as cx from 'classnames';
+
+import { Day, Row, Cell, NavButton, Weeks, Week, Select } from './Components';
 
 import {
     LOCALE_EN,
@@ -134,43 +135,35 @@ export class CalendarMonth extends React.Component<CalendarMonthProps> {
 
         const localeMonthNames = monthNames || LOCALE_EN.monthNames;
 
-        return [
-            <select
-                className="rdr-calendar-select"
-                key="months"
-                value={firstDay.getMonth()}
-                onChange={this.handleMonthChange}
-            >
-                {localeMonthNames.map((m, i) => {
-                    const isDisabled =
-                        (minDate && isDayBefore(setMonth(month, i), minDate)) ||
-                        (maxDate && isDayAfter(setMonth(month, i), maxDate));
+        return (
+            <>
+                <Select value={firstDay.getMonth()} onChange={this.handleMonthChange}>
+                    {localeMonthNames.map((m, i) => {
+                        const isDisabled =
+                            (minDate && isDayBefore(setMonth(month, i), minDate)) ||
+                            (maxDate && isDayAfter(setMonth(month, i), maxDate));
 
-                    return (
-                        <option key={i} value={i} disabled={isDisabled}>
-                            {m}
-                        </option>
-                    );
-                })}
-            </select>,
-            <select
-                className="rdr-calendar-select"
-                key="years"
-                value={firstDay.getFullYear()}
-                onChange={this.handleYearChange}
-            >
-                {range(
-                    minDate ? minDate.getFullYear() : firstDay.getFullYear() - 50,
-                    maxDate ? maxDate.getFullYear() + 1 : firstDay.getFullYear() + 5
-                ).map(i => {
-                    return (
-                        <option key={i} value={i}>
-                            {i}
-                        </option>
-                    );
-                })}
-            </select>
-        ];
+                        return (
+                            <option key={i} value={i} disabled={isDisabled}>
+                                {m}
+                            </option>
+                        );
+                    })}
+                </Select>,
+                <Select value={firstDay.getFullYear()} onChange={this.handleYearChange}>
+                    {range(
+                        minDate ? minDate.getFullYear() : firstDay.getFullYear() - 50,
+                        maxDate ? maxDate.getFullYear() + 1 : firstDay.getFullYear() + 5
+                    ).map(i => {
+                        return (
+                            <option key={i} value={i}>
+                                {i}
+                            </option>
+                        );
+                    })}
+                </Select>
+            </>
+        );
     };
 
     render() {
@@ -239,40 +232,33 @@ export class CalendarMonth extends React.Component<CalendarMonthProps> {
                         })}
                     </div>
                 )*/}
-                <div className="rdr-calendar-row">
-                    <div className="rdr-calendar-cell">
+                <Row>
+                    <Cell>
                         {!hidePrevButton && (
-                            <button className="rdr-nav-button" onClick={this.handlePrevClick}>
-                                &#8592;
-                            </button>
+                            <NavButton onClick={this.handlePrevClick}>&#8592;</NavButton>
                         )}
-                    </div>
-                    <div
-                        className="rdr-calendar-cell rdr-month-name"
-                        style={{ justifyContent: showDropdowns ? 'space-around' : 'center' }}
-                    >
+                    </Cell>
+                    <Cell span={5} justifyContent={showDropdowns ? 'space-around' : 'center'}>
                         {showDropdowns
                             ? this.renderDropDowns(firstDate)
                             : `${monthName} ${firstDate.getFullYear()}`}
-                    </div>
-                    <div>
+                    </Cell>
+                    <Cell>
                         {!hideNextButton && (
-                            <button className="rdr-nav-button" onClick={this.handleNextClick}>
-                                &#8594;
-                            </button>
+                            <NavButton onClick={this.handleNextClick}>&#8594;</NavButton>
                         )}
-                    </div>
-                </div>
-                <div className="rdr-calendar-row">
+                    </Cell>
+                </Row>
+                <Row>
                     {range(0, 7).map(i => (
-                        <div className="rdr-calendar-cell" key={`${key}-day-${i}`}>
+                        <Cell className="rdr-calendar-cell" key={`${key}-day-${i}`}>
                             {localeDaysOfWeek[showISOWeek ? (i + 1) % 7 : i]}
-                        </div>
+                        </Cell>
                     ))}
-                </div>
-                <div className="rdr-calender-weeks">
+                </Row>
+                <Weeks>
                     {range(0, weeks).map(i => (
-                        <div key={`${key}-${i}`} className="rdr-calendar-row rdr-calendar-week">
+                        <Week key={`${key}-${i}`}>
                             {range(0, 7).map(j => {
                                 const day = addDays(firstDate, i * 7 + j - firstDayInCurrentMonth);
 
@@ -292,12 +278,10 @@ export class CalendarMonth extends React.Component<CalendarMonthProps> {
                                     (maxDate && isDayAfter(day, maxDate));
 
                                 return (
-                                    <div
-                                        className={cx('rdr-calendar-cell rdr-calendar-day', {
-                                            'rdr-calendar-day--selected': selected,
-                                            'rdr-calendar-day--in-range': inRange,
-                                            'rdr-calendar-day--disabled': isDisabled
-                                        })}
+                                    <Day
+                                        selected={selected}
+                                        inRange={inRange}
+                                        disabled={isDisabled}
                                         key={`${key}-${i}-${j}`}
                                         onClick={!isDisabled ? this.handleDayClick(day) : undefined}
                                         onMouseEnter={
@@ -305,12 +289,12 @@ export class CalendarMonth extends React.Component<CalendarMonthProps> {
                                         }
                                     >
                                         {day.getDate()}
-                                    </div>
+                                    </Day>
                                 );
                             })}
-                        </div>
+                        </Week>
                     ))}
-                </div>
+                </Weeks>
             </div>
         );
     }

@@ -1,5 +1,7 @@
 import * as React from 'react';
+import { ThemeProvider } from 'glamorous';
 
+import { StyleOverrides } from './Components';
 import { Dropdown, DropdownProps } from './Dropdown';
 import { callIfExists, formatDateDefault } from './helpers';
 import { SingleDatePickerControl, SingleDatePickerControlProps } from './SingleDatePickerControl';
@@ -23,6 +25,7 @@ export interface SingleDatePickerProps extends PickedDropDownProps, ControlProps
      * Default function displays the date in `YYYY-MM-DD` format.
      */
     displayFormat?: (date: Date) => string;
+    styleOverrides?: StyleOverrides;
 }
 
 export interface SingleDatePickerState {
@@ -108,7 +111,8 @@ export class SingleDatePicker extends React.Component<
             showISOWeek,
             showWeekNumbers,
             monthNames,
-            daysOfWeek
+            daysOfWeek,
+            styleOverrides = {}
         } = this.props;
 
         const props = {
@@ -125,41 +129,43 @@ export class SingleDatePicker extends React.Component<
         const formatDate = displayFormat || formatDateDefault;
 
         return (
-            <div>
-                <div ref={this.inputRef} style={{ display: 'inline-block' }}>
-                    <input
-                        type="text"
-                        className="rdr-input"
-                        onFocus={this.handleShowDropdown}
-                        value={date ? formatDate(date) : ''}
-                    />
-                </div>
-                {showDropdown &&
-                    position && (
-                        <Dropdown
-                            opens={opens || 'left'}
-                            drops={drops || 'down'}
-                            position={position}
-                        >
-                            <div>
-                                <div className="rdr-calendar-head">
-                                    <button
-                                        className="rdr-nav-button rdr-nav-button--close"
-                                        onClick={this.handleHideDropdown}
-                                    >
-                                        &times;
-                                    </button>
+            <ThemeProvider theme={styleOverrides}>
+                <>
+                    <div ref={this.inputRef} style={{ display: 'inline-block' }}>
+                        <input
+                            type="text"
+                            className="rdr-input"
+                            onFocus={this.handleShowDropdown}
+                            value={date ? formatDate(date) : ''}
+                        />
+                    </div>
+                    {showDropdown &&
+                        position && (
+                            <Dropdown
+                                opens={opens || 'left'}
+                                drops={drops || 'down'}
+                                position={position}
+                            >
+                                <div>
+                                    <div className="rdr-calendar-head">
+                                        <button
+                                            className="rdr-nav-button rdr-nav-button--close"
+                                            onClick={this.handleHideDropdown}
+                                        >
+                                            &times;
+                                        </button>
+                                    </div>
+                                    <div className="rdr-calendar-body">
+                                        <SingleDatePickerControl
+                                            {...props}
+                                            onDateChange={this.handleDateChange}
+                                        />
+                                    </div>
                                 </div>
-                                <div className="rdr-calendar-body">
-                                    <SingleDatePickerControl
-                                        {...props}
-                                        onDateChange={this.handleDateChange}
-                                    />
-                                </div>
-                            </div>
-                        </Dropdown>
-                    )}
-            </div>
+                            </Dropdown>
+                        )}
+                </>
+            </ThemeProvider>
         );
     }
 }
