@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { addDays } from '../src/helpers';
+// import { addDays } from '../src/helpers';
 import { SingleDatePickerControl } from '../src/SingleDatePickerControl';
 import { SingleDatePickerControlDocs } from './data';
 import { PropsTable } from './PropsTable';
@@ -25,14 +25,14 @@ export class SDPControlExample extends React.Component<any, OwnState> {
         };
     }
 
-    handleChange = (e: React.SyntheticEvent<EventTarget>) => {
-        const { value, checked, type } = e.target as HTMLInputElement;
-        const name = (e.target as HTMLInputElement).name as keyof OwnState;
+    // handleChange = (e: React.SyntheticEvent<EventTarget>) => {
+    //     const { value, checked, type } = e.target as HTMLInputElement;
+    //     const name = (e.target as HTMLInputElement).name as keyof OwnState;
 
-        this.setState(() => ({
-            [name]: type === 'checkbox' ? checked : value
-        }));
-    };
+    //     this.setState(() => ({
+    //         [name]: type === 'checkbox' ? checked : value
+    //     }));
+    // };
 
     handleMonthNamesChange = (lang: string) => () => {
         this.setState({
@@ -50,32 +50,32 @@ export class SDPControlExample extends React.Component<any, OwnState> {
         alert(date);
     };
 
-    handleSetDate = (key: 'date' | 'minDate' | 'maxDate') => (
-        e: React.SyntheticEvent<EventTarget>
-    ) => {
-        const { checked } = e.target as HTMLInputElement;
+    // handleSetDate = (key: 'date' | 'minDate' | 'maxDate') => (
+    //     e: React.SyntheticEvent<EventTarget>
+    // ) => {
+    //     const { checked } = e.target as HTMLInputElement;
 
-        if (!checked) {
-            this.setState(() => ({
-                [key]: undefined
-            }));
-            return;
-        }
+    //     if (!checked) {
+    //         this.setState<'date' | 'minDate' | 'maxDate'>(() => ({
+    //             [key]: undefined
+    //         }));
+    //         return;
+    //     }
 
-        let date = new Date();
+    //     let date = new Date();
 
-        if (key === 'minDate') {
-            date = addDays(date, -4);
-        }
+    //     if (key === 'minDate') {
+    //         date = addDays(date, -4);
+    //     }
 
-        if (key === 'maxDate') {
-            date = addDays(date, 3);
-        }
+    //     if (key === 'maxDate') {
+    //         date = addDays(date, 3);
+    //     }
 
-        this.setState(() => ({
-            [key]: date
-        }));
-    };
+    //     this.setState<'date' | 'minDate' | 'maxDate'>(() => ({
+    //         [key]: date
+    //     }));
+    // };
 
     render() {
         return (

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ThemeProvider } from 'glamorous';
 
-import { StyleOverrides } from './Components';
+import { StyleOverrides, RangeControllerWrapper } from './Components';
 import { CalendarMonth, CalendarMonthProps } from './CalendarMonth';
 import {
     addMonths,
@@ -234,7 +234,7 @@ export class DateRangePickerControl extends React.Component<
 
         return (
             <ThemeProvider theme={styleOverrides}>
-                <div className="rdr-range-control-wrapper">
+                <RangeControllerWrapper>
                     <CalendarMonth
                         {...commonProps}
                         month={monthLeft}
@@ -259,7 +259,7 @@ export class DateRangePickerControl extends React.Component<
                             isSameMonth(monthRight, monthLeft)
                         }
                     />
-                </div>
+                </RangeControllerWrapper>
             </ThemeProvider>
         );
     }

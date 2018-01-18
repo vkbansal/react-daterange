@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { DateRange, DateRangePickerControl } from '../src/DateRangePickerControl';
-import { addDays } from '../src/helpers';
+// import { addDays } from '../src/helpers';
 import { DateRangePickerControlDocs } from './data';
 import { PropsTable } from './PropsTable';
 
@@ -28,14 +28,14 @@ export class DRPControlExample extends React.Component<any, OwnState> {
         };
     }
 
-    handleChange = (e: React.SyntheticEvent<EventTarget>) => {
-        const { value, checked, type } = e.target as HTMLInputElement;
-        const name = (e.target as HTMLInputElement).name as keyof OwnState;
+    // handleChange = (e: React.SyntheticEvent<EventTarget>) => {
+    //     const { value, checked, type } = e.target as HTMLInputElement;
+    //     const name = (e.target as HTMLInputElement).name as keyof OwnState;
 
-        this.setState(() => ({
-            [name]: type === 'checkbox' ? checked : value
-        }));
-    };
+    //     this.setState<''>(() => ({
+    //         [name]: type === 'checkbox' ? checked : value
+    //     }));
+    // };
 
     handleMonthNamesChange = (lang: string) => () => {
         this.setState({
@@ -53,36 +53,36 @@ export class DRPControlExample extends React.Component<any, OwnState> {
         alert(`you have selected ${dates.startDate} and ${dates.endDate}`);
     };
 
-    handleSetDate = (key: 'startDate' | 'endDate' | 'minDate' | 'maxDate') => (
-        e: React.SyntheticEvent<EventTarget>
-    ) => {
-        const { checked } = e.target as HTMLInputElement;
+    // handleSetDate = (key: 'startDate' | 'endDate' | 'minDate' | 'maxDate') => (
+    //     e: React.SyntheticEvent<EventTarget>
+    // ) => {
+    //     const { checked } = e.target as HTMLInputElement;
 
-        if (!checked) {
-            this.setState(() => ({
-                [key]: undefined
-            }));
-            return;
-        }
+    //     if (!checked) {
+    //         this.setState<'startDate' | 'endDate' | 'minDate' | 'maxDate'>(() => ({
+    //             [key]: undefined
+    //         }));
+    //         return;
+    //     }
 
-        let date = new Date();
+    //     let date = new Date();
 
-        if (key === 'endDate') {
-            date = addDays(date, 7);
-        }
+    //     if (key === 'endDate') {
+    //         date = addDays(date, 7);
+    //     }
 
-        if (key === 'minDate') {
-            date = addDays(date, -5);
-        }
+    //     if (key === 'minDate') {
+    //         date = addDays(date, -5);
+    //     }
 
-        if (key === 'maxDate') {
-            date = addDays(date, 20);
-        }
+    //     if (key === 'maxDate') {
+    //         date = addDays(date, 20);
+    //     }
 
-        this.setState(() => ({
-            [key]: date
-        }));
-    };
+    //     this.setState<'startDate' | 'endDate' | 'minDate' | 'maxDate'>(() => ({
+    //         [key]: date
+    //     }));
+    // };
 
     render() {
         return (

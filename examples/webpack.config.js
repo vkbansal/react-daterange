@@ -1,8 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
-const Extract = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// const MinifyPlugin = require("babel-minify-webpack-plugin");
+const MinifyPlugin = require('babel-minify-webpack-plugin');
 
 const PROD = process.env.NODE_ENV === 'production';
 const DEV = !PROD;
@@ -43,10 +42,6 @@ const config = {
         ]
     },
     plugins: [
-        new Extract({
-            filename: DEV ? 'styles.css' : 'styles.[contenthash:6].css',
-            allChunks: true
-        }),
         new HtmlWebpackPlugin({
             template: 'index.html',
             inject: true,
@@ -62,21 +57,12 @@ const config = {
 
 PROD &&
     config.plugins.push(
-        new webpack.optimize.UglifyJsPlugin({
-            compressor: {
-                warnings: false
-            }
-        })
-    );
-
-PROD &&
-    config.plugins.push(
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: JSON.stringify('production')
             }
-        })
-        // new MinifyPlugin()
+        }),
+        new MinifyPlugin()
     );
 
 module.exports = config;

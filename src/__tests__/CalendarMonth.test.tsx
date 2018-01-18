@@ -1,7 +1,8 @@
-import { shallow } from 'enzyme';
+import { shallow, ShallowWrapper } from 'enzyme';
 import * as React from 'react';
 
-import { CalendarMonth } from '../CalendarMonth';
+import { CalendarMonth, CalendarMonthProps } from '../CalendarMonth';
+import { Row, Cell, Day } from '../Components';
 
 const shortMonths = [
     'Jan',
@@ -36,32 +37,38 @@ describe('<CalenderMonth /> tests', () => {
             const component = shallow(<CalendarMonth month={month} daysOfWeek={shortDays} />);
             expect(
                 component
-                    .find('.rdr-calendar-row')
+                    .find(Row)
                     .at(1)
                     .children()
-                    .map(c => c.text())
+                    .map(c => c.shallow().text())
             ).toEqual(shortDays);
             expect(component).toMatchSnapshot();
         });
 
         test('renders given `monthNames`', () => {
             const component = shallow(<CalendarMonth month={month} monthNames={shortMonths} />);
-            expect(component.find('.rdr-month-name').text()).toBe(
-                `${shortMonths[month.getMonth()]} ${month.getFullYear()}`
-            );
+            expect(
+                component
+                    .find(Row)
+                    .at(0)
+                    .find(Cell)
+                    .at(1)
+                    .shallow()
+                    .text()
+            ).toBe(`${shortMonths[month.getMonth()]} ${month.getFullYear()}`);
             expect(component).toMatchSnapshot();
         });
     });
 
     describe('Dates', () => {
-        test('shows given `startDate` as selected', () => {
-            const component = shallow(
+        test.only('shows given `startDate` as selected', () => {
+            const component = shallow<CalendarMonthProps>(
                 <CalendarMonth
                     month={month}
                     startDate={new Date(2017, 0 /* Jan */, 5, 0, 0, 0, 0)}
                 />
             );
-            expect(component.find('.rdr-calendar-day--selected').length).toBe(1);
+            expect(component.find(Day).filter(c => c.prop('selected')).length).toBe(1);
             expect(component).toMatchSnapshot();
         });
 

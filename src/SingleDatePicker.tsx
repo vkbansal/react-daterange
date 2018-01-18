@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ThemeProvider } from 'glamorous';
 
-import { StyleOverrides } from './Components';
+import { StyleOverrides, CloseButton, Input, CalendarHeader, CalendarBody } from './Components';
 import { Dropdown, DropdownProps } from './Dropdown';
 import { callIfExists, formatDateDefault } from './helpers';
 import { SingleDatePickerControl, SingleDatePickerControlProps } from './SingleDatePickerControl';
@@ -132,9 +132,8 @@ export class SingleDatePicker extends React.Component<
             <ThemeProvider theme={styleOverrides}>
                 <>
                     <div ref={this.inputRef} style={{ display: 'inline-block' }}>
-                        <input
+                        <Input
                             type="text"
-                            className="rdr-input"
                             onFocus={this.handleShowDropdown}
                             value={date ? formatDate(date) : ''}
                         />
@@ -146,22 +145,19 @@ export class SingleDatePicker extends React.Component<
                                 drops={drops || 'down'}
                                 position={position}
                             >
-                                <div>
-                                    <div className="rdr-calendar-head">
-                                        <button
-                                            className="rdr-nav-button rdr-nav-button--close"
-                                            onClick={this.handleHideDropdown}
-                                        >
+                                <>
+                                    <CalendarHeader>
+                                        <CloseButton onClick={this.handleHideDropdown}>
                                             &times;
-                                        </button>
-                                    </div>
-                                    <div className="rdr-calendar-body">
+                                        </CloseButton>
+                                    </CalendarHeader>
+                                    <CalendarBody>
                                         <SingleDatePickerControl
                                             {...props}
                                             onDateChange={this.handleDateChange}
                                         />
-                                    </div>
-                                </div>
+                                    </CalendarBody>
+                                </>
                             </Dropdown>
                         )}
                 </>

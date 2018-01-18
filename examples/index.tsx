@@ -7,7 +7,6 @@ import { jsx } from 'illuminate-js/lib/languages/jsx';
 import { bash } from 'illuminate-js/lib/languages/bash';
 
 import './styles.css';
-import '../styles/default.css';
 
 import { About } from './About';
 import { DateRangePickerControlExample } from './DateRangePickerControlExample';

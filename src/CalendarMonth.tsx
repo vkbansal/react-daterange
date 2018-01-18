@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Day, Row, Cell, NavButton, Weeks, Week, Select } from './Components';
+import { Day, Row, Cell, NavButton, Weeks, Week, Select, Month } from './Components';
 
 import {
     LOCALE_EN,
@@ -149,7 +149,7 @@ export class CalendarMonth extends React.Component<CalendarMonthProps> {
                             </option>
                         );
                     })}
-                </Select>,
+                </Select>
                 <Select value={firstDay.getFullYear()} onChange={this.handleYearChange}>
                     {range(
                         minDate ? minDate.getFullYear() : firstDay.getFullYear() - 50,
@@ -220,25 +220,14 @@ export class CalendarMonth extends React.Component<CalendarMonthProps> {
         const weeks = getWeeksInMonth(firstDate, showISOWeek);
 
         return (
-            <div className="rdr-calendar-month">
-                {/* showWeekNumbers && (
-                    <div>
-                        <Cell />
-                        <Cell>Week</Cell>
-                        {range(0, weeks).map(i => {
-                            const sw = startOfWeek(addDays(firstDate, i * 7), showISOWeek);
-                            const weekNum = getWeekNumber(sw, showISOWeek);
-                            return <Cell key={i}>{weekNum}</Cell>;
-                        })}
-                    </div>
-                )*/}
+            <Month>
                 <Row>
                     <Cell>
                         {!hidePrevButton && (
                             <NavButton onClick={this.handlePrevClick}>&#8592;</NavButton>
                         )}
                     </Cell>
-                    <Cell span={5} justifyContent={showDropdowns ? 'space-around' : 'center'}>
+                    <Cell span={5}>
                         {showDropdowns
                             ? this.renderDropDowns(firstDate)
                             : `${monthName} ${firstDate.getFullYear()}`}
@@ -251,7 +240,7 @@ export class CalendarMonth extends React.Component<CalendarMonthProps> {
                 </Row>
                 <Row>
                     {range(0, 7).map(i => (
-                        <Cell className="rdr-calendar-cell" key={`${key}-day-${i}`}>
+                        <Cell key={`${key}-day-${i}`}>
                             {localeDaysOfWeek[showISOWeek ? (i + 1) % 7 : i]}
                         </Cell>
                     ))}
@@ -295,7 +284,7 @@ export class CalendarMonth extends React.Component<CalendarMonthProps> {
                         </Week>
                     ))}
                 </Weeks>
-            </div>
+            </Month>
         );
     }
 }
