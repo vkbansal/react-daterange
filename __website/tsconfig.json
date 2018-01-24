@@ -1,0 +1,8 @@
+{
+    "extends": "../node_modules/@vkbansal/scripts/tsconfig.json",
+    "compilerOptions": {
+        "noEmitOnError": false
+    },
+    "include": ["../src", "../node_modules/@vkbansal/scripts"],
+    "exclude": ["../src/__tests__"]
+}

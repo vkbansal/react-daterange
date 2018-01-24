@@ -1,9 +1,10 @@
 import * as React from 'react';
 
-import { DateRange, DateRangePickerControl } from '../src/DateRangePickerControl';
+import { DateRangePickerControl } from '../src/DateRangePickerControl';
 // import { addDays } from '../src/helpers';
 import { DateRangePickerControlDocs } from './data';
 import { PropsTable } from './PropsTable';
+import { DateRange } from '../src';
 
 export interface OwnState {
     showDropdowns: boolean;

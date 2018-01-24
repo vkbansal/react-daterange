@@ -1,25 +1,19 @@
-const MILLISECONS_IN_WEEKS = 1000 * 60 * 60 * 24 * 7;
+import { padZero } from './otherUtils';
 
-export function callIfExists(callback: any, ...args: any[]) {
-    if (typeof callback === 'function') {
-        callback(...args);
-    }
+const MILLISECONDS_IN_WEEKS = 1000 * 60 * 60 * 24 * 7;
+
+export interface RangeFunctions {
+    startDate(today: Date): Date;
+    endDate(today: Date): Date;
 }
 
-export function range(start: number, end: number, step: number = 1) {
-    let index = -1;
-    let length = Math.max(Math.ceil((end - start) / step), 0);
-    const result = new Array(length);
-
-    while (length--) {
-        result[++index] = start;
-        start += step;
-    }
-    return result;
+export interface DateRange {
+    startDate: Date;
+    endDate?: Date;
 }
 
 export function setDay(date: Date, day: number): Date {
-    let newDate = new Date(date.getTime());
+    const newDate = new Date(date.getTime());
 
     newDate.setDate(day);
 
@@ -31,7 +25,7 @@ export function addDays(date: Date, days: number): Date {
 }
 
 export function setMonth(date: Date, month: number): Date {
-    let newDate = new Date(date.getTime());
+    const newDate = new Date(date.getTime());
 
     newDate.setMonth(month);
 
@@ -43,7 +37,7 @@ export function addMonths(date: Date, months: number): Date {
 }
 
 export function setYear(date: Date, year: number): Date {
-    let newDate = new Date(date.getTime());
+    const newDate = new Date(date.getTime());
 
     newDate.setFullYear(year);
 
@@ -51,7 +45,7 @@ export function setYear(date: Date, year: number): Date {
 }
 
 export function startOfMonth(date: Date): Date {
-    let newDate = new Date(date.getTime());
+    const newDate = new Date(date.getTime());
 
     newDate.setDate(1);
     newDate.setHours(0, 0, 0, 0);
@@ -60,7 +54,7 @@ export function startOfMonth(date: Date): Date {
 }
 
 export function endOfMonth(date: Date): Date {
-    let newDate = new Date(date.getTime());
+    const newDate = new Date(date.getTime());
 
     newDate.setFullYear(date.getFullYear(), date.getMonth() + 1, 0);
     newDate.setHours(23, 59, 59, 999);
@@ -69,7 +63,7 @@ export function endOfMonth(date: Date): Date {
 }
 
 export function startOfWeek(date: Date, iso?: boolean): Date {
-    let sw = new Date(date.getTime());
+    const sw = new Date(date.getTime());
 
     sw.setDate(sw.getDate() - sw.getDay() + (iso ? 1 : 0));
     sw.setHours(0, 0, 0, 0);
@@ -78,7 +72,7 @@ export function startOfWeek(date: Date, iso?: boolean): Date {
 }
 
 export function startOfYear(date: Date, iso?: boolean): Date {
-    let sy = new Date(date.getTime());
+    const sy = new Date(date.getTime());
 
     if (iso) {
         sy.setFullYear(sy.getFullYear(), 0, 4);
@@ -109,8 +103,8 @@ export function isSameDay(dateLeft: Date, dateRight: Date): boolean {
 }
 
 export function isDayAfter(date: Date, dateToCompare: Date): boolean {
-    let newDate = new Date(date.getTime());
-    let newDateToCompare = new Date(dateToCompare.getTime());
+    const newDate = new Date(date.getTime());
+    const newDateToCompare = new Date(dateToCompare.getTime());
 
     newDate.setHours(0, 0, 0, 0);
     newDateToCompare.setHours(0, 0, 0, 0);
@@ -119,8 +113,8 @@ export function isDayAfter(date: Date, dateToCompare: Date): boolean {
 }
 
 export function isDayBefore(date: Date, dateToCompare: Date): boolean {
-    let newDate = new Date(date.getTime());
-    let newDateToCompare = new Date(dateToCompare.getTime());
+    const newDate = new Date(date.getTime());
+    const newDateToCompare = new Date(dateToCompare.getTime());
 
     newDate.setHours(0, 0, 0, 0);
     newDateToCompare.setHours(0, 0, 0, 0);
@@ -140,17 +134,15 @@ export function getWeeksInMonth(date: Date, isoWeeks?: boolean): number {
 }
 
 export function getWeekNumber(date: Date, iso?: boolean): number {
-    let sw = startOfWeek(date, iso);
+    const sw = startOfWeek(date, iso);
     let sy = startOfYear(date, iso);
 
     if (iso) sy = startOfWeek(sy, true);
 
-    const diff = Math.round((sw.getTime() - sy.getTime()) / MILLISECONS_IN_WEEKS);
+    const diff = Math.round((sw.getTime() - sy.getTime()) / MILLISECONDS_IN_WEEKS);
 
     return diff + 1;
 }
-
-const padZero = (i: string | number) => `0${i}`.slice(-2);
 
 export function formatDateDefault(date: Date): string {
     return `${date.getFullYear()}-${padZero(date.getMonth() + 1)}-${padZero(date.getDate())}`;

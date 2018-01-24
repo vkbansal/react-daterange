@@ -1,9 +1,11 @@
 import * as React from 'react';
 import { ThemeProvider } from 'glamorous';
 
-import { StyleOverrides, CloseButton, Input, CalendarHeader, CalendarBody } from './Components';
+import { CloseButton, Input, CalendarHeader, CalendarBody, PickerWrapper } from './Components';
 import { Dropdown, DropdownProps } from './Dropdown';
-import { callIfExists, formatDateDefault } from './helpers';
+import { callIfExists } from './utils/otherUtils';
+import { formatDateDefault } from './utils/dateUtils';
+import { StyleOverrides } from './utils/glamorousUtils';
 import { SingleDatePickerControl, SingleDatePickerControlProps } from './SingleDatePickerControl';
 
 export type PickedDropDownProps = Partial<Pick<DropdownProps, 'opens' | 'drops'>>;
@@ -14,24 +16,23 @@ export interface SingleDatePickerProps extends PickedDropDownProps, ControlProps
     /**
      * Callback for when the picker is shown
      */
-    onShow?: () => void;
+    onShow?(): void;
     /**
      * Callback for when the picker is hidden
      */
-    onHide?: () => void;
+    onHide?(): void;
     /**
      * A function used to format the date that is displayed .
      * It accepts a `Date` as a param and must return a `string`.
      * Default function displays the date in `YYYY-MM-DD` format.
      */
-    displayFormat?: (date: Date) => string;
+    displayFormat?(date: Date): string;
     styleOverrides?: StyleOverrides;
 }
 
 export interface SingleDatePickerState {
     date?: Date;
     showDropdown: boolean;
-    position: DropdownProps['position'] | null;
 }
 
 /**
@@ -55,31 +56,20 @@ export class SingleDatePicker extends React.Component<
 
         this.state = {
             date: props.date,
-            position: null,
             showDropdown: false
         };
     }
 
     handleShowDropdown = () => {
-        this.setState<'position' | 'showDropdown'>(state => {
+        this.setState<'showDropdown'>((state) => {
             if (!state.showDropdown) {
-                const {
-                    top,
-                    bottom,
-                    left,
-                    width,
-                    right,
-                    height
-                } = this.input.getBoundingClientRect();
                 return {
-                    position: { top, bottom, left, width, right, height },
                     showDropdown: true
                 };
             }
 
             return {
-                showDropdown: state.showDropdown,
-                position: state.position
+                showDropdown: state.showDropdown
             };
         });
     };
@@ -92,7 +82,6 @@ export class SingleDatePicker extends React.Component<
 
     handleHideDropdown = () => {
         this.setState({
-            position: null,
             showDropdown: false
         });
     };
@@ -100,7 +89,7 @@ export class SingleDatePicker extends React.Component<
     inputRef = (c: HTMLDivElement) => (this.input = c);
 
     render() {
-        const { position, showDropdown, date } = this.state;
+        const { showDropdown, date } = this.state;
         const {
             opens,
             drops,
@@ -130,37 +119,30 @@ export class SingleDatePicker extends React.Component<
 
         return (
             <ThemeProvider theme={styleOverrides}>
-                <>
-                    <div ref={this.inputRef} style={{ display: 'inline-block' }}>
-                        <Input
-                            type="text"
-                            onFocus={this.handleShowDropdown}
-                            value={date ? formatDate(date) : ''}
-                        />
-                    </div>
-                    {showDropdown &&
-                        position && (
-                            <Dropdown
-                                opens={opens || 'left'}
-                                drops={drops || 'down'}
-                                position={position}
-                            >
-                                <>
-                                    <CalendarHeader>
-                                        <CloseButton onClick={this.handleHideDropdown}>
-                                            &times;
-                                        </CloseButton>
-                                    </CalendarHeader>
-                                    <CalendarBody>
-                                        <SingleDatePickerControl
-                                            {...props}
-                                            onDateChange={this.handleDateChange}
-                                        />
-                                    </CalendarBody>
-                                </>
-                            </Dropdown>
-                        )}
-                </>
+                <PickerWrapper>
+                    <Input
+                        type="text"
+                        onFocus={this.handleShowDropdown}
+                        value={date ? formatDate(date) : ''}
+                    />
+                    {showDropdown && (
+                        <Dropdown opens={opens || 'left'} drops={drops || 'down'}>
+                            <>
+                                <CalendarHeader>
+                                    <CloseButton onClick={this.handleHideDropdown}>
+                                        &times;
+                                    </CloseButton>
+                                </CalendarHeader>
+                                <CalendarBody>
+                                    <SingleDatePickerControl
+                                        {...props}
+                                        onDateChange={this.handleDateChange}
+                                    />
+                                </CalendarBody>
+                            </>
+                        </Dropdown>
+                    )}
+                </PickerWrapper>
             </ThemeProvider>
         );
     }

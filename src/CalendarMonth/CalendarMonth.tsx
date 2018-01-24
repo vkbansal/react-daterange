@@ -1,20 +1,19 @@
+/* tslint:disable:max-line-length */
 import * as React from 'react';
 
-import { Day, Row, Cell, NavButton, Weeks, Week, Select, Month } from './Components';
-
+import { Day, Row, Cell, NavButton, Weeks, Week, Select, Month } from './GlamorousComponents';
 import {
     LOCALE_EN,
     addDays,
-    callIfExists,
     getWeeksInMonth,
     isDayAfter,
     isDayBefore,
     isSameDay,
     isSameMonth,
-    range,
     setMonth,
     startOfMonth
-} from './helpers';
+} from '../utils/dateUtils';
+import { callIfExists } from '../utils/otherUtils';
 
 export interface CalendarMonthProps {
     /**
@@ -42,42 +41,42 @@ export interface CalendarMonthProps {
      * Note: first day in the array must be a sunday
      * @default ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
      */
-    daysOfWeek?: Array<string>;
+    daysOfWeek?: string[];
     /**
      *  An array of strings, that is used to display the month names in the calendar.
      * @default ['January','February','March','April','May','June','July','August','September','October','November','December']
      */
-    monthNames?: Array<string>;
+    monthNames?: string[];
     /**
      * If set as `true`, shows **month** and **year** dropdowns above the calendar
      */
     showDropdowns?: boolean;
     /**
-     * Callback for when "prev" buton is clicked
+     * Callback for when "prev" button is clicked
      */
-    onPrevClick?: () => void;
+    onPrevClick?(): void;
     /**
-     * Callback for when "next" buton is clicked
+     * Callback for when "next" button is clicked
      */
-    onNextClick?: () => void;
+    onNextClick?(): void;
     /**
      * Callback for when user clicks on a "Day"
      */
-    onDayClick?: (date: Date) => void;
+    onDayClick?(date: Date): void;
     /**
      * Callback for when user hovers on a "Day"
      */
-    onDayHover?: (date: Date) => void;
+    onDayHover?(date: Date): void;
     /**
      * Callback for when user selects a month from the dropdown
      * Applicable only when `showDropdowns: true`
      */
-    onMonthChange?: (month: number) => void;
+    onMonthChange?(month: number): void;
     /**
      * Callback for when user selects a year from the dropdown
      * Applicable only when `showDropdowns: true`
      */
-    onYearChange?: (year: number) => void;
+    onYearChange?(year: number): void;
     /**
      * When sets as `true`, hide the "next" button
      */
@@ -134,6 +133,9 @@ export class CalendarMonth extends React.Component<CalendarMonthProps> {
         const { minDate, maxDate, month, monthNames } = this.props;
 
         const localeMonthNames = monthNames || LOCALE_EN.monthNames;
+        const today = new Date();
+        const minYear = minDate ? minDate.getFullYear() : today.getFullYear() - 50;
+        const maxYear = maxDate ? maxDate.getFullYear() + 1 : today.getFullYear() + 5;
 
         return (
             <>
@@ -151,13 +153,12 @@ export class CalendarMonth extends React.Component<CalendarMonthProps> {
                     })}
                 </Select>
                 <Select value={firstDay.getFullYear()} onChange={this.handleYearChange}>
-                    {range(
-                        minDate ? minDate.getFullYear() : firstDay.getFullYear() - 50,
-                        maxDate ? maxDate.getFullYear() + 1 : firstDay.getFullYear() + 5
-                    ).map(i => {
+                    {Array.from({ length: maxYear - minYear }, (_, i) => {
+                        const year = i + minYear;
+
                         return (
-                            <option key={i} value={i}>
-                                {i}
+                            <option key={year} value={year}>
+                                {year}
                             </option>
                         );
                     })}
@@ -218,6 +219,7 @@ export class CalendarMonth extends React.Component<CalendarMonthProps> {
         const key = `${monthName}-${firstDate.getFullYear()}`;
         const localeDaysOfWeek = daysOfWeek || LOCALE_EN.daysOfWeek;
         const weeks = getWeeksInMonth(firstDate, showISOWeek);
+        const today = new Date();
 
         return (
             <Month>
@@ -239,16 +241,16 @@ export class CalendarMonth extends React.Component<CalendarMonthProps> {
                     </Cell>
                 </Row>
                 <Row>
-                    {range(0, 7).map(i => (
+                    {Array.from({ length: 7 }, (_, i) => (
                         <Cell key={`${key}-day-${i}`}>
                             {localeDaysOfWeek[showISOWeek ? (i + 1) % 7 : i]}
                         </Cell>
                     ))}
                 </Row>
                 <Weeks>
-                    {range(0, weeks).map(i => (
+                    {Array.from({ length: weeks }, (_, i) => (
                         <Week key={`${key}-${i}`}>
-                            {range(0, 7).map(j => {
+                            {Array.from({ length: 7 }, (_1, j) => {
                                 const day = addDays(firstDate, i * 7 + j - firstDayInCurrentMonth);
 
                                 if (!isSameMonth(firstDate, day)) return null;
@@ -270,6 +272,7 @@ export class CalendarMonth extends React.Component<CalendarMonthProps> {
                                     <Day
                                         selected={selected}
                                         inRange={inRange}
+                                        today={isSameDay(today, day)}
                                         disabled={isDisabled}
                                         key={`${key}-${i}-${j}`}
                                         onClick={!isDisabled ? this.handleDayClick(day) : undefined}

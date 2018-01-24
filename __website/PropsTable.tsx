@@ -1,8 +1,11 @@
 import * as React from 'react';
-import snarkdown from 'snarkdown';
+
+function snarkdown(str: string) {
+    return str;
+}
 
 import { Illuminate } from 'react-illuminate';
-export interface IPropsTableProps {
+export interface PropsTableProps {
     docs: any;
 }
 
@@ -16,11 +19,11 @@ function mapObject<A extends object, B>(m: A, callback: (v: any, k: string, m: A
     return array;
 }
 
-export class PropsTable extends React.Component<IPropsTableProps> {
+export class PropsTable extends React.Component<PropsTableProps> {
     cleanUpType(type: string) {
         let tmp = type
             .split(' | ')
-            .filter(t => t !== 'undefined')
+            .filter((t) => t !== 'undefined')
             .join(' | ');
 
         return tmp;

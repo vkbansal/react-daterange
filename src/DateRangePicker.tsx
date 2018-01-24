@@ -2,55 +2,48 @@ import * as React from 'react';
 import { ThemeProvider } from 'glamorous';
 
 import {
-    StyleOverrides,
-    Seperator,
+    Separator,
     Input,
-    NavButton,
     CalendarHeader,
-    CalendarBody
+    CalendarBody,
+    CalendarFooter,
+    PickerWrapper,
+    CloseButton
 } from './Components';
-import {
-    DateRange,
-    DateRangePickerControl,
-    DateRangePickerControlProps
-} from './DateRangePickerControl';
+import { DateRangePickerControl, DateRangePickerControlProps } from './DateRangePickerControl';
 import { Dropdown, DropdownProps } from './Dropdown';
-import { callIfExists, formatDateDefault } from './helpers';
+import { RangeSelector, RangeSelectorProps } from './RangeSelector';
+import { callIfExists } from './utils/otherUtils';
+import { formatDateDefault, DateRange } from './utils/dateUtils';
+import { StyleOverrides } from './utils/glamorousUtils';
 
-export type PickedDropDownProps = Partial<Pick<DropdownProps, 'opens' | 'drops'>>;
-
-export interface Range {
-    startDate: (today: Date) => Date;
-    endDate: (today: Date) => Date;
-}
-
+export type PickedDropdownProps = Partial<Pick<DropdownProps, 'opens' | 'drops'>>;
 export type ControlProps = Partial<DateRangePickerControlProps>;
+export type PickedRangeSelectorProps = Pick<
+    RangeSelectorProps,
+    'ranges' | 'showCustomRangeLabel' | 'customRangeLabel'
+>;
 
-export interface DateRangePickerProps extends PickedDropDownProps, ControlProps {
+export interface DateRangePickerProps
+    extends PickedDropdownProps,
+        ControlProps,
+        PickedRangeSelectorProps {
     /**
      * Callback for when the picker is shown
      */
-    onShow?: () => void;
+    onShow?(): void;
     /**
      * Callback for when the picker is hidden
      */
-    onHide?: () => void;
+    onHide?(): void;
     /**
      * TODO: implement this feature
      */
-    onCalendarShow?: () => void;
+    onCalendarShow?(): void;
     /**
      * TODO: implement this feature
      */
-    onCalenderHide?: () => void;
-    /**
-     * TODO: implement this feature
-     */
-    ranges?: Record<string, Range>;
-    /**
-     * TODO: implement this feature
-     */
-    showCustomRangeLabel?: boolean;
+    onCalenderHide?(): void;
     /**
      * TODO: implement this feature
      */
@@ -60,24 +53,21 @@ export interface DateRangePickerProps extends PickedDropDownProps, ControlProps 
      * It accepts a `Date` as a param and must return a `string`.
      * Default function displays the dates in `YYYY-MM-DD` format.
      */
-    displayFormat?: (date: Date) => string;
+    displayFormat?(date: Date): string;
     /**
      * The text to be displayed as a separator
      * @default "→"
      */
     separator?: string;
-    /**
-     * TODO: implement this feature
-     */
-    customRangeLabel?: string;
+    autoApply?: boolean;
     styleOverrides?: StyleOverrides;
 }
 
 export interface DateRangePickerState {
     showDropdown: boolean;
-    position: DropdownProps['position'] | null;
     startDate?: Date;
     endDate?: Date;
+    isCustomRangeSelected: boolean;
 }
 
 /**
@@ -91,16 +81,14 @@ export interface DateRangePickerState {
  * <DateRangePicker {...props} />
  */
 export class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePickerState> {
-    private input: HTMLDivElement;
-
     constructor(props: DateRangePickerProps) {
         super(props);
 
         this.state = {
-            position: null,
             showDropdown: false,
             startDate: props.startDate,
-            endDate: props.endDate
+            endDate: props.endDate,
+            isCustomRangeSelected: false
         };
     }
 
@@ -113,61 +101,54 @@ export class DateRangePicker extends React.Component<DateRangePickerProps, DateR
     }
 
     handleShowDropdown = () => {
-        this.setState<'position' | 'showDropdown'>(state => {
+        this.setState<'showDropdown'>((state) => {
             if (!state.showDropdown) {
-                const {
-                    top,
-                    bottom,
-                    left,
-                    width,
-                    right,
-                    height
-                } = this.input.getBoundingClientRect();
                 return {
-                    position: { top, bottom, left, width, right, height },
                     showDropdown: true
                 };
             }
 
             return {
-                showDropdown: state.showDropdown,
-                position: state.position
+                showDropdown: state.showDropdown
             };
         });
     };
 
     handleHideDropdown = () => {
         this.setState({
-            position: null,
             showDropdown: false
         });
     };
 
-    handleDateChange = (dates: DateRange) => {
-        if (dates.endDate && dates.startDate) {
+    handleDateChange = (dates: DateRange, fromRange?: boolean) => {
+        if (this.props.autoApply && dates.endDate && dates.startDate) {
             callIfExists(this.props.onDatesChange, dates);
             this.handleHideDropdown();
         }
 
-        this.setState({ ...dates });
+        this.setState({ ...dates, isCustomRangeSelected: !fromRange });
     };
 
-    inputRef = (c: HTMLDivElement) => (this.input = c);
+    handleCustomRangeSelection = () => {
+        this.setState({ isCustomRangeSelected: true, startDate: undefined, endDate: undefined });
+    };
 
     render() {
-        const { position, showDropdown, startDate, endDate } = this.state;
+        const { showDropdown, startDate, endDate, isCustomRangeSelected } = this.state;
         const {
             opens,
             drops,
             displayFormat,
             separator,
-            // customRangeLabel,
-            // showCustomRangeLabel,
+            ranges,
+            customRangeLabel,
+            showCustomRangeLabel,
             minDate,
             maxDate,
             showDropdowns,
             showISOWeek,
             showWeekNumbers,
+            alwaysShowCalendars,
             monthNames,
             daysOfWeek,
             styleOverrides = {}
@@ -186,52 +167,66 @@ export class DateRangePicker extends React.Component<DateRangePickerProps, DateR
         };
 
         const formatDate = displayFormat || formatDateDefault;
+        const showRanges = ranges && ranges.size > 0;
 
         return (
             <ThemeProvider theme={styleOverrides}>
-                <>
-                    <div ref={this.inputRef} style={{ display: 'flex' }}>
-                        <Input
-                            type="text"
-                            onFocus={this.handleShowDropdown}
-                            placeholder="Start Date"
-                            value={startDate ? formatDate(startDate) : ''}
-                        />
-                        {separator ? (
-                            <Seperator>{separator}</Seperator>
-                        ) : (
-                            <Seperator>&#8594;</Seperator>
-                        )}
-                        <Input
-                            type="text"
-                            onFocus={this.handleShowDropdown}
-                            placeholder="End Date"
-                            value={endDate ? formatDate(endDate) : ''}
-                        />
-                    </div>
-                    {showDropdown &&
-                        position && (
-                            <Dropdown
-                                opens={opens || 'left'}
-                                drops={drops || 'down'}
-                                position={position}
-                            >
-                                <>
-                                    <CalendarHeader>
-                                        <NavButton onClick={this.handleHideDropdown}>
-                                            &times;
-                                        </NavButton>
-                                    </CalendarHeader>
-                                    <CalendarBody>
-                                        <DateRangePickerControl
-                                            {...props}
-                                            onDatesChange={this.handleDateChange}
-                                        />
-                                    </CalendarBody>
-                                </>
-                            </Dropdown>
-                        )}
-                </>
+                <PickerWrapper>
+                    <Input
+                        type="text"
+                        onFocus={this.handleShowDropdown}
+                        placeholder="Start Date"
+                        value={startDate ? formatDate(startDate) : ''}
+                    />
+                    {separator ? (
+                        <Separator>{separator}</Separator>
+                    ) : (
+                        <Separator>&#8594;</Separator>
+                    )}
+                    <Input
+                        type="text"
+                        onFocus={this.handleShowDropdown}
+                        placeholder="End Date"
+                        value={endDate ? formatDate(endDate) : ''}
+                    />
+                    {showDropdown && (
+                        <Dropdown opens={opens || 'left'} drops={drops || 'down'}>
+                            <>
+                                {showRanges && (
+                                    <RangeSelector
+                                        ranges={ranges}
+                                        customRangeLabel={customRangeLabel}
+                                        showCustomRangeLabel={showCustomRangeLabel}
+                                        onDatesChange={this.handleDateChange}
+                                        onCustomSelect={this.handleCustomRangeSelection}
+                                        startDate={startDate}
+                                        endDate={endDate}
+                                        isCustomRangeSelected={isCustomRangeSelected}
+                                    />
+                                )}
+                                {(!showRanges || alwaysShowCalendars || isCustomRangeSelected) && (
+                                    <div>
+                                        <CalendarHeader>
+                                            <CloseButton onClick={this.handleHideDropdown}>
+                                                &times;
+                                            </CloseButton>
+                                        </CalendarHeader>
+                                        <CalendarBody>
+                                            <DateRangePickerControl
+                                                {...props}
+                                                onDatesChange={this.handleDateChange}
+                                            />
+                                        </CalendarBody>
+                                        <CalendarFooter>
+                                            <button>Apply</button>
+                                            <button>Cancel</button>
+                                        </CalendarFooter>
+                                    </div>
+                                )}
+                            </>
+                        </Dropdown>
+                    )}
+                </PickerWrapper>
             </ThemeProvider>
         );
     }

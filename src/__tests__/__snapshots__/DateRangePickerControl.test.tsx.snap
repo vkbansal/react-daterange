@@ -1,133 +1,141 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<DateRangePickerControl/> \`inidividualCalenders\` renders seperate months 1`] = `
-<div
-  className="rdr-range-control-wrapper"
+<ThemeProvider
+  theme={Object {}}
 >
-  <CalendarMonth
-    endDate={2017-03-13T18:30:00.000Z}
-    hideNextButton={false}
-    month={2017-01-14T18:30:00.000Z}
-    onDayClick={[Function]}
-    onDayHover={[Function]}
-    onMonthChange={[Function]}
-    onNextClick={[Function]}
-    onPrevClick={[Function]}
-    onYearChange={[Function]}
-    startDate={2017-01-14T18:30:00.000Z}
-  />
-  <CalendarMonth
-    endDate={2017-03-13T18:30:00.000Z}
-    hidePrevButton={false}
-    minDate={2017-01-31T18:29:59.999Z}
-    month={2017-03-13T18:30:00.000Z}
-    onDayClick={[Function]}
-    onDayHover={[Function]}
-    onMonthChange={[Function]}
-    onNextClick={[Function]}
-    onPrevClick={[Function]}
-    onYearChange={[Function]}
-    startDate={2017-01-14T18:30:00.000Z}
-  />
-</div>
+  <RangeControllerWrapper>
+    <CalendarMonth
+      endDate={2017-03-13T18:30:00.000Z}
+      hideNextButton={false}
+      month={2017-01-14T18:30:00.000Z}
+      onDayClick={[Function]}
+      onDayHover={[Function]}
+      onMonthChange={[Function]}
+      onNextClick={[Function]}
+      onPrevClick={[Function]}
+      onYearChange={[Function]}
+      startDate={2017-01-14T18:30:00.000Z}
+    />
+    <CalendarMonth
+      endDate={2017-03-13T18:30:00.000Z}
+      hidePrevButton={false}
+      minDate={2017-01-31T18:29:59.999Z}
+      month={2017-03-13T18:30:00.000Z}
+      onDayClick={[Function]}
+      onDayHover={[Function]}
+      onMonthChange={[Function]}
+      onNextClick={[Function]}
+      onPrevClick={[Function]}
+      onYearChange={[Function]}
+      startDate={2017-01-14T18:30:00.000Z}
+    />
+  </RangeControllerWrapper>
+</ThemeProvider>
 `;
 
 exports[`<DateRangePickerControl/> \`inidividualCalenders\` renders seperate months with dropdowns 1`] = `
-<div
-  className="rdr-range-control-wrapper"
+<ThemeProvider
+  theme={Object {}}
 >
-  <CalendarMonth
-    endDate={2017-03-13T18:30:00.000Z}
-    hideNextButton={false}
-    month={2017-01-14T18:30:00.000Z}
-    onDayClick={[Function]}
-    onDayHover={[Function]}
-    onMonthChange={[Function]}
-    onNextClick={[Function]}
-    onPrevClick={[Function]}
-    onYearChange={[Function]}
-    showDropdowns={true}
-    startDate={2017-01-14T18:30:00.000Z}
-  />
-  <CalendarMonth
-    endDate={2017-03-13T18:30:00.000Z}
-    hidePrevButton={false}
-    minDate={2017-01-31T18:29:59.999Z}
-    month={2017-03-13T18:30:00.000Z}
-    onDayClick={[Function]}
-    onDayHover={[Function]}
-    onMonthChange={[Function]}
-    onNextClick={[Function]}
-    onPrevClick={[Function]}
-    onYearChange={[Function]}
-    showDropdowns={true}
-    startDate={2017-01-14T18:30:00.000Z}
-  />
-</div>
+  <RangeControllerWrapper>
+    <CalendarMonth
+      endDate={2017-03-13T18:30:00.000Z}
+      hideNextButton={false}
+      month={2017-01-14T18:30:00.000Z}
+      onDayClick={[Function]}
+      onDayHover={[Function]}
+      onMonthChange={[Function]}
+      onNextClick={[Function]}
+      onPrevClick={[Function]}
+      onYearChange={[Function]}
+      showDropdowns={true}
+      startDate={2017-01-14T18:30:00.000Z}
+    />
+    <CalendarMonth
+      endDate={2017-03-13T18:30:00.000Z}
+      hidePrevButton={false}
+      minDate={2017-01-31T18:29:59.999Z}
+      month={2017-03-13T18:30:00.000Z}
+      onDayClick={[Function]}
+      onDayHover={[Function]}
+      onMonthChange={[Function]}
+      onNextClick={[Function]}
+      onPrevClick={[Function]}
+      onYearChange={[Function]}
+      showDropdowns={true}
+      startDate={2017-01-14T18:30:00.000Z}
+    />
+  </RangeControllerWrapper>
+</ThemeProvider>
 `;
 
 exports[`<DateRangePickerControl/> by default renders consecutive months 1`] = `
-<div
-  className="rdr-range-control-wrapper"
+<ThemeProvider
+  theme={Object {}}
 >
-  <CalendarMonth
-    endDate={2017-03-13T18:30:00.000Z}
-    hideNextButton={true}
-    month={2017-01-14T18:30:00.000Z}
-    onDayClick={[Function]}
-    onDayHover={[Function]}
-    onMonthChange={[Function]}
-    onNextClick={[Function]}
-    onPrevClick={[Function]}
-    onYearChange={[Function]}
-    startDate={2017-01-14T18:30:00.000Z}
-  />
-  <CalendarMonth
-    endDate={2017-03-13T18:30:00.000Z}
-    hidePrevButton={true}
-    minDate={2017-01-31T18:29:59.999Z}
-    month={2017-02-14T18:30:00.000Z}
-    onDayClick={[Function]}
-    onDayHover={[Function]}
-    onMonthChange={[Function]}
-    onNextClick={[Function]}
-    onPrevClick={[Function]}
-    onYearChange={[Function]}
-    startDate={2017-01-14T18:30:00.000Z}
-  />
-</div>
+  <RangeControllerWrapper>
+    <CalendarMonth
+      endDate={2017-03-13T18:30:00.000Z}
+      hideNextButton={true}
+      month={2017-01-14T18:30:00.000Z}
+      onDayClick={[Function]}
+      onDayHover={[Function]}
+      onMonthChange={[Function]}
+      onNextClick={[Function]}
+      onPrevClick={[Function]}
+      onYearChange={[Function]}
+      startDate={2017-01-14T18:30:00.000Z}
+    />
+    <CalendarMonth
+      endDate={2017-03-13T18:30:00.000Z}
+      hidePrevButton={true}
+      minDate={2017-01-31T18:29:59.999Z}
+      month={2017-02-14T18:30:00.000Z}
+      onDayClick={[Function]}
+      onDayHover={[Function]}
+      onMonthChange={[Function]}
+      onNextClick={[Function]}
+      onPrevClick={[Function]}
+      onYearChange={[Function]}
+      startDate={2017-01-14T18:30:00.000Z}
+    />
+  </RangeControllerWrapper>
+</ThemeProvider>
 `;
 
 exports[`<DateRangePickerControl/> renders consecutive months with dropdowns 1`] = `
-<div
-  className="rdr-range-control-wrapper"
+<ThemeProvider
+  theme={Object {}}
 >
-  <CalendarMonth
-    endDate={2017-03-13T18:30:00.000Z}
-    hideNextButton={true}
-    month={2017-01-14T18:30:00.000Z}
-    onDayClick={[Function]}
-    onDayHover={[Function]}
-    onMonthChange={[Function]}
-    onNextClick={[Function]}
-    onPrevClick={[Function]}
-    onYearChange={[Function]}
-    showDropdowns={true}
-    startDate={2017-01-14T18:30:00.000Z}
-  />
-  <CalendarMonth
-    endDate={2017-03-13T18:30:00.000Z}
-    hidePrevButton={true}
-    minDate={2017-01-31T18:29:59.999Z}
-    month={2017-02-14T18:30:00.000Z}
-    onDayClick={[Function]}
-    onDayHover={[Function]}
-    onMonthChange={[Function]}
-    onNextClick={[Function]}
-    onPrevClick={[Function]}
-    onYearChange={[Function]}
-    showDropdowns={true}
-    startDate={2017-01-14T18:30:00.000Z}
-  />
-</div>
+  <RangeControllerWrapper>
+    <CalendarMonth
+      endDate={2017-03-13T18:30:00.000Z}
+      hideNextButton={true}
+      month={2017-01-14T18:30:00.000Z}
+      onDayClick={[Function]}
+      onDayHover={[Function]}
+      onMonthChange={[Function]}
+      onNextClick={[Function]}
+      onPrevClick={[Function]}
+      onYearChange={[Function]}
+      showDropdowns={true}
+      startDate={2017-01-14T18:30:00.000Z}
+    />
+    <CalendarMonth
+      endDate={2017-03-13T18:30:00.000Z}
+      hidePrevButton={true}
+      minDate={2017-01-31T18:29:59.999Z}
+      month={2017-02-14T18:30:00.000Z}
+      onDayClick={[Function]}
+      onDayHover={[Function]}
+      onMonthChange={[Function]}
+      onNextClick={[Function]}
+      onPrevClick={[Function]}
+      onYearChange={[Function]}
+      showDropdowns={true}
+      startDate={2017-01-14T18:30:00.000Z}
+    />
+  </RangeControllerWrapper>
+</ThemeProvider>
 `;

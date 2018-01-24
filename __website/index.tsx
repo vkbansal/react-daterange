@@ -1,7 +1,16 @@
-import glamorous from 'glamorous';
+// import glamorous from 'glamorous';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { NavLink, Route, HashRouter as Router, Switch } from 'react-router-dom';
+import { Route, HashRouter as Router, Switch } from 'react-router-dom';
+import {
+    MainWrapper,
+    Sidebar,
+    Content,
+    Link,
+    Nav,
+    NavItem,
+    NavHeading
+} from '@vkbansal/scripts/components/DocumentationComponents';
 import { addLanguage } from 'illuminate-js';
 import { jsx } from 'illuminate-js/lib/languages/jsx';
 import { bash } from 'illuminate-js/lib/languages/bash';
@@ -17,88 +26,39 @@ import { SingleDatePickerExample } from './SingleDatePickerExample';
 addLanguage('js', jsx);
 addLanguage('bash', bash);
 
-const Container = glamorous('div')({
-    display: 'flex',
-    minHeight: '100vh',
-    alignItems: 'stretch'
-});
-
-const SideBar = glamorous('aside')('pure-menu', {
-    width: '250px',
-    padding: 0,
-    background: '#eee',
-    color: '#222'
-});
-
-const Content = glamorous('div')('container', {
-    width: 'calc(100% - 250px)',
-    padding: '16px',
-    overflowX: 'hidden',
-    overflowY: 'auto',
-    boxShadow: '-2px 0px 8px -2px rgba(0, 0,0, 0.2)'
-});
-
-const Link = glamorous(NavLink)('pure-menu-link', {
-    position: 'relative',
-    transition: 'background 0.2s linear',
-    '&:hover': {
-        background: 'rgba(0, 0, 0, 0.07)'
-    },
-    '&.active': {
-        color: '#e94949',
-        '&::after': {
-            opacity: 1
-        }
-    },
-    '&::after': {
-        content: '""',
-        position: 'absolute',
-        display: 'block',
-        width: 0,
-        height: 0,
-        border: '8px solid transparent',
-        borderRightColor: '#fff',
-        right: 0,
-        top: '50%',
-        transform: 'translateY(-50%)',
-        opacity: 0,
-        transition: 'opacity 0.2s linear'
-    }
-});
-
 function App() {
     return (
-        <Container>
-            <SideBar>
-                <div className="pure-menu-heading">React DateRange</div>
-                <ul className="pure-menu-list">
-                    <li className="pure-menu-item">
+        <MainWrapper>
+            <Sidebar>
+                <NavHeading>React DateRange</NavHeading>
+                <Nav>
+                    <NavItem>
                         <Link exact to="/">
                             Home
                         </Link>
-                    </li>
-                    <li className="pure-menu-item">
+                    </NavItem>
+                    <NavItem>
                         <Link exact to="/daterange-picker">
                             DateRangePicker
                         </Link>
-                    </li>
-                    <li className="pure-menu-item">
+                    </NavItem>
+                    <NavItem>
                         <Link exact to="/daterange-picker-control">
                             DateRangePickerControl
                         </Link>
-                    </li>
-                    <li className="pure-menu-item">
+                    </NavItem>
+                    <NavItem>
                         <Link exact to="/singledate-picker">
                             SingleDatePicker
                         </Link>
-                    </li>
-                    <li className="pure-menu-item">
+                    </NavItem>
+                    <NavItem>
                         <Link exact to="/singledate-picker-control">
                             SingleDate PickerControl
                         </Link>
-                    </li>
-                </ul>
-            </SideBar>
+                    </NavItem>
+                </Nav>
+            </Sidebar>
             <Content>
                 <Switch>
                     <Route exact path="/" component={About} />
@@ -116,7 +76,7 @@ function App() {
                     />
                 </Switch>
             </Content>
-        </Container>
+        </MainWrapper>
     );
 }
 

@@ -1,17 +1,10 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import glamorous, { GlamorousComponent } from 'glamorous';
+import { getStyleOverrides } from './utils/glamorousUtils';
 
-import { DropdownWrapper } from './Components';
+export { GlamorousComponent, React }; // Required, just for generating type definitions
 
 export interface DropdownProps {
-    position: {
-        top: number;
-        bottom: number;
-        left: number;
-        width: number;
-        right: number;
-        height: number;
-    };
     /**
      * Horizontal alignment of the picker with respect to the input field.
      * @default "left"
@@ -24,32 +17,55 @@ export interface DropdownProps {
     drops: 'down' | 'up';
 }
 
-export class Dropdown extends React.Component<DropdownProps> {
-    private root: HTMLDivElement;
+export const Dropdown = glamorous.div<DropdownProps>(
+    {
+        display: 'flex',
+        position: 'absolute',
+        background: '#fff',
+        padding: '12px 8px 24px 8px',
+        filter: 'drop-shadow(0 2px 5px rgba(0, 0, 0, 0.1))',
+        '&::before': {
+            content: '""',
+            position: 'absolute',
+            width: '0',
+            height: '0',
+            border: '8px solid transparent'
+        }
+    },
+    (props) => ({
+        top: props.drops === 'down' ? 'calc(100%  + 8px)' : 'auto',
+        bottom: props.drops === 'up' ? 'calc(100% + 8px)' : 'auto',
+        right: props.opens === 'right' ? 0 : 'auto',
+        left: (() => {
+            if (props.opens === 'left') {
+                return 0;
+            }
 
-    constructor(props: DropdownProps) {
-        super(props);
+            if (props.opens === 'center') {
+                return '50%';
+            }
 
-        this.root = document.createElement('div');
-    }
+            return 'auto';
+        })(),
+        '&::before': {
+            borderBottomColor: props.drops === 'down' ? '#fff' : 'transparent',
+            borderTopColor: props.drops === 'up' ? '#fff' : 'transparent',
+            top: props.drops === 'down' ? '-16px' : 'auto',
+            bottom: props.drops === 'up' ? '-16px' : 'auto',
+            left: (() => {
+                if (props.opens === 'left') {
+                    return '8px';
+                }
 
-    componentDidMount() {
-        document.body.appendChild(this.root);
-    }
+                if (props.opens === 'center') {
+                    return '50%';
+                }
 
-    shouldComponentUpdate() {
-        return false;
-    }
+                return 'auto';
+            })()
+        }
+    }),
+    getStyleOverrides('dropdown')
+);
 
-    componentWillUnmount() {
-        document.body.removeChild(this.root);
-        delete this.root;
-    }
-
-    render() {
-        return ReactDOM.createPortal(
-            <DropdownWrapper {...this.props}>{this.props.children}</DropdownWrapper>,
-            this.root
-        );
-    }
-}
+Dropdown.displayName = 'Dropdown';

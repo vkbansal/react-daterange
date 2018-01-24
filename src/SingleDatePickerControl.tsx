@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { ThemeProvider } from 'glamorous';
 
-import { StyleOverrides } from './Components';
-import { CalendarMonth, CalendarMonthProps } from './CalendarMonth';
-import { addMonths, setMonth, setYear, startOfMonth } from './helpers';
+import { CalendarMonth, CalendarMonthProps } from './CalendarMonth/CalendarMonth';
+import { addMonths, setMonth, setYear, startOfMonth } from './utils/dateUtils';
+import { StyleOverrides } from './utils/glamorousUtils';
 
 export type CalendarMonthPropFields =
     | 'showDropdowns'
@@ -23,7 +23,7 @@ export interface SingleDatePickerControlProps
     /**
      * Callback for when a date is selected
      */
-    onDateChange?: (day: Date) => void;
+    onDateChange?(day: Date): void;
     styleOverrides?: StyleOverrides;
 }
 
@@ -71,7 +71,7 @@ export class SingleDatePickerControl extends React.Component<
     }
 
     handleNavClick = (months: number) => () => {
-        this.setState<'month'>(state => {
+        this.setState<'month'>((state) => {
             return {
                 month: addMonths(state.month, months)
             };
@@ -85,13 +85,13 @@ export class SingleDatePickerControl extends React.Component<
     };
 
     handleMonthChange = (month: number) => {
-        this.setState<'month'>(state => ({
+        this.setState<'month'>((state) => ({
             month: setMonth(state.month, month)
         }));
     };
 
     handleYearChange = (year: number) => {
-        this.setState<'month'>(state => ({
+        this.setState<'month'>((state) => ({
             month: setYear(state.month, year)
         }));
     };

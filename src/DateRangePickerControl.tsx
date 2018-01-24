@@ -1,24 +1,31 @@
 import * as React from 'react';
-import { ThemeProvider } from 'glamorous';
+import glamorous, { ThemeProvider, GlamorousComponent, ExtraGlamorousProps } from 'glamorous';
 
-import { StyleOverrides, RangeControllerWrapper } from './Components';
-import { CalendarMonth, CalendarMonthProps } from './CalendarMonth';
+import { CalendarMonth, CalendarMonthProps } from './CalendarMonth/CalendarMonth';
 import {
     addMonths,
-    callIfExists,
     endOfMonth,
     isDayAfter,
     isDayBefore,
+    isSameDay,
     isSameMonth,
     setMonth,
     setYear,
-    startOfMonth
-} from './helpers';
+    startOfMonth,
+    DateRange
+} from './utils/dateUtils';
+import { StyleOverrides, getStyleOverrides } from './utils/glamorousUtils';
+import { callIfExists } from './utils/otherUtils';
 
-export interface DateRange {
-    startDate: Date;
-    endDate?: Date;
-}
+export const RangeControllerWrapper = glamorous.div(
+    {
+        display: 'flex',
+        alignItems: 'flex-start'
+    },
+    getStyleOverrides('rangeControlWrapper')
+);
+
+RangeControllerWrapper.displayName = 'RangeControllerWrapper';
 
 export type CalenderMonthPropFields =
     | 'showDropdowns'
@@ -49,7 +56,7 @@ export interface DateRangePickerControlProps
      * @param {Date} dates.startDate
      * @param {Date | undefined} dates.endDate
      */
-    onDatesChange?: (dates: DateRange) => void;
+    onDatesChange?(dates: DateRange): void;
     styleOverrides?: StyleOverrides;
 }
 
@@ -97,11 +104,27 @@ export class DateRangePickerControl extends React.Component<
     componentWillReceiveProps(nextProps: DateRangePickerControlProps) {
         const { startDate, endDate } = nextProps;
 
-        this.setState({ startDate, endDate });
+        this.setState((state) => {
+            const newState: DateRangePickerControlState = { ...state, startDate, endDate };
+
+            if (startDate) {
+                newState.monthLeft = startDate;
+
+                if (this.props.individualCalendars) {
+                    return newState;
+                }
+
+                newState.monthRight = addMonths(startDate, 1);
+
+                return newState;
+            }
+
+            return newState;
+        });
     }
 
     handleNavClick = (months: number, calendar: 'left' | 'right') => () => {
-        this.setState<'monthLeft' | 'monthRight'>(state => {
+        this.setState<'monthLeft' | 'monthRight'>((state) => {
             if (this.props.individualCalendars && calendar === 'left') {
                 return {
                     monthLeft: addMonths(state.monthLeft, months),
@@ -124,8 +147,12 @@ export class DateRangePickerControl extends React.Component<
     };
 
     handleDayClick = (day: Date) => {
-        this.setState<'startDate' | 'endDate' | 'selectionActive'>(state => {
-            if (state.startDate && state.selectionActive && isDayAfter(day, state.startDate)) {
+        this.setState<'startDate' | 'endDate' | 'selectionActive'>((state) => {
+            if (
+                state.startDate &&
+                state.selectionActive &&
+                (isSameDay(day, state.startDate) || isDayAfter(day, state.startDate))
+            ) {
                 callIfExists(this.props.onDatesChange, {
                     startDate: state.startDate,
                     endDate: day
@@ -151,7 +178,7 @@ export class DateRangePickerControl extends React.Component<
     };
 
     handleDayHover = (day: Date) => {
-        this.setState<'endDate'>(state => {
+        this.setState<'endDate'>((state) => {
             if (state.selectionActive && state.startDate && !isDayBefore(day, state.startDate)) {
                 return {
                     endDate: day
@@ -176,11 +203,13 @@ export class DateRangePickerControl extends React.Component<
 
             if (calendar === 'left') {
                 const m = setMonth(monthLeft, month);
+
                 return { monthLeft: m, monthRight: addMonths(m, 1) };
             }
 
-            const m = setMonth(monthRight, month);
-            return { monthLeft: addMonths(m, -1), monthRight: m };
+            const m1 = setMonth(monthRight, month);
+
+            return { monthLeft: addMonths(m1, -1), monthRight: m1 };
         });
     };
 
@@ -198,11 +227,13 @@ export class DateRangePickerControl extends React.Component<
 
             if (calendar === 'left') {
                 const m = setYear(monthLeft, year);
+
                 return { monthLeft: m, monthRight: addMonths(m, 1) };
             }
 
-            const m = setYear(monthRight, year);
-            return { monthLeft: addMonths(m, -1), monthRight: m };
+            const m1 = setYear(monthRight, year);
+
+            return { monthLeft: addMonths(m1, -1), monthRight: m1 };
         });
     };
 
@@ -264,3 +295,5 @@ export class DateRangePickerControl extends React.Component<
         );
     }
 }
+
+export { GlamorousComponent, ExtraGlamorousProps };
